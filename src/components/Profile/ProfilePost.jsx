@@ -1,4 +1,5 @@
-import { Flex, GridItem } from "@chakra-ui/react"
+import { Flex, GridItem, Text } from "@chakra-ui/react"
+import { AiFillHeart } from "react-icons/ai";
 
 const ProfilePost = () => {
   return (
@@ -24,8 +25,13 @@ const ProfilePost = () => {
             zIndex={1}
             justifyContent={"center"}
         >
-            <Flex>
-                
+            <Flex alignItems={"center"} justifyContent={"center"} gap={50}>
+                <Flex>
+                    <AiFillHeart size={20}/>
+                    <Text fontWeight={"bold"} ml={2}>
+
+                    </Text>
+                </Flex>
             </Flex>   
         </Flex>
     </GridItem>
