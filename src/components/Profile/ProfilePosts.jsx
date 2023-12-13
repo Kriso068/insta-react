@@ -1,10 +1,11 @@
-import { Box, Grid, Skeleton, VStack } from "@chakra-ui/react"
+import { Box, Grid, Skeleton, VStack} from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import ProfilePost from "./ProfilePost";
 
 const ProfilePosts = () => {
 
   const [isLoading, setIsLoading] = useState(true);
+ 
 
   useEffect(() =>{
     setTimeout(() =>{

@@ -4,11 +4,11 @@ import { InstagramLogo, InstagramMobileLogo } from "../../assets/constants";
 
 import { BiLogOut } from "react-icons/bi";
 import SidebarItems from "./sidebarItems";
-// import useLogout from "../../hooks/useLogout";
+import useLogout from "../../hooks/useLogout";
 
 
 const Sidebar = () => {
-	// const { handleLogout, isLoggingOut } = useLogout();
+	const { handleLogout, isLoggingOut } = useLogout();
 
 	return (
 		<Box
@@ -53,7 +53,7 @@ const Sidebar = () => {
 					display={{ base: "block", md: "none" }}
 				>
 					<Flex
-						// onClick={handleLogout}
+						onClick={handleLogout}
 						alignItems={"center"}
 						gap={4}
 						_hover={{ bg: "whiteAlpha.400" }}
@@ -68,7 +68,7 @@ const Sidebar = () => {
 							display={{ base: "none", md: "block" }}
 							variant={"ghost"}
 							_hover={{ bg: "transparent" }}
-							// isLoading={isLoggingOut}
+							isLoading={isLoggingOut}
 						>
 							Logout
 						</Button>
