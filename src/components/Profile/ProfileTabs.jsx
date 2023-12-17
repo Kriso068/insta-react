@@ -1,11 +1,16 @@
 import { Box, Flex, Text, Link} from "@chakra-ui/react";
 import { BsBookmark, BsGrid3X3Gap, BsSuitHeart } from "react-icons/bs";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useLocation } from "react-router-dom";
 import useAuthStore from "../../store/authStore";
 
 
 const ProfileTabs = () => {
     const authUser = useAuthStore((state) => state.user);
+    const location = useLocation()
+
+    const isPageActive = (pathname) => {
+        return location.pathname === pathname;
+    }
   return (
     <Flex 
         w={"full"}
@@ -14,7 +19,13 @@ const ProfileTabs = () => {
         textTransform={'uppercase'}
         fontWeight={"bold"}
     >
-        <Flex borderTop={'1px solid white'} alignItems={"center"} p={3} gap={1} cursor={"pointer"}>
+        <Flex 
+            borderTop={isPageActive(`/${authUser?.username}`) ? "2px solid white" : "none"}
+            alignItems={"center"} 
+            p={3} 
+            gap={1} 
+            cursor={"pointer"}
+        >
             <Link 
                 display={"flex"}
 				to={`/${authUser?.username}`}
@@ -28,7 +39,13 @@ const ProfileTabs = () => {
             </Text>
             </Link>
         </Flex>
-        <Flex alignItems={"center"} p={3} gap={1} cursor={"pointer"}>
+        <Flex 
+            borderTop={isPageActive(`/${authUser?.username}/saves`) ? "2px solid white" : "none"}
+            alignItems={"center"}
+            p={3}
+            gap={1}
+            cursor={"pointer"}
+        >
             <Link 
                 display={"flex"}
 				to={`/${authUser?.username}/saves`}
@@ -42,7 +59,12 @@ const ProfileTabs = () => {
                 </Text>
             </Link>
         </Flex>
-        <Flex alignItems={"center"} p={3} gap={1} cursor={"pointer"}>
+        <Flex 
+            borderTop={isPageActive(`/${authUser?.username}/likes`) ? "2px solid white" : "none"}
+            alignItems={"center"}
+            p={3}
+            gap={1}
+            cursor={"pointer"}>
             <Link 
                 display={"flex"}
 				to={`/${authUser?.username}/likes`}

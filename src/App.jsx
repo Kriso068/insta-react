@@ -3,10 +3,11 @@ import HomePage from "./pages/HomePage/HomePage"
 import AuthPage  from "./pages/AuthPage/AuthPage"
 import PageLayout from "./Layouts/PageLayout/PageLayout"
 import ProfilePage from "./pages/ProfilePage/ProfilePage"
+import SavedPosts from "./pages/ProfilePage/SavedPosts"
+import LikedPosts from "./pages/ProfilePage/LikedPosts"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { auth } from "./firebase/firebase"
-import SavedPosts from "./components/Saved/SavedPosts"
-import LikedPosts from "./components/Liked/LikedPosts"
+
 
 function App() {
  
