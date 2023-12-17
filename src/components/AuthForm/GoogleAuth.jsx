@@ -37,6 +37,7 @@ const GoogleAuth = ({ prefix }) => {
 					followers: [],
 					following: [],
 					posts: [],
+					saved: [],
 					createdAt: Date.now(),
 				};
 				await setDoc(doc(firestore, "users", newUser.user.uid), userDoc);

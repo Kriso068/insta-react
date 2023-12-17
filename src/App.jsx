@@ -5,6 +5,8 @@ import PageLayout from "./Layouts/PageLayout/PageLayout"
 import ProfilePage from "./pages/ProfilePage/ProfilePage"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { auth } from "./firebase/firebase"
+import SavedPosts from "./components/Saved/SavedPosts"
+import LikedPosts from "./components/Liked/LikedPosts"
 
 function App() {
  
@@ -15,6 +17,8 @@ function App() {
         <Route path='/' element={ authUser ? <HomePage /> : <Navigate to="/auth" />}/>
         <Route path='/auth' element={!authUser ? <AuthPage /> : <Navigate to="/" />}/>
         <Route path='/:username' element={<ProfilePage />}/>
+        <Route path='/:username/saves' element={<SavedPosts />}/>
+        <Route path='/:username/likes' element={<LikedPosts />}/>
       </Routes>
     </PageLayout>
   )

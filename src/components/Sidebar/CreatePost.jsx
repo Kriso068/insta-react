@@ -97,10 +97,10 @@ const CreatePost = () => {
 							<Flex mt={5} w={"full"} position={"relative"} justifyContent={"center"}>
 								<Image src={selectedFile} alt='Selected img' mt={45}/>
 								<CloseButton
-                  fontSize={"lg"}
-                  _hover={{color:"black", bg:"red"}}
+                  					fontSize={"lg"}
+                  					_hover={{color:"black", bg:"red"}}
 									position={"absolute"}
-                  color={"red"}
+                  					color={"red"}
 									top={2}
 									right={2}
 									onClick={() => {
@@ -140,6 +140,7 @@ function useCreatePost() {
 		const newPost = {
 			caption: caption,
 			likes: [],
+			saved:[],
 			comments: [],
 			createdAt: Date.now(),
 			createdBy: authUser.uid,
