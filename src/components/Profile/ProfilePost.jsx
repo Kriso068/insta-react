@@ -1,18 +1,4 @@
-import {
-	Avatar,
-	Button,
-	Divider,
-	Flex,
-	GridItem,
-	Image,
-	Modal,
-	ModalBody,
-	ModalCloseButton,
-	ModalContent,
-	ModalOverlay,
-	Text,
-	VStack,
-	useDisclosure,
+import {Avatar, Button, Divider, Flex, GridItem, Image, Modal, ModalBody, ModalCloseButton, ModalContent, ModalOverlay, Text, VStack, useDisclosure,
 } from "@chakra-ui/react";
 import { AiFillHeart } from "react-icons/ai";
 import { FaComment } from "react-icons/fa";
@@ -27,7 +13,7 @@ import { deleteObject, ref } from "firebase/storage";
 import { firestore, storage } from "../../firebase/firebase";
 import { arrayRemove, deleteDoc, doc, updateDoc } from "firebase/firestore";
 import usePostStore from "../../store/postStore";
-// import Caption from "../Comment/Caption";
+import Caption from "../Comment/Caption";
 
 const ProfilePost = ({ post }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
@@ -157,11 +143,14 @@ const ProfilePost = ({ post }) => {
 
 								<VStack w='full' alignItems={"start"} maxH={"350px"} overflowY={"auto"}>
 									{/* CAPTION */}
-									{/* {post.caption && <Caption post={post} />} */}
+									{post.caption && <Caption post={post} />}
 									{/* COMMENTS */}
 									{/* {post.comments.map((comment) => (
 										<Comment key={comment.id} comment={comment} />
 									))} */}
+									{post.comments.map((comment, id) => (
+										<Comment key={id} comment={comment} />
+									))}
 								</VStack>
 								<Divider my={4} bg={"gray.8000"} />
 
