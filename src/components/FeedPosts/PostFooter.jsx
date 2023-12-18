@@ -6,6 +6,9 @@ import useAuthStore from "../../store/authStore";
 import useLikePost from "../../hooks/useLikePost";
 import { timeAgo } from "../../utils/timeAgo";
 import CommentsModal from "../Modals/CommentsModal";
+import useSavedPost from "../../hooks/useSavedPost";
+import { BsBookmark } from "react-icons/bs";
+
 
 const PostFooter = ({ post, isProfilePage, creatorProfile }) => {
 	const { isCommenting, handlePostComment } = usePostComment();
@@ -14,6 +17,7 @@ const PostFooter = ({ post, isProfilePage, creatorProfile }) => {
 	const commentRef = useRef(null);
 	const { handleLikePost, isLiked, likes } = useLikePost(post);
 	const { isOpen, onOpen, onClose } = useDisclosure();
+	const{ handleSavedPost, isSaved, saves } = useSavedPost(post);
 
 	const handleSubmitComment = async () => {
 		await handlePostComment(post.id, comment);
@@ -30,6 +34,10 @@ const PostFooter = ({ post, isProfilePage, creatorProfile }) => {
 				<Box cursor={"pointer"} fontSize={18} onClick={() => commentRef.current.focus()}>
 					<CommentLogo />
 				</Box>
+				<Box cursor={"pointer"} fontSize={18} onClick={handleSavedPost}>
+					{!isSaved ? <BsBookmark />  : <UnlikeLogo />}
+                    
+                </Box>
 			</Flex>
 			<Text fontWeight={600} fontSize={"sm"}>
 				{likes} likes
