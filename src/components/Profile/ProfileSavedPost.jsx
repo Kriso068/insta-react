@@ -1,16 +1,24 @@
-import {Avatar, Box, Button, Divider, Flex, GridItem, Image, Modal, ModalBody, ModalCloseButton, ModalContent, ModalOverlay, Text, VStack, useDisclosure,
+import {Avatar, Box, Button, Divider, Flex, GridItem, Image, Modal, ModalBody, ModalCloseButton, ModalContent, ModalOverlay, Skeleton, SkeletonCircle, Text, VStack, useDisclosure,
 } from "@chakra-ui/react";
 import { AiFillHeart } from "react-icons/ai";
 import { FaComment } from "react-icons/fa";
 import Comment from "../Comment/Comment";
 import PostFooter from "../FeedPosts/PostFooter";
-import useUserProfileStore from "../../store/userProfileStore";
 import Caption from "../Comment/Caption";
+import { useEffect} from "react";
+import useGetUserProfileById from "../../hooks/useGetUserProfileById";
+
 
 const ProfileSavedPost = ({ post }) => {
-	console.log(post)
 	const { isOpen, onOpen, onClose } = useDisclosure();
-	const userProfile = useUserProfileStore((state) => state.userProfile);
+	const { isLoading, userProfile: createdByUser, setUserProfile } = useGetUserProfileById(post.createdBy);
+	const [isProfilePage, setIsProfilepage] = useState(false);	
+
+	
+	useEffect(() => {
+	  setUserProfile(post.createdBy);
+	}, [post.createdBy, setUserProfile]);
+
 
 	return (
 		<>
@@ -83,10 +91,17 @@ const ProfileSavedPost = ({ post }) => {
 							<Flex flex={1} flexDir={"column"} px={10} display={{ base: "none", md: "flex" }}>
 								<Flex alignItems={"center"} justifyContent={"space-between"}>
 									<Flex alignItems={"center"} gap={4}>
-										<Avatar src={userProfile.profilePicURL} size={"sm"} name='As a Programmer' />
-										<Text fontWeight={"bold"} fontSize={12}>
-											{userProfile.username}
-										</Text>
+									{createdByUser ? (
+										<>
+											<Avatar src={createdByUser?.profilePicURL} size={"sm"} name={createdByUser?.username} />
+											<Text fontWeight={"bold"} fontSize={12}>
+											{createdByUser?.username}
+											</Text>
+										</>
+										) : (
+											<ProfileHeaderSkeleton />
+										)}
+
 									</Flex>
 
 								</Flex>
@@ -113,3 +128,23 @@ const ProfileSavedPost = ({ post }) => {
 };
 
 export default ProfileSavedPost;
+
+// skeleton for profile header
+const ProfileHeaderSkeleton = () => {
+	return (
+		<Flex
+			gap={{ base: 4, sm: 10 }}
+			py={10}
+			direction={{ base: "column", sm: "row" }}
+			justifyContent={"center"}
+			alignItems={"center"}
+		>
+			<SkeletonCircle size='24' />
+
+			<VStack alignItems={{ base: "center", sm: "flex-start" }} gap={2} mx={"auto"} flex={1}>
+				<Skeleton height='12px' width='150px' />
+				<Skeleton height='12px' width='100px' />
+			</VStack>
+		</Flex>
+	);
+};

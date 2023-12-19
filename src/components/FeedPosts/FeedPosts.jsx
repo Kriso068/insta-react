@@ -27,7 +27,7 @@ const FeedPosts = () => {
 			{!isLoading && posts.length === 0 && (
 				<>
 					<Text fontSize={"md"} color={"red.400"}>
-						Dayuum. Looks like you don&apos;t have any friends.
+						Dayuum. Looks like your friends haven&apos;t posted anything right now.
 					</Text>
 				</>
 			)}

@@ -8,7 +8,6 @@ import { timeAgo } from "../../utils/timeAgo";
 import CommentsModal from "../Modals/CommentsModal";
 import useSavedPost from "../../hooks/useSavedPost";
 
-
 const PostFooter = ({ post, isProfilePage, creatorProfile }) => {
 	const { isCommenting, handlePostComment } = usePostComment();
 	const [comment, setComment] = useState("");
@@ -17,6 +16,7 @@ const PostFooter = ({ post, isProfilePage, creatorProfile }) => {
 	const { handleLikePost, isLiked, likes } = useLikePost(post);
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const{ handleSavedPost, isSaved } = useSavedPost(post);
+
 
 
 	const handleSubmitComment = async () => {
