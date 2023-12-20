@@ -15,7 +15,7 @@ const PostFooter = ({ post, isProfilePage, creatorProfile }) => {
 	const commentRef = useRef(null);
 	const { handleLikePost, isLiked, likes } = useLikePost(post);
 	const { isOpen, onOpen, onClose } = useDisclosure();
-	const{ handleSavedPost, isSaved } = useSavedPost(post);
+	const{ handleSavedPost, isSaved, isUpdating } = useSavedPost(post);
 
 
 

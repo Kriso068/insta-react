@@ -15,6 +15,7 @@ const useUserProfileStore = create((set) => ({
 				posts: state.userProfile.posts.filter((id) => id !== postId),
 			},
 		})),
+	setFollowers: (followers) => set({followers}),
 }));
 
 export default useUserProfileStore;

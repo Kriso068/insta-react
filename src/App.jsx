@@ -5,6 +5,8 @@ import PageLayout from "./Layouts/PageLayout/PageLayout"
 import ProfilePage from "./pages/ProfilePage/ProfilePage"
 import SavedPosts from "./pages/ProfilePage/SavedPosts"
 import LikedPosts from "./pages/ProfilePage/LikedPosts"
+import FollowersPage from "./pages/FollowersPage/FollowersPage"
+import FollowingPage from "./pages/Following/followingPage"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { auth } from "./firebase/firebase"
 
@@ -20,6 +22,8 @@ function App() {
         <Route path='/:username' element={<ProfilePage />}/>
         <Route path='/:username/saves' element={<SavedPosts />}/>
         <Route path='/:username/likes' element={<LikedPosts />}/>
+        <Route path='/:username/followers' element={<FollowersPage />}/>
+        <Route path='/:username/following' element={<FollowingPage />}/>
       </Routes>
     </PageLayout>
   )

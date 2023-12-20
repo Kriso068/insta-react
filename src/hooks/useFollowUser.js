@@ -14,6 +14,7 @@ const useFollowUser = (userId) => {
 	const showToast = useShowToast();
 
 	const handleFollowUser = async () => {
+
 		setIsUpdating(true);
 		try {
 			const currentUserRef = doc(firestore, "users", authUser.uid);

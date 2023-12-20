@@ -1,4 +1,6 @@
-import { Avatar, AvatarGroup, Button, Flex, Text, VStack, useDisclosure } from "@chakra-ui/react";
+import { Avatar, AvatarGroup, Button, Flex, Text, Link, VStack, useDisclosure } from "@chakra-ui/react";
+import { Link as RouterLink} from "react-router-dom";
+
 import useUserProfileStore from "../../store/userProfileStore";
 import useAuthStore from "../../store/authStore";
 import EditProfile from "./EditProfile";
@@ -14,8 +16,8 @@ const ProfileHeader = () => {
 
 	return (
 		<Flex gap={{ base: 4, sm: 10 }} py={10} direction={{ base: "column", sm: "row" }}>
-			<AvatarGroup size={{ base: "xl", md: "2xl" }} justifySelf={"center"} alignSelf={"flex-start"} mx={"auto"}>
-				<Avatar src={userProfile.profilePicURL} alt='As a programmer logo' />
+			<AvatarGroup gap={{ base: 4, sm: 10 }} py={10} direction={{ base: "column", sm: "row" }}>
+				<Avatar src={userProfile.profilePicURL} alt={'profile pic'} />
 			</AvatarGroup>
 
 			<VStack alignItems={"start"} gap={2} mx={"auto"} flex={1}>
@@ -67,13 +69,23 @@ const ProfileHeader = () => {
 						<Text as='span' fontWeight={"bold"} mr={1}>
 							{userProfile.followers.length}
 						</Text>
+						<Link 
+							to={`/${authUser?.username}/followers`}
+							as={RouterLink}
+						>
 						Followers
+						</Link>
 					</Text>
 					<Text fontSize={{ base: "xs", md: "sm" }}>
 						<Text as='span' fontWeight={"bold"} mr={1}>
 							{userProfile.following.length}
 						</Text>
+						<Link 
+							to={`/${authUser?.username}/following`}
+							as={RouterLink}
+						>
 						Following
+						</Link>
 					</Text>
 				</Flex>
 				<Flex alignItems={"center"} gap={4}>
