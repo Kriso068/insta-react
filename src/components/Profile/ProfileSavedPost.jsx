@@ -1,23 +1,46 @@
-import {Avatar, Box, Button, Divider, Flex, GridItem, Image, Modal, ModalBody, ModalCloseButton, ModalContent, ModalOverlay, Skeleton, SkeletonCircle, Text, VStack, useDisclosure,
+import {
+	Avatar, 
+	Divider, 
+	Flex, 
+	GridItem, 
+	Image, 
+	Modal, 
+	ModalBody, 
+	ModalCloseButton, 
+	ModalContent, 
+	ModalOverlay, 
+	Skeleton, 
+	SkeletonCircle, 
+	Text, 
+	VStack, 
+	useDisclosure,
 } from "@chakra-ui/react";
 import { AiFillHeart } from "react-icons/ai";
 import { FaComment } from "react-icons/fa";
 import Comment from "../Comment/Comment";
 import PostFooter from "../FeedPosts/PostFooter";
 import Caption from "../Comment/Caption";
-import { useEffect} from "react";
+import { useEffect, useState} from "react";
 import useGetUserProfileById from "../../hooks/useGetUserProfileById";
+import { Link } from "react-router-dom";
 
 
 const ProfileSavedPost = ({ post }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const { isLoading, userProfile: createdByUser, setUserProfile } = useGetUserProfileById(post.createdBy);
-	const [isProfilePage, setIsProfilepage] = useState(false);	
+	const [isSavedPage, setIsSavedPage] = useState(true);
 
 	
 	useEffect(() => {
-	  setUserProfile(post.createdBy);
+	  	setUserProfile(post.createdBy);	
+		
 	}, [post.createdBy, setUserProfile]);
+
+	const handleRefresh = () =>{
+
+		console.log('Refreshing');
+		isSavedPage ? window.location.reload() : '';
+	}
 
 
 	return (
@@ -65,7 +88,7 @@ const ProfileSavedPost = ({ post }) => {
 				<Image src={post.imageURL} alt='profile post' w={"100%"} h={"100%"} objectFit={"cover"} />
 			</GridItem>
 
-			<Modal isOpen={isOpen} onClose={onClose} isCentered={true} size={{ base: "3xl", md: "5xl" }}>
+			<Modal isOpen={isOpen} onClose={() => { onClose(); handleRefresh(); }} isCentered={true} size={{ base: "3xl", md: "5xl" }}>
 				<ModalOverlay />
 				<ModalContent>
 					<ModalCloseButton />
@@ -91,22 +114,23 @@ const ProfileSavedPost = ({ post }) => {
 							<Flex flex={1} flexDir={"column"} px={10} display={{ base: "none", md: "flex" }}>
 								<Flex alignItems={"center"} justifyContent={"space-between"}>
 									<Flex alignItems={"center"} gap={4}>
-									{createdByUser ? (
-										<>
-											<Avatar src={createdByUser?.profilePicURL} size={"sm"} name={createdByUser?.username} />
-											<Text fontWeight={"bold"} fontSize={12}>
-											{createdByUser?.username}
-											</Text>
-										</>
-										) : (
-											<ProfileHeaderSkeleton />
-										)}
-
+										{createdByUser ? (
+											<>
+											<Link to={`/${createdByUser.username}`}>
+												<Avatar src={createdByUser?.profilePicURL} size={"sm"} name={createdByUser?.username} />
+											</Link>
+											<Link to={`/${createdByUser.username}`}>
+												<Text fontWeight={"bold"} fontSize={12}>
+													{createdByUser?.username}
+												</Text>
+											</Link>
+											</>
+											) : (
+												<ProfileHeaderSkeleton />
+											)}
 									</Flex>
-
 								</Flex>
 								<Divider my={4} bg={"gray.500"} />
-
 								<VStack w='full' alignItems={"start"} maxH={"350px"} overflowY={"auto"}>
 									{/* CAPTION */}
 									{post.caption && <Caption post={post} />}
@@ -117,7 +141,7 @@ const ProfileSavedPost = ({ post }) => {
 								</VStack>
 								<Divider my={4} bg={"gray.8000"} />
 
-								<PostFooter isProfilePage={true} post={post} />
+								<PostFooter isSavedPage={true} post={post} />
 							</Flex>
 						</Flex>
 					</ModalBody>

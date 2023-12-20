@@ -3,6 +3,7 @@ import { Link as RouterLink, useParams } from "react-router-dom";
 import useGetUserProfileByUsername from "../../hooks/useGetUserProfileByUsername";
 import ProfileTabs from "../../components/Profile/ProfileTabs";
 import ProfileHeader from "../../components/Profile/ProfileHeader";
+import ProfileLikedPosts from "../../components/Profile/ProfileLikedPosts";
 
 const LikedPosts = () => {
     const { username } = useParams();
@@ -25,6 +26,7 @@ const LikedPosts = () => {
                 direction={"column"}
             >
                 <ProfileTabs />
+				<ProfileLikedPosts />
             </Flex>
         </Container> 
     )
