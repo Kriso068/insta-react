@@ -1,10 +1,10 @@
 import { Box, Flex, Grid, Skeleton, Text, VStack } from "@chakra-ui/react";
-import useGetFollwersByUserId from "../../hooks/useGetFollwersByUserId";
 import FollowerPageProfile from './FollowerPageProfile';
+import useGetFollwigsnByUserId from "../../hooks/useGetFollowingByUserId";
 
-const FolowersPageProfile = () => {
+const FollowinsPageProfile = () => {
 
-  const { isLoading, followers } = useGetFollwersByUserId();
+  const { isLoading, followers } = useGetFollwigsnByUserId();
   const noFollowersFound = !isLoading && followers.length === 0;
   if (noFollowersFound) return <NoFollowersFound />; 
 
@@ -29,8 +29,8 @@ const FolowersPageProfile = () => {
 
         {!isLoading && (
           <>
-            {followers.map((follower) => (
-              <FollowerPageProfile follower={follower} key={follower.uid} />
+            {followings.map((following) => (
+              <FollowerPageProfile following={following} key={following.uid} />
             ))}
           </>
         )}
@@ -39,7 +39,7 @@ const FolowersPageProfile = () => {
   
 }
 
-export default FolowersPageProfile;
+export default FollowinsPageProfile;
 
 const NoFollowersFound = () => {
   return (
