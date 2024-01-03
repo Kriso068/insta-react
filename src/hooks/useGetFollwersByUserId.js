@@ -21,7 +21,7 @@ const useGetFollwersByUserId = () => {
             setFollowers([]);
 
             try {
-                const q = query(collection(firestore, "users"), where("followers", "array-contains", authUser.uid));
+                const q = query(collection(firestore, "users"), where("following", "array-contains", authUser.uid));
 				const querySnapshot = await getDocs(q);
 
 				const followers = [];
@@ -32,6 +32,7 @@ const useGetFollwersByUserId = () => {
 				followers.sort((a, b) => b.createdAt - a.createdAt);
 				setFollowers(followers);
                 
+                
             } catch (error) {
 				showToast("Error", error.message, "error");
 				setFollowers([]);
@@ -40,10 +41,12 @@ const useGetFollwersByUserId = () => {
 			}
         };
 
-        console.log(followers);
         getFollowers();
-        
     },[setFollowers, userProfile, showToast])
+    
+    useEffect(() => {
+        console.log('My followers:', followers);
+      }, [followers]);
     
     return { isLoading, followers}
 }

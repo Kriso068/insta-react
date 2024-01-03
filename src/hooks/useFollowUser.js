@@ -70,13 +70,16 @@ const useFollowUser = (userId) => {
 				);
 				setIsFollowing(true);
 			}
+
+			
+			
 		} catch (error) {
 			showToast("Error", error.message, "error");
 		} finally {
 			setIsUpdating(false);
 		}
 	};
-
+	
 	useEffect(() => {
 		if (authUser) {
 			const isFollowing = authUser.following.includes(userId);

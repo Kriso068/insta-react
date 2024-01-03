@@ -4,12 +4,12 @@ import { Link as RouterLink} from "react-router-dom";
 import useGetUserProfileById from "../../hooks/useGetUserProfileById";
 import { useEffect } from "react";
 import useAuthStore from "../../store/authStore";
-import useUserProfileStore from "../../store/userProfileStore";
+
 
 const FollowerPageProfile = (follower) => {
 
   const authUser = useAuthStore((state) => state.user);
-  const { isLoading,  userProfile:followerUser, setUserProfile } = useGetUserProfileById(follower.follower.uid);
+  const { isLoading,  followerUser, setUserProfile } = useGetUserProfileById(follower.follower.uid);
   const{ handleFollowUser, isFollowing, isUpdating } = useFollowUser(follower.follower.uid);
 
 
@@ -17,8 +17,6 @@ const FollowerPageProfile = (follower) => {
     setUserProfile(follower.follower);	
   
   }, [follower.follower, setUserProfile]);
-  console.log(followerUser);
-  console.log(authUser);
 
   return (
     <Flex gap={{ base: 4, sm: 10 }} py={10} direction={{ base: "column", sm: "row" }} alignItems={"center"}>
