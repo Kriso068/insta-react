@@ -11,11 +11,12 @@ const FollowerPageProfile = (follower) => {
   const authUser = useAuthStore((state) => state.user);
   const { isLoading,  followerUser, setUserProfile } = useGetUserProfileById(follower.follower.uid);
   const{ handleFollowUser, isFollowing, isUpdating } = useFollowUser(follower.follower.uid);
-
+  
 
   useEffect(() => {
     setUserProfile(follower.follower);	
   
+    console.log(authUser);
   }, [follower.follower, setUserProfile]);
 
   return (
@@ -50,7 +51,7 @@ const FollowerPageProfile = (follower) => {
 								color={"white"}
 								_hover={{ bg: "blue.600" }}
 								size={{ base: "xs", md: "sm" }}
-								onClick={handleFollowUser}
+                onClick={handleFollowUser}
 								isLoading={isUpdating}
 							>
 								{isFollowing ? "Unfollow" : "Follow"}

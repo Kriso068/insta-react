@@ -1,6 +1,7 @@
 import { Box, Flex, Grid, Skeleton, Text, VStack } from "@chakra-ui/react";
 import useGetFollwersByUserId from "../../hooks/useGetFollwersByUserId";
-import FollowerPageProfile from './FollowerPageProfile';
+import FollowerPageProfile from "./FollowerPageProfile";
+
 
 const FolowersPageProfile = () => {
 

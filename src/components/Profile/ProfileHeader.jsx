@@ -1,19 +1,18 @@
 import { Avatar, AvatarGroup, Button, Flex, Text, Link, VStack, useDisclosure } from "@chakra-ui/react";
 import { Link as RouterLink} from "react-router-dom";
-
 import useUserProfileStore from "../../store/userProfileStore";
 import useAuthStore from "../../store/authStore";
 import EditProfile from "./EditProfile";
 import useFollowUser from "../../hooks/useFollowUser";
+import { useEffect, useState } from "react";
 
 const ProfileHeader = () => {
 	const { userProfile } = useUserProfileStore();
 	const authUser = useAuthStore((state) => state.user);
 	const { isOpen, onOpen, onClose } = useDisclosure();
-	const { isFollowing, isUpdating, handleFollowUser } = useFollowUser(userProfile?.uid);
 	const visitingOwnProfileAndAuth = authUser && authUser.username === userProfile.username;
 	const visitingAnotherProfileAndAuth = authUser && authUser.username !== userProfile.username;
-
+	
 	return (
 		<Flex gap={{ base: 4, sm: 10 }} py={10} direction={{ base: "column", sm: "row" }}>
 			<AvatarGroup gap={{ base: 4, sm: 10 }} py={10} direction={{ base: "column", sm: "row" }}>
@@ -68,6 +67,7 @@ const ProfileHeader = () => {
 					<Text fontSize={{ base: "xs", md: "sm" }}>
 						<Text as='span' fontWeight={"bold"} mr={1}>
 							{userProfile.followers.length}
+							
 						</Text>
 						<Link 
 							to={`/${authUser?.username}/followers`}
@@ -79,6 +79,7 @@ const ProfileHeader = () => {
 					<Text fontSize={{ base: "xs", md: "sm" }}>
 						<Text as='span' fontWeight={"bold"} mr={1}>
 							{userProfile.following.length}
+							
 						</Text>
 						<Link 
 							to={`/${authUser?.username}/following`}

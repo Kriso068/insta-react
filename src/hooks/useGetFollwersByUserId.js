@@ -44,9 +44,9 @@ const useGetFollwersByUserId = () => {
         getFollowers();
     },[setFollowers, userProfile, showToast])
     
-    useEffect(() => {
-        console.log('My followers:', followers);
-      }, [followers]);
+    // useEffect(() => {
+    //     console.log('My followers:', followers);
+    //   }, [followers]);
     
     return { isLoading, followers}
 }

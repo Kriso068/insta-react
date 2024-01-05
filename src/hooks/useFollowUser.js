@@ -3,7 +3,7 @@ import useAuthStore from "../store/authStore";
 import useUserProfileStore from "../store/userProfileStore";
 import useShowToast from "./useShowToast";
 import { firestore } from "../firebase/firebase";
-import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
+import { arrayRemove, arrayUnion, doc, getDoc, getDocs, updateDoc } from "firebase/firestore";
 
 const useFollowUser = (userId) => {
 	const [isUpdating, setIsUpdating] = useState(false);
@@ -15,6 +15,8 @@ const useFollowUser = (userId) => {
 
 	const handleFollowUser = async () => {
 
+
+		console.log(userProfile)
 		setIsUpdating(true);
 		try {
 			const currentUserRef = doc(firestore, "users", authUser.uid);
@@ -70,7 +72,6 @@ const useFollowUser = (userId) => {
 				);
 				setIsFollowing(true);
 			}
-
 			
 			
 		} catch (error) {
@@ -91,3 +92,6 @@ const useFollowUser = (userId) => {
 };
 
 export default useFollowUser;
+
+
+  
