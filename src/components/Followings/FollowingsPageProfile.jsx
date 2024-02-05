@@ -1,12 +1,12 @@
 import { Box, Flex, Grid, Skeleton, Text, VStack } from "@chakra-ui/react";
-import FollowerPageProfile from './FollowerPageProfile';
-import useGetFollwigsnByUserId from "../../hooks/useGetFollowingByUserId";
+import FollowingPageProfile from './FollowingPageProfile';
+import useGetFollwingsByUserId from "../../hooks/useGetFollowingsByUserId";
 
-const FollowinsPageProfile = () => {
+const FollowingsPageProfile = () => {
 
-  const { isLoading, followers } = useGetFollwigsnByUserId();
-  const noFollowersFound = !isLoading && followers.length === 0;
-  if (noFollowersFound) return <NoFollowersFound />; 
+  const { isLoading, followings } = useGetFollwingsByUserId();
+  const noFollowingsFound = !isLoading && followings.length === 0;
+  if (noFollowingsFound) return <NoFollowingsFound />; 
 
 
   return (
@@ -30,7 +30,7 @@ const FollowinsPageProfile = () => {
         {!isLoading && (
           <>
             {followings.map((following) => (
-              <FollowerPageProfile following={following} key={following.uid} />
+              <FollowingPageProfile following={following} key={following.uid} />
             ))}
           </>
         )}
@@ -39,12 +39,12 @@ const FollowinsPageProfile = () => {
   
 }
 
-export default FollowinsPageProfile;
+export default FollowingsPageProfile;
 
-const NoFollowersFound = () => {
+const NoFollowingsFound = () => {
   return (
     <Flex flexDir='column' textAlign={"center"} mx={"auto"} mt={10}>
-      <Text fontSize={"2xl"}>No One Is Following You Right Now🤔</Text>
+      <Text fontSize={"2xl"}>You Following No One Right Now🤔</Text>
     </Flex>
   );
 };

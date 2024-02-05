@@ -31,7 +31,7 @@ const FolowersPageProfile = () => {
         {!isLoading && (
           <>
             {followers.map((follower) => (
-              <FollowerPageProfile follower={follower} key={follower.uid} />
+              <FollowerPageProfile key={follower.uid} follower={follower} />
             ))}
           </>
         )}

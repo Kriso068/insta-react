@@ -1,32 +1,23 @@
 import { Avatar, AvatarGroup, Button, Flex, Link, Text, VStack } from "@chakra-ui/react";
 import useFollowUser from "../../hooks/useFollowUser";
 import { Link as RouterLink} from "react-router-dom";
-import useGetUserProfileById from "../../hooks/useGetUserProfileById";
-import { useEffect } from "react";
 import useAuthStore from "../../store/authStore";
 
 
 const FollowerPageProfile = (follower) => {
-
   const authUser = useAuthStore((state) => state.user);
-  const { isLoading,  followerUser, setUserProfile } = useGetUserProfileById(follower.follower.uid);
-  const{ handleFollowUser, isFollowing, isUpdating } = useFollowUser(follower.follower.uid);
+  const{ handleFollowUser, isFollowing, isUpdating } = useFollowUser(follower.follower.id);
   
-
-  useEffect(() => {
-    setUserProfile(follower.follower);	
-  
-    console.log(authUser);
-  }, [follower.follower, setUserProfile]);
 
   return (
+    
     <Flex gap={{ base: 4, sm: 10 }} py={10} direction={{ base: "column", sm: "row" }} alignItems={"center"}>
       <Link 
-        to={`/${followerUser?.username}`}
+        to={`/${follower.follower?.username}`}
         as={RouterLink}
       >
         <AvatarGroup gap={{ base: 4, sm: 10 }} py={10} direction={{ base: "column", sm: "row" }}>
-          <Avatar src={followerUser?.profilePicURL} alt={'profile pic'}/>
+          <Avatar src={follower.follower?.profilePicURL} alt={'profile pic'}/>
         </AvatarGroup>
       </Link>
       <VStack>
@@ -38,11 +29,11 @@ const FollowerPageProfile = (follower) => {
 					w={"full"}
         >
           <Link 
-            to={`/${followerUser?.username}`}
+            to={`/${follower.follower?.username}`}
             as={RouterLink}
           >
             <Text>
-              {followerUser?.username}
+              {follower.follower?.username}
             </Text>
           </Link>
           <Flex gap={4} alignItems={"center"} justifyContent={"center"}>
@@ -61,19 +52,19 @@ const FollowerPageProfile = (follower) => {
         <Flex alignItems={"center"} gap={{ base: 2, sm: 4 }}>
 					<Text fontSize={{ base: "xs", md: "sm" }}>
 						<Text as='span' fontWeight={"bold"} mr={1}>
-							{followerUser?.posts.length}
+							{follower.follower?.posts.length}
 						</Text>
 						Posts
 					</Text>
 					<Text fontSize={{ base: "xs", md: "sm" }}>
 						<Text as='span' fontWeight={"bold"} mr={1}>
-							{followerUser?.followers.length}
+							{follower.follower?.followers.length}
 						</Text>
 						  Followers
 					</Text>
 					<Text fontSize={{ base: "xs", md: "sm" }}>
 						<Text as='span' fontWeight={"bold"} mr={1}>
-							{followerUser?.following.length}
+							{follower.follower?.following.length}
 						</Text>
 						Following
 					</Text>

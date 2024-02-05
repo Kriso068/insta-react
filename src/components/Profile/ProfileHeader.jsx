@@ -4,21 +4,25 @@ import useUserProfileStore from "../../store/userProfileStore";
 import useAuthStore from "../../store/authStore";
 import EditProfile from "./EditProfile";
 import useFollowUser from "../../hooks/useFollowUser";
-import { useEffect, useState } from "react";
 
 const ProfileHeader = () => {
 	const { userProfile } = useUserProfileStore();
 	const authUser = useAuthStore((state) => state.user);
 	const { isOpen, onOpen, onClose } = useDisclosure();
+	const{ handleFollowUser, isFollowing, isUpdating } = useFollowUser(userProfile.uid);
 	const visitingOwnProfileAndAuth = authUser && authUser.username === userProfile.username;
 	const visitingAnotherProfileAndAuth = authUser && authUser.username !== userProfile.username;
 	
 	return (
 		<Flex gap={{ base: 4, sm: 10 }} py={10} direction={{ base: "column", sm: "row" }}>
-			<AvatarGroup gap={{ base: 4, sm: 10 }} py={10} direction={{ base: "column", sm: "row" }}>
-				<Avatar src={userProfile.profilePicURL} alt={'profile pic'} />
-			</AvatarGroup>
-
+			<Link 
+				to={`/${userProfile?.username}`}
+				as={RouterLink}
+			>
+				<AvatarGroup gap={{ base: 4, sm: 10 }} py={10} direction={{ base: "column", sm: "row" }}>
+					<Avatar src={userProfile.profilePicURL} alt={'profile pic'} />
+				</AvatarGroup>
+			</Link>
 			<VStack alignItems={"start"} gap={2} mx={"auto"} flex={1}>
 				<Flex
 					gap={4}
@@ -57,7 +61,48 @@ const ProfileHeader = () => {
 					)}
 				</Flex>
 
-				<Flex alignItems={"center"} gap={{ base: 2, sm: 4 }}>
+				{visitingOwnProfileAndAuth && (
+					<Flex alignItems={"center"} gap={{ base: 2, sm: 4 }}>
+						<Text fontSize={{ base: "xs", md: "sm" }}>
+						<Link 
+							to={`/${userProfile?.username}`}
+							as={RouterLink}
+						>
+							<Text as='span' fontWeight={"bold"} mr={1}>
+								{userProfile.posts.length}
+							</Text>
+							Posts
+						</Link>
+						</Text>
+						<Text fontSize={{ base: "xs", md: "sm" }}>
+							<Text as='span' fontWeight={"bold"} mr={1}>
+								{/* {userProfile.followers.length} */}
+								{authUser.followers.length}
+								
+							</Text>
+							<Link 
+								to={`/${authUser?.username}/followers`}
+								as={RouterLink}
+							>
+							Followers
+							</Link>
+						</Text>
+						<Text fontSize={{ base: "xs", md: "sm" }}>
+							<Text as='span' fontWeight={"bold"} mr={1}>
+								{authUser.following.length}
+								
+							</Text>
+							<Link 
+								to={`/${authUser?.username}/followings`}
+								as={RouterLink}
+							>
+							Following
+							</Link>
+						</Text>
+					</Flex>
+				)}
+				{visitingAnotherProfileAndAuth && (
+					<Flex alignItems={"center"} gap={{ base: 2, sm: 4 }}>
 					<Text fontSize={{ base: "xs", md: "sm" }}>
 						<Text as='span' fontWeight={"bold"} mr={1}>
 							{userProfile.posts.length}
@@ -66,35 +111,29 @@ const ProfileHeader = () => {
 					</Text>
 					<Text fontSize={{ base: "xs", md: "sm" }}>
 						<Text as='span' fontWeight={"bold"} mr={1}>
+							{/* {userProfile.followers.length} */}
 							{userProfile.followers.length}
 							
 						</Text>
-						<Link 
-							to={`/${authUser?.username}/followers`}
-							as={RouterLink}
-						>
 						Followers
-						</Link>
 					</Text>
 					<Text fontSize={{ base: "xs", md: "sm" }}>
 						<Text as='span' fontWeight={"bold"} mr={1}>
 							{userProfile.following.length}
 							
 						</Text>
-						<Link 
-							to={`/${authUser?.username}/following`}
-							as={RouterLink}
-						>
 						Following
-						</Link>
 					</Text>
 				</Flex>
-				<Flex alignItems={"center"} gap={4}>
-					<Text fontSize={"sm"} fontWeight={"bold"}>
-						{userProfile.fullName}
-					</Text>
-				</Flex>
+
+				)}
+					<Flex alignItems={"center"} gap={4}>
+						<Text fontSize={"sm"} fontWeight={"bold"}>
+							{userProfile.fullName}
+						</Text>
+					</Flex>
 				<Text fontSize={"sm"}>{userProfile.bio}</Text>
+				
 			</VStack>
 			{isOpen && <EditProfile isOpen={isOpen} onClose={onClose} />}
 		</Flex>

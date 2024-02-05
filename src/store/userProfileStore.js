@@ -16,6 +16,7 @@ const useUserProfileStore = create((set) => ({
 			},
 		})),
 	setFollowers: (followers) => set({followers}),
+	setFollowings: (followings) => set({followings}),
 }));
 
 export default useUserProfileStore;

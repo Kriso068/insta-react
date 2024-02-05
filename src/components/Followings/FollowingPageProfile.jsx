@@ -1,32 +1,21 @@
 import { Avatar, AvatarGroup, Button, Flex, Link, Text, VStack } from "@chakra-ui/react";
 import useFollowUser from "../../hooks/useFollowUser";
 import { Link as RouterLink} from "react-router-dom";
-import useGetUserProfileById from "../../hooks/useGetUserProfileById";
-import { useEffect } from "react";
 import useAuthStore from "../../store/authStore";
 
-const FollowinPageProfile = (follower) => {
+const FollowinPageProfile = (following) => {
 
   const authUser = useAuthStore((state) => state.user);
-  const { isLoading, userProfile: followingUser, setUserProfile } = useGetUserProfileById(follower.follower.uid);
-  const{ handleFollowUser, isFollowing, isUpdating } = useFollowUser(follower.follower.uid);
-
-
-  useEffect(() => {
-    setUserProfile(follower.follower);	
-  
-  }, [follower.follower, setUserProfile]);
-  console.log(followingUser);
-  console.log(authUser);
+  const{ handleFollowUser, isFollowing, isUpdating } = useFollowUser(following.following.uid);
 
   return (
     <Flex gap={{ base: 4, sm: 10 }} py={10} direction={{ base: "column", sm: "row" }} alignItems={"center"}>
       <Link 
-        to={`/${followerUser?.username}`}
+        to={`/${following.following?.username}`}
         as={RouterLink}
       >
         <AvatarGroup gap={{ base: 4, sm: 10 }} py={10} direction={{ base: "column", sm: "row" }}>
-          <Avatar src={followerUser?.profilePicURL} alt={'profile pic'}/>
+          <Avatar src={following.following?.profilePicURL} alt={'profile pic'}/>
         </AvatarGroup>
       </Link>
       <VStack>
@@ -38,11 +27,11 @@ const FollowinPageProfile = (follower) => {
 					w={"full"}
         >
           <Link 
-            to={`/${followerUser?.username}`}
+            to={`/${following.following?.username}`}
             as={RouterLink}
           >
             <Text>
-              {followerUser?.username}
+              {following.following?.username}
             </Text>
           </Link>
           <Flex gap={4} alignItems={"center"} justifyContent={"center"}>
@@ -61,19 +50,19 @@ const FollowinPageProfile = (follower) => {
         <Flex alignItems={"center"} gap={{ base: 2, sm: 4 }}>
             <Text fontSize={{ base: "xs", md: "sm" }}>
                 <Text as='span' fontWeight={"bold"} mr={1}>
-                    {followerUser?.posts.length}
+                    {following.following?.posts.length}
                 </Text>
                 Posts
             </Text>
             <Text fontSize={{ base: "xs", md: "sm" }}>
                 <Text as='span' fontWeight={"bold"} mr={1}>
-                    {followerUser?.followers.length}
+                    {following.following?.followers.length}
                 </Text>
                     Followers
             </Text>
             <Text fontSize={{ base: "xs", md: "sm" }}>
                 <Text as='span' fontWeight={"bold"} mr={1}>
-                    {followerUser?.following.length}
+                    {following.following?.following.length}
                 </Text>
                 Following
             </Text>
