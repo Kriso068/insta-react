@@ -1,4 +1,4 @@
-import {Avatar, Button, Divider, Flex, GridItem, Image, Modal, ModalBody, ModalCloseButton, ModalContent, ModalOverlay, Text, VStack, useDisclosure,
+import { Avatar, Button, Divider, Flex, GridItem, Image, Modal, ModalBody, ModalCloseButton, ModalContent, ModalOverlay, Text, VStack, useDisclosure,
 } from "@chakra-ui/react";
 import { AiFillHeart } from "react-icons/ai";
 import { FaComment } from "react-icons/fa";
@@ -31,6 +31,8 @@ const ProfilePost = ({ post }) => {
 		try {
 			const imageRef = ref(storage, `posts/${post.id}`);
 			await deleteObject(imageRef);
+			// const videoRef = ref(storage, `posts/${post.id}/video`);
+			// await deleteObject(videoRef);
 			const userRef = doc(firestore, "users", authUser.uid);
 			await deleteDoc(doc(firestore, "posts", post.id));
 
@@ -90,7 +92,13 @@ const ProfilePost = ({ post }) => {
 					</Flex>
 				</Flex>
 
-				<Image src={post.imageURL} alt='profile post' w={"100%"} h={"100%"} objectFit={"cover"} />
+				{post.imageURL && (
+					<Image src={post.imageURL} alt='profile post' w={"100%"} h={"100%"} />
+				)}
+				{post.videoURL && (
+					<video autoPlay controls src={post.videoURL} alt='profile post' w={"100%"} h={"100%"} ></video>
+				)}
+				{/* <Image src={post.imageURL} alt='profile post' w={"100%"} h={"100%"} objectFit={"cover"} /> */}
 			</GridItem>
 
 			<Modal isOpen={isOpen} onClose={onClose} isCentered={true} size={{ base: "3xl", md: "5xl" }}>
@@ -114,7 +122,12 @@ const ProfilePost = ({ post }) => {
 								justifyContent={"center"}
 								alignItems={"center"}
 							>
-								<Image src={post.imageURL} alt='profile post' />
+								{post.imageURL && (
+									<Image src={post.imageURL} alt='profile post' />
+								)}
+								{post.videoURL && (
+									<video controls src={post.videoURL} height={'100%'} width={'100%'}></video>
+								)}
 							</Flex>
 							<Flex flex={1} flexDir={"column"} px={10} display={{ base: "none", md: "flex" }}>
 								<Flex alignItems={"center"} justifyContent={"space-between"}>

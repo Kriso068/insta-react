@@ -10,7 +10,12 @@ const FeedPost = ({ post }) => {
 		<>
 			<PostHeader post={post} creatorProfile={userProfile} />
 			<Box my={2} borderRadius={4} overflow={"hidden"}>
-				<Image src={post.imageURL} alt={"FEED POST IMG"} />
+				{post.imageURL && (
+					<Image src={post.imageURL} alt="FEED POST IMG" />
+				)}
+				{post.videoURL && (
+					<video preload controls src={post.videoURL} width={'100%'} height={'100%'}></video>
+				)}
 			</Box>
 			<PostFooter post={post} creatorProfile={userProfile} />
 		</>

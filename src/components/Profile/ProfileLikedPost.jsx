@@ -84,7 +84,12 @@ const ProfileLikedPost = ({ post }) => {
 					</Flex>
 				</Flex>
 
-				<Image src={post.imageURL} alt='profile post' w={"100%"} h={"100%"} objectFit={"cover"} />
+				{post.imageURL && (
+					<Image src={post.imageURL} alt="FEED POST IMG" />
+				)}
+				{post.videoURL && (
+					<video preload controls src={post.videoURL} width={'100%'} height={'100%'}></video>
+				)}
 			</GridItem>
 
 			<Modal isOpen={isOpen} onClose={() => { onClose(); handleRefresh(); }} isCentered={true} size={{ base: "3xl", md: "5xl" }}>
@@ -108,7 +113,12 @@ const ProfileLikedPost = ({ post }) => {
 								justifyContent={"center"}
 								alignItems={"center"}
 							>
-								<Image src={post.imageURL} alt='profile post' />
+								{post.imageURL && (
+									<Image src={post.imageURL} alt="FEED POST IMG" />
+								)}
+								{post.videoURL && (
+									<video preload controls src={post.videoURL} width={'100%'} height={'100%'}></video>
+								)}
 							</Flex>
 							<Flex flex={1} flexDir={"column"} px={10} display={{ base: "none", md: "flex" }}>
 								<Flex alignItems={"center"} justifyContent={"space-between"}>

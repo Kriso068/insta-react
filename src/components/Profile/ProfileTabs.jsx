@@ -31,7 +31,7 @@ const ProfileTabs = () => {
         >
             <Link 
                 display={"flex"}
-				to={`/${authUser?.username}`}
+				to={`/${userProfile?.username}`}
 				as={RouterLink}
             >
                 <Box fontSize={20}>
