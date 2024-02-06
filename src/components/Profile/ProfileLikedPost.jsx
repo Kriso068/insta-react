@@ -88,7 +88,7 @@ const ProfileLikedPost = ({ post }) => {
 					<Image src={post.imageURL} alt="FEED POST IMG" />
 				)}
 				{post.videoURL && (
-					<video preload controls src={post.videoURL} width={'100%'} height={'100%'}></video>
+					<video preload='true' controls src={post.videoURL} width={'100%'} height={'100%'}></video>
 				)}
 			</GridItem>
 
@@ -117,7 +117,7 @@ const ProfileLikedPost = ({ post }) => {
 									<Image src={post.imageURL} alt="FEED POST IMG" />
 								)}
 								{post.videoURL && (
-									<video preload controls src={post.videoURL} width={'100%'} height={'100%'}></video>
+									<video preload='true' controls src={post.videoURL} width={'100%'} height={'100%'}></video>
 								)}
 							</Flex>
 							<Flex flex={1} flexDir={"column"} px={10} display={{ base: "none", md: "flex" }}>

@@ -14,7 +14,7 @@ const FeedPost = ({ post }) => {
 					<Image src={post.imageURL} alt="FEED POST IMG" />
 				)}
 				{post.videoURL && (
-					<video preload controls src={post.videoURL} width={'100%'} height={'100%'}></video>
+					<video preload='true' controls src={post.videoURL} width={'100%'} height={'100%'}></video>
 				)}
 			</Box>
 			<PostFooter post={post} creatorProfile={userProfile} />
