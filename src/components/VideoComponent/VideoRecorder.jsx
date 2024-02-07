@@ -1,4 +1,5 @@
-import { useState, useRef } from "react";
+import { Box, Button, Flex } from "@chakra-ui/react";
+import { useState, useRef, useEffect } from "react";
 const VideoRecorder = () => {
 
     const mimeType = "video/webm";
@@ -9,6 +10,14 @@ const VideoRecorder = () => {
     const [stream, setStream] = useState(null);
     const [videoChunks, setVideoChunks] = useState([]);
     const [recordedVideo, setRecordedVideo] = useState(null);
+
+    useEffect(() => {
+        return () => {
+            if (stream) {
+                stream.getTracks().forEach((track) => track.stop());
+            }
+        };
+    }, [stream]);
 
     const getCameraPermission = async () => {
         setRecordedVideo(null);
@@ -71,34 +80,38 @@ const VideoRecorder = () => {
 
     return (
         <div>
-            <h2>Video Recorder</h2>
-            <main>
-                <div className="audio-controls">
-                    {!permission ? (
-                    <button onClick={getCameraPermission} type="button">
-                        Get Microphone
-                    </button>
-                    ) : null}
-                    {permission && recordingStatus === "inactive" ? (
-                    <button onClick={startRecording} type="button">
-                        Start Recording
-                    </button>
-                    ) : null}
-                    {recordingStatus === "recording" ? (
-                    <button onClick={stopRecording} type="button">
-                        Stop Recording
-                    </button>
-                    ) : null}
-                </div>
-                {recordedVideo ? (
-                <div className="audio-player">
-                    <video src={recordedVideo} controls></video>
-                    <a download href={recordedVideo}>
-                        Download Recording
-                    </a>
-                </div>
+            <Flex>
+                {!permission ? (
+                    <Button onClick={getCameraPermission}>
+                        Get camera
+                    </Button>
                 ) : null}
-            </main>
+                 {permission && recordingStatus === "inactive" ? (
+                    <Button onClick={startRecording} >
+
+                        Start Recording
+                    </Button>
+                ) : null}
+                {recordingStatus === "recording" ? (
+                    <Button onClick={stopRecording}>
+                        Stop Recording
+                    </Button>
+                ) : null}
+            </Flex>
+            <Flex>
+                {recordedVideo ? (
+                    <Box>
+                        <video src={recordedVideo} controls></video>
+                        <Button>
+                            <a download href={recordedVideo}>
+                                Download Recording
+                            </a>
+                        </Button>
+                    </Box>
+                ) : null}
+          
+            </Flex>
+
         </div>
     );
 };

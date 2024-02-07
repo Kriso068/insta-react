@@ -93,10 +93,10 @@ const ProfilePost = ({ post }) => {
 				</Flex>
 
 				{post.imageURL && (
-					<Image src={post.imageURL} alt='profile post' w={"100%"} h={"100%"} />
+					<Image src={post.imageURL} alt='profile post' w={"100%"} h={"100%"} objectFit={"cover"} />
 				)}
 				{post.videoURL && (
-					<video autoPlay controls src={post.videoURL} alt='profile post' w={"100%"} h={"100%"} ></video>
+					<video autoPlay controls src={post.videoURL} alt='profile post' w={"100%"} h={"100%"} objectFit={"cover"}></video>
 				)}
 				{/* <Image src={post.imageURL} alt='profile post' w={"100%"} h={"100%"} objectFit={"cover"} /> */}
 			</GridItem>

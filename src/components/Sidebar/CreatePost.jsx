@@ -33,8 +33,6 @@ import { firestore, storage } from "../../firebase/firebase";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 
 import VideoRecorder from "../VideoComponent/VideoRecorder";
-import AudioRecorder from "../AudioComponent/AudioRecorder";
-import { BsFillMicFill } from "react-icons/bs";
 import { BsFillCameraFill } from "react-icons/bs";
 
 
@@ -62,11 +60,6 @@ const CreatePost = () => {
 
 
 	let [recordOption, setRecordOption] = useState("video");
-    const toggleRecordOption = (type) => {
-        return () => {
-            setRecordOption(type);
-        };
-    };
 
 	return (
 		<>
@@ -121,13 +114,8 @@ const CreatePost = () => {
 								size={16}
 							/>
 
-							<BsFillMicFill
-								onClick={toggleRecordOption("audio")}
-								style={{ marginTop: "15px", marginLeft: "5px", cursor: "pointer" }}
-								size={16}
-							/>
 							<BsFillCameraFill
-								onClick={toggleRecordOption("video")}
+								onClick={()=>setRecordOption("video")}
 								style={{ marginTop: "15px", marginLeft: "5px", cursor: "pointer" }}
 								size={16}
 							/>
