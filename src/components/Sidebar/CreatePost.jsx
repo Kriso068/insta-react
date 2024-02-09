@@ -30,7 +30,7 @@ import useUserProfileStore from "../../store/userProfileStore";
 import { useLocation } from "react-router-dom";
 import { addDoc, arrayUnion, collection, doc, updateDoc } from "firebase/firestore";
 import { firestore, storage } from "../../firebase/firebase";
-import { getDownloadURL, ref, uploadString } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes, uploadString } from "firebase/storage";
 
 import VideoRecorder from "../VideoComponent/VideoRecorder";
 import { BsFillCameraFill } from "react-icons/bs";
@@ -46,20 +46,29 @@ const CreatePost = () => {
 	const showToast = useShowToast();
 	const { isLoading, handleCreatePost } = useCreatePost();
 
+	let [recordOption, setRecordOption] = useState("video");
+	const [selectedVideoRecordedFile, setSelectedVideoRecordedFile] = useState(null);
+	const videoRecordedRef = useRef(null);
+
+
 	const handlePostCreation = async () => {
 		try {
-			await handleCreatePost(selectedFile,selectedVideoFile, caption);
+			await handleCreatePost(selectedFile,selectedVideoFile,selectedVideoRecordedFile, caption);
 			onClose();
 			setCaption("");
 			setSelectedFile(null);
 			setSelectedVideoFile(null);
+			setSelectedVideoRecordedFile(null);
 		} catch (error) {
 			showToast("Error", error.message, "error");
 		}
 	};
 
 
-	let [recordOption, setRecordOption] = useState("video");
+
+	const handleRecordingComplete = (videoUrl) => {
+		setSelectedVideoRecordedFile(videoUrl);
+	  };
 
 	return (
 		<>
@@ -120,8 +129,8 @@ const CreatePost = () => {
 								size={16}
 							/>
 
-							{recordOption === "video" ? <VideoRecorder /> : <AudioRecorder />}
-							
+							{/* {recordOption === "video" ? <VideoRecorder /> : <AudioRecorder />} */}
+							{recordOption === "video" && <VideoRecorder  onRecordingComplete={handleRecordingComplete} />}
 						</Flex>
 						{selectedFile && (
 							<Flex mt={5} w={"full"} position={"relative"} justifyContent={"center"}>
@@ -155,6 +164,23 @@ const CreatePost = () => {
 								/>
 							</Flex>
 						)}
+						{selectedVideoRecordedFile && (
+							<Flex mt={5} w={"full"} position={"relative"} justifyContent={"center"}>
+								<video mt={45} controls src={selectedVideoRecordedFile}></video>
+								<CloseButton
+                  					fontSize={"lg"}
+                  					_hover={{color:"black", bg:"red"}}
+									position={"absolute"}
+                  					color={"red"}
+									top={2}
+									right={2}
+									onClick={() => {
+										setSelectedVideoRecordedFile(null);
+										setRecordOption('');
+									}}
+								/>
+							</Flex>
+						)}
 					</ModalBody>
 
 					<ModalFooter>
@@ -180,10 +206,12 @@ function useCreatePost() {
 	const { pathname } = useLocation();
 
 	
-	const handleCreatePost = async (selectedFile, selectedVideoFile, caption) => {
+	const handleCreatePost = async (selectedFile, selectedVideoFile, selectedVideoRecordedFile, caption) => {
 		if (isLoading) return;
-		if (!selectedFile && !selectedVideoFile) throw new Error("Please select either an image or a video");
+		if (!selectedFile && !selectedVideoFile && !selectedVideoRecordedFile) throw new Error("Please select either an image or a video");
 		setIsLoading(true);
+
+		
 	
 		try {
 			const newPost = {
@@ -213,6 +241,27 @@ function useCreatePost() {
 				const videoURL = await getDownloadURL(videoRef);
 				await updateDoc(postDocRef, { videoURL: videoURL });
 			}
+			if (selectedVideoRecordedFile) {
+				const videoRecordedRef = ref(storage, `posts/${postDocRef.id}`);
+				await uploadBytes(videoRecordedRef, selectedVideoRecordedFile);
+				const videoRecordedURL = await getDownloadURL(videoRecordedRef);
+				await updateDoc(postDocRef, { videoRecordedURL: videoRecordedURL });
+			}
+			// if (selectedVideoRecordedFile) {
+			// 	const videoRecordedDataURL = URL.createObjectURL(selectedVideoRecordedFile);
+			// 	const videoRecordedRef = ref(storage, `posts/${postDocRef.id}`);
+			// 	await uploadString(videoRecordedRef, videoRecordedDataURL, "data_url");
+			// 	const videoRecordedURL = await getDownloadURL(videoRecordedRef);
+			// 	await updateDoc(postDocRef, { videoRecordedURL: videoRecordedURL });
+			// }
+
+			// if (selectedVideoRecordedFile) {
+			// 	const videoRecordedRef = ref(storage, `posts/${postDocRef.id}`);
+			// 	await uploadString(videoRecordedRef, selectedVideoRecordedFile, "data_url");
+			// 	const videoRecordedURL = await getDownloadURL(videoRecordedRef);
+			// 	await updateDoc(postDocRef, { videoRecordedURL: videoRecordedURL });
+			// }
+			
 	
 			if (userProfile.uid === authUser.uid) createPost({ ...newPost, id: postDocRef.id });
 	

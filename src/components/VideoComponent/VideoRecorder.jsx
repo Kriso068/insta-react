@@ -1,6 +1,6 @@
 import { Box, Button, Flex } from "@chakra-ui/react";
 import { useState, useRef, useEffect } from "react";
-const VideoRecorder = () => {
+const VideoRecorder = ({onRecordingComplete}) => {
 
     const mimeType = "video/webm";
     const [permission, setPermission] = useState(false);
@@ -75,6 +75,7 @@ const VideoRecorder = () => {
             const videoUrl = URL.createObjectURL(videoBlob);
             setRecordedVideo(videoUrl);
             setVideoChunks([]);
+            onRecordingComplete(videoUrl);
         };
     };
 
@@ -88,7 +89,6 @@ const VideoRecorder = () => {
                 ) : null}
                  {permission && recordingStatus === "inactive" ? (
                     <Button onClick={startRecording} >
-
                         Start Recording
                     </Button>
                 ) : null}
@@ -99,7 +99,7 @@ const VideoRecorder = () => {
                 ) : null}
             </Flex>
             <Flex>
-                {recordedVideo ? (
+                {/* {recordedVideo ? (
                     <Box>
                         <video src={recordedVideo} controls></video>
                         <Button>
@@ -108,8 +108,7 @@ const VideoRecorder = () => {
                             </a>
                         </Button>
                     </Box>
-                ) : null}
-          
+                ) : null} */}
             </Flex>
 
         </div>

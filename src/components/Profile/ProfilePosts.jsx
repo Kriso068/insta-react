@@ -1,12 +1,24 @@
 import { Box, Flex, Grid, Skeleton, Text, VStack } from "@chakra-ui/react";
 import ProfilePost from "./ProfilePost";
 import useGetUserPosts from "../../hooks/useGetUserPosts";
+import useUserProfileStore from "../../store/userProfileStore";
+import useAuthStore from "../../store/authStore";
 
 const ProfilePosts = () => {
     const { isLoading, posts } = useGetUserPosts();
 
+    const authUser = useAuthStore((state) => state.user);
+    const { userProfile } = useUserProfileStore();
+
+    const blockedUsers = userProfile ? userProfile.blockedUsers : [];
+
+    const banned = blockedUsers.includes(authUser.uid)
+
+    
     const noPostsFound = !isLoading && posts.length === 0;
     if (noPostsFound) return <NoPostsFound />;
+
+    
 
     return (
       <Grid
@@ -26,7 +38,7 @@ const ProfilePosts = () => {
             </VStack>
           ))}
 
-        {!isLoading && (
+        {!isLoading && !banned &&(
           <>
             {posts.map((post) => (
               <ProfilePost post={post} key={post.id} />

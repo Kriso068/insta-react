@@ -91,6 +91,9 @@ const ProfileSavedPost = ({ post }) => {
 				{post.videoURL && (
 					<video preload='true' controls src={post.videoURL} width={'100%'} height={'100%'}></video>
 				)}
+				{post.videoRecordedURL && (
+					<video autoPlay controls src={post.videoURL} alt='profile post' w={"100%"} h={"100%"} objectfit={"cover"}></video>
+				)}
 			</GridItem>
 
 			<Modal isOpen={isOpen} onClose={() => { onClose(); handleRefresh(); }} isCentered={true} size={{ base: "3xl", md: "5xl" }}>
@@ -119,6 +122,9 @@ const ProfileSavedPost = ({ post }) => {
 								)}
 								{post.videoURL && (
 									<video preload='true' controls src={post.videoURL} width={'100%'} height={'100%'}></video>
+								)}
+								{post.videoRecordedURL && (
+									<video autoPlay controls src={post.videoURL} alt='profile post' w={"100%"} h={"100%"} objectfit={"cover"}></video>
 								)}
 							</Flex>
 							<Flex flex={1} flexDir={"column"} px={10} display={{ base: "none", md: "flex" }}>

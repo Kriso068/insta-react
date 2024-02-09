@@ -96,9 +96,11 @@ const ProfilePost = ({ post }) => {
 					<Image src={post.imageURL} alt='profile post' w={"100%"} h={"100%"} objectFit={"cover"} />
 				)}
 				{post.videoURL && (
-					<video autoPlay controls src={post.videoURL} alt='profile post' w={"100%"} h={"100%"} objectFit={"cover"}></video>
+					<video autoPlay controls src={post.videoURL} alt='profile post' w={"100%"} h={"100%"} objectfit={"cover"}></video>
 				)}
-				{/* <Image src={post.imageURL} alt='profile post' w={"100%"} h={"100%"} objectFit={"cover"} /> */}
+				{post.videoRecordedURL && (
+					<video autoPlay controls src={post.videoURL} alt='profile post' w={"100%"} h={"100%"} objectfit={"cover"}></video>
+				)}
 			</GridItem>
 
 			<Modal isOpen={isOpen} onClose={onClose} isCentered={true} size={{ base: "3xl", md: "5xl" }}>
@@ -127,6 +129,9 @@ const ProfilePost = ({ post }) => {
 								)}
 								{post.videoURL && (
 									<video controls src={post.videoURL} height={'100%'} width={'100%'}></video>
+								)}
+								{post.videoRecordedURL && (
+									<video autoPlay controls src={post.videoURL} alt='profile post' w={"100%"} h={"100%"} objectfit={"cover"}></video>
 								)}
 							</Flex>
 							<Flex flex={1} flexDir={"column"} px={10} display={{ base: "none", md: "flex" }}>

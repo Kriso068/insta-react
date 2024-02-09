@@ -2,11 +2,13 @@ import { Avatar, AvatarGroup, Button, Flex, Link, Text, VStack } from "@chakra-u
 import useFollowUser from "../../hooks/useFollowUser";
 import { Link as RouterLink} from "react-router-dom";
 import useAuthStore from "../../store/authStore";
+import useBlockAndUnblockUser from "../../hooks/useBlockAndUnblockUser";
 
 
 const FollowerPageProfile = (follower) => {
   const authUser = useAuthStore((state) => state.user);
   const{ handleFollowUser, isFollowing, isUpdating } = useFollowUser(follower.follower.id);
+  const{ handleBlockUser, isBlocked, isUpdatingBlock } = useBlockAndUnblockUser(follower.follower.id);
   
 
   return (
@@ -46,6 +48,16 @@ const FollowerPageProfile = (follower) => {
 								isLoading={isUpdating}
 							>
 								{isFollowing ? "Unfollow" : "Follow"}
+							</Button>
+              <Button
+								bg={"red.500"}
+								color={"white"}
+								_hover={{ bg: "red.600" }}
+								size={{ base: "xs", md: "sm" }}
+								onClick={handleBlockUser}
+								isLoading={isUpdatingBlock}
+							>
+								{isBlocked ? "Unblock" : "Block"}
 							</Button>
 					</Flex>
         </Flex>

@@ -36,6 +36,7 @@ const GoogleAuth = ({ prefix }) => {
 					profilePicURL: newUser.user.photoURL,
 					followers: [],
 					following: [],
+					blockedUsers:[],
 					posts: [],
 					saved: [],
 					createdAt: Date.now(),
