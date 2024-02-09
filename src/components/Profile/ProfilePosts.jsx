@@ -38,12 +38,16 @@ const ProfilePosts = () => {
             </VStack>
           ))}
 
-        {!isLoading && !banned &&(
-          <>
-            {posts.map((post) => (
-              <ProfilePost post={post} key={post.id} />
-            ))}
-          </>
+        {!isLoading && (
+          !banned ? (
+            <>
+              {posts.map((post) => (
+                <ProfilePost post={post} key={post.id} />
+              ))}
+            </>
+          ) : (
+            "Profile is private"
+          )
         )}
       </Grid>
     );

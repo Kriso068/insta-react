@@ -15,6 +15,10 @@ const ProfileHeader = () => {
 	const visitingOwnProfileAndAuth = authUser && authUser.username === userProfile.username;
 	const visitingAnotherProfileAndAuth = authUser && authUser.username !== userProfile.username;
 	
+
+	const blockedUsers = userProfile ? userProfile.blockedUsers : [];
+
+    const banned = blockedUsers.includes(authUser.uid)
 	return (
 		<Flex gap={{ base: 4, sm: 10 }} py={10} direction={{ base: "column", sm: "row" }}>
 			<Link 
@@ -47,7 +51,7 @@ const ProfileHeader = () => {
 							</Button>
 						</Flex>
 					)}
-					{visitingAnotherProfileAndAuth && (
+					{visitingAnotherProfileAndAuth && !banned &&(
 						<Flex gap={4} alignItems={"center"} justifyContent={"center"}>
 							<Button
 								bg={"blue.500"}
@@ -70,6 +74,21 @@ const ProfileHeader = () => {
 								{isBlocked ? "Unblock" : "Block"}
 							</Button>
 						</Flex>
+					)}
+					{banned && (
+						<Flex>
+							<Button
+								bg={"red.500"}
+								color={"white"}
+								_hover={{ bg: "red.600" }}
+								size={{ base: "xs", md: "sm" }}
+								onClick={handleBlockUser}
+								isLoading={isUpdatingBlock}
+							>
+							{isBlocked ? "Unblock" : "Block"}
+						</Button>
+						</Flex>
+
 					)}
 				</Flex>
 
