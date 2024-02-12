@@ -80,7 +80,6 @@ const Search = () => {
 						{users && users.map((user) => (
 							<SuggestedUser key={user.uid} user={user} setUser={setUsers} />
 						))}
-						{/* {user && <SuggestedUser user={user} setUser={setUser} />} */}
 					</ModalBody>
 				</ModalContent>
 			</Modal>
