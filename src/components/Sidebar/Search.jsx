@@ -22,13 +22,18 @@ import SuggestedUser from "../SuggestedUsers/SuggestedUser";
 const Search = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const searchRef = useRef(null);
-	const { user, isLoading, getUserProfile, setUser } = useSearchUser();
+	const { users, isLoading, getUserProfile, setUsers } = useSearchUser();
 
 	const handleSearchUser = (e) => {
 		e.preventDefault();
 		getUserProfile(searchRef.current.value);
 	};
 
+
+	const handleCloseModal = () => {
+		onClose();
+		setUsers([]);
+	};
 	return (
 		<>
 			<Tooltip
@@ -54,7 +59,7 @@ const Search = () => {
 				</Flex>
 			</Tooltip>
 
-			<Modal isOpen={isOpen} onClose={onClose} motionPreset='slideInLeft'>
+			<Modal isOpen={isOpen} onClose={handleCloseModal} motionPreset='slideInLeft'>
 				<ModalOverlay />
 				<ModalContent bg={"black"} border={"1px solid gray"} maxW={"400px"}>
 					<ModalHeader>Search user</ModalHeader>
@@ -72,7 +77,10 @@ const Search = () => {
 								</Button>
 							</Flex>
 						</form>
-						{user && <SuggestedUser user={user} setUser={setUser} />}
+						{users && users.map((user) => (
+							<SuggestedUser key={user.uid} user={user} setUser={setUsers} />
+						))}
+						{/* {user && <SuggestedUser user={user} setUser={setUser} />} */}
 					</ModalBody>
 				</ModalContent>
 			</Modal>

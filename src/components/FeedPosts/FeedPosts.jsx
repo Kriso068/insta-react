@@ -5,9 +5,10 @@ import useGetFeedPosts from "../../hooks/useGetFeedPosts";
 const FeedPosts = () => {
 	const { isLoading, posts } = useGetFeedPosts();
 
+	
 	return (
 		<Container maxW={"container.sm"} py={10} px={2}>
-			{isLoading &&
+			{isLoading  &&
 				[0, 1, 2].map((_, idx) => (
 					<VStack key={idx} gap={4} alignItems={"flex-start"} mb={10}>
 						<Flex gap='2'>

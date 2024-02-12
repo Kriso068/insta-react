@@ -24,62 +24,62 @@ const FollowerPageProfile = (follower) => {
       </Link>
       <VStack>
         <Flex
-          gap={4}
-					direction={{ base: "column", sm: "row" }}
-					justifyContent={{ base: "center", sm: "flex-start" }}
-					alignItems={"center"}
-					w={"full"}
+          	gap={4}
+			direction={{ base: "column", sm: "row" }}
+			justifyContent={{ base: "center", sm: "flex-start" }}
+			alignItems={"center"}
+			w={"full"}
         >
-          <Link 
-            to={`/${follower.follower?.username}`}
-            as={RouterLink}
-          >
-            <Text>
-              {follower.follower?.username}
-            </Text>
-          </Link>
-          <Flex gap={4} alignItems={"center"} justifyContent={"center"}>
-							<Button
-								bg={"blue.500"}
-								color={"white"}
-								_hover={{ bg: "blue.600" }}
-								size={{ base: "xs", md: "sm" }}
-                onClick={handleFollowUser}
-								isLoading={isUpdating}
-							>
-								{isFollowing ? "Unfollow" : "Follow"}
-							</Button>
-              <Button
-								bg={"red.500"}
-								color={"white"}
-								_hover={{ bg: "red.600" }}
-								size={{ base: "xs", md: "sm" }}
-								onClick={handleBlockUser}
-								isLoading={isUpdatingBlock}
-							>
-								{isBlocked ? "Unblock" : "Block"}
-							</Button>
-					</Flex>
+        	<Link 
+				to={`/${follower.follower?.username}`}
+				as={RouterLink}
+			>
+				<Text>
+				{follower.follower?.username}
+				</Text>
+			</Link>
+			<Flex gap={4} alignItems={"center"} justifyContent={"center"}>
+				<Button
+					bg={"blue.500"}
+					color={"white"}
+					_hover={{ bg: "blue.600" }}
+					size={{ base: "xs", md: "sm" }}
+					onClick={handleFollowUser}
+					isLoading={isUpdating}
+				>
+					{isFollowing ? "Unfollow" : "Follow"}
+				</Button>
+				<Button
+					bg={"red.500"}
+					color={"white"}
+					_hover={{ bg: "red.600" }}
+					size={{ base: "xs", md: "sm" }}
+					onClick={handleBlockUser}
+					isLoading={isUpdatingBlock}
+				>
+					{isBlocked ? "Unblock" : "Block"}
+				</Button>
+			</Flex>
         </Flex>
         <Flex alignItems={"center"} gap={{ base: 2, sm: 4 }}>
-					<Text fontSize={{ base: "xs", md: "sm" }}>
-						<Text as='span' fontWeight={"bold"} mr={1}>
-							{follower.follower?.posts.length}
-						</Text>
-						Posts
-					</Text>
-					<Text fontSize={{ base: "xs", md: "sm" }}>
-						<Text as='span' fontWeight={"bold"} mr={1}>
-							{follower.follower?.followers.length}
-						</Text>
-						  Followers
-					</Text>
-					<Text fontSize={{ base: "xs", md: "sm" }}>
-						<Text as='span' fontWeight={"bold"} mr={1}>
-							{follower.follower?.following.length}
-						</Text>
-						Following
-					</Text>
+			<Text fontSize={{ base: "xs", md: "sm" }}>
+				<Text as='span' fontWeight={"bold"} mr={1}>
+					{follower.follower?.posts.length}
+				</Text>
+				Posts
+			</Text>
+			<Text fontSize={{ base: "xs", md: "sm" }}>
+				<Text as='span' fontWeight={"bold"} mr={1}>
+					{follower.follower?.followers.length}
+				</Text>
+					Followers
+			</Text>
+			<Text fontSize={{ base: "xs", md: "sm" }}>
+				<Text as='span' fontWeight={"bold"} mr={1}>
+					{follower.follower?.following.length}
+				</Text>
+				Following
+			</Text>
         </Flex>
       </VStack>
     </Flex>

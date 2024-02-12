@@ -5,12 +5,12 @@ import { firestore } from "../firebase/firebase";
 
 const useSearchUser = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [user, setUser] = useState(null);
+  const [users, setUsers] = useState([]);
   const showToast = useShowToast();
 
   const getUserProfile = async (username) => {
     setIsLoading(true);
-    setUser(null);
+    setUsers([]);
     try {
       // Convert the search query to lowercase and uppercase for case-insensitive search
       const lowercaseUsername = username.toLowerCase();
@@ -28,17 +28,17 @@ const useSearchUser = () => {
       if (querySnapshot.empty) return showToast("Error", "User not found", "error");
 
       querySnapshot.forEach((doc) => {
-        setUser(doc.data());
+        setUsers(prevUsers => [...prevUsers, doc.data()]);
       });
     } catch (error) {
       showToast("Error", error.message, "error");
-      setUser(null);
+      setUsers([]);
     } finally {
       setIsLoading(false);
     }
   };
 
-  return { isLoading, getUserProfile, user, setUser };
+  return { isLoading, getUserProfile, users, setUsers };
 };
 
 export default useSearchUser;
