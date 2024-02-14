@@ -41,6 +41,8 @@ const useSignUpWithEmailAndPassword = () => {
 					profilePicURL: "",
 					followers: [],
 					following: [],
+					messages: [],
+					blockedUsers: [],
 					posts: [],
 					saved: [],
 					createdAt: Date.now(),

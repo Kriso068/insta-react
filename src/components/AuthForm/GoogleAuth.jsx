@@ -37,6 +37,7 @@ const GoogleAuth = ({ prefix }) => {
 					followers: [],
 					following: [],
 					blockedUsers:[],
+					messages: [],
 					posts: [],
 					saved: [],
 					createdAt: Date.now(),
