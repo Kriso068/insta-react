@@ -51,7 +51,7 @@ const Notifications = () => {
             // Query for unread messages (where 'unread' field is true)
             const q = query(
                 collection(firestore, "privateMessages"),
-                where("users", "array-contains", authUser?.uid),
+                where("users", "array-contains", authUser.uid),
                 where("unread", "==", true),
                 orderBy("createdAt", "desc")
             );
