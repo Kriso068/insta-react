@@ -8,6 +8,10 @@ const useUserProfileStore = create((set) => ({
 		set((state) => ({
 			userProfile: { ...state.userProfile, posts: [post.id, ...state.userProfile.posts] },
 		})),
+	addMessage: (message) =>
+		set((state) => ({
+			userProfile: { ...state.userProfile, messages: [message.id, ...state.userProfile.messages] },
+		})),
 	deletePost: (postId) =>
 		set((state) => ({
 			userProfile: {

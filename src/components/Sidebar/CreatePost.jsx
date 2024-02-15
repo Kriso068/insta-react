@@ -247,21 +247,6 @@ function useCreatePost() {
 				const videoRecordedURL = await getDownloadURL(videoRecordedRef);
 				await updateDoc(postDocRef, { videoRecordedURL: videoRecordedURL });
 			}
-			// if (selectedVideoRecordedFile) {
-			// 	const videoRecordedDataURL = URL.createObjectURL(selectedVideoRecordedFile);
-			// 	const videoRecordedRef = ref(storage, `posts/${postDocRef.id}`);
-			// 	await uploadString(videoRecordedRef, videoRecordedDataURL, "data_url");
-			// 	const videoRecordedURL = await getDownloadURL(videoRecordedRef);
-			// 	await updateDoc(postDocRef, { videoRecordedURL: videoRecordedURL });
-			// }
-
-			// if (selectedVideoRecordedFile) {
-			// 	const videoRecordedRef = ref(storage, `posts/${postDocRef.id}`);
-			// 	await uploadString(videoRecordedRef, selectedVideoRecordedFile, "data_url");
-			// 	const videoRecordedURL = await getDownloadURL(videoRecordedRef);
-			// 	await updateDoc(postDocRef, { videoRecordedURL: videoRecordedURL });
-			// }
-			
 	
 			if (userProfile.uid === authUser.uid) createPost({ ...newPost, id: postDocRef.id });
 	

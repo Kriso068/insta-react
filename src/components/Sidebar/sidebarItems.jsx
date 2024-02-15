@@ -1,3 +1,4 @@
+
 import CreatePost from "./CreatePost";
 import Home from "./Home";
 import Notifications from "./Notifications";
@@ -12,6 +13,7 @@ const SidebarItems = () => {
 			<Notifications />
 			<CreatePost />
 			<ProfileLink />
+			
 		</>
 	);
 };

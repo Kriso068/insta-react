@@ -10,7 +10,7 @@ const FeedPost = ({ post }) => {
 	const authUser = useAuthStore((state) => state.user);
 	const blockedUsers = userProfile ? userProfile.blockedUsers : [];
 
-    const banned = blockedUsers.includes(authUser.uid)
+    const banned = blockedUsers.includes(authUser?.uid)
 
 
 	return (

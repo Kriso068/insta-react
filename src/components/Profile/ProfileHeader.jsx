@@ -5,6 +5,7 @@ import useAuthStore from "../../store/authStore";
 import EditProfile from "./EditProfile";
 import useFollowUser from "../../hooks/useFollowUser";
 import useBlockAndUnblockUser from "../../hooks/useBlockAndUnblockUser";
+import { BsFillSendFill } from "react-icons/bs";
 
 const ProfileHeader = () => {
 	const { userProfile } = useUserProfileStore();
@@ -19,6 +20,7 @@ const ProfileHeader = () => {
 	const blockedUsers = userProfile ? userProfile.blockedUsers : [];
 
     const banned = blockedUsers.includes(authUser.uid)
+
 	return (
 		<Flex gap={{ base: 4, sm: 10 }} py={10} direction={{ base: "column", sm: "row" }}>
 			<Link 
@@ -164,7 +166,12 @@ const ProfileHeader = () => {
 						</Text>
 					</Flex>
 				<Text fontSize={"sm"}>{userProfile.bio}</Text>
-				
+				<Link 
+					to={`/message/${userProfile?.username}`}
+					as={RouterLink}
+				>
+					<BsFillSendFill  />
+				</Link>
 			</VStack>
 			{isOpen && <EditProfile isOpen={isOpen} onClose={onClose} />}
 		</Flex>
