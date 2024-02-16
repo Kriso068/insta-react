@@ -51,6 +51,12 @@ const ProfileHeader = () => {
 							>
 								Edit Profile
 							</Button>
+							<Link 
+							to={`/${authUser?.username}/messages`}
+							as={RouterLink}
+						>
+							<BsFillSendFill  />
+						</Link>
 						</Flex>
 					)}
 					{visitingAnotherProfileAndAuth && !banned &&(
@@ -166,12 +172,12 @@ const ProfileHeader = () => {
 						</Text>
 					</Flex>
 				<Text fontSize={"sm"}>{userProfile.bio}</Text>
-				<Link 
+				{/* <Link 
 					to={`/message/${userProfile?.username}`}
 					as={RouterLink}
 				>
 					<BsFillSendFill  />
-				</Link>
+				</Link> */}
 			</VStack>
 			{isOpen && <EditProfile isOpen={isOpen} onClose={onClose} />}
 		</Flex>

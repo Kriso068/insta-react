@@ -59,22 +59,8 @@ const ChatBox = () => {
                     ) : null
                 ))}
                 
-                {/* {messages.map((message) => (
-                    <Message key={`${message.id}-${message.uid}`} message={message} authUser={authUser} />
-                ))} */}
             </div>
             <span ref={scroll}></span>
-            {/* {messages.length > 0 ?(
-                <ReplyMessage
-                    scroll={scroll}
-                    authUser={authUser}
-                    senderUid={
-                        messages[0].users[0] === authUser.uid ? messages[0].users[1] : messages[0].users[0]
-                    }
-                /> 
-                ):(
-                <SendMessage scroll={scroll} authUser={authUser} userProfileUid={userProfile?.uid} />
-            )} */}
             {messages.length > 0 ? (
                 (messages[0].users.includes(authUser.uid) && messages[0].users.includes(userProfile.uid)) ? (
                     <ReplyMessage

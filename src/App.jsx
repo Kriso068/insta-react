@@ -10,6 +10,7 @@ import FollowingsPage from "./pages/FollowingsPage/FollowingsPage"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { auth } from "./firebase/firebase"
 import Chatbox from "./pages/ChatBox/Chatbox"
+import MyMessages from "./components/Messages/MyMessages"
 
 
 function App() {
@@ -25,7 +26,8 @@ function App() {
         <Route path='/:username/likes' element={<LikedPosts />}/>
         <Route path='/:username/followers' element={<FollowersPage />}/>
         <Route path='/:username/followings' element={<FollowingsPage />}/>
-        <Route path='/message/:username/' element={<Chatbox />}/>
+        <Route path='/:username/messages' element={<MyMessages />}/>
+        <Route path='/message/:username/:sender' element={<Chatbox />}/>
       </Routes>
     </PageLayout>
   )
