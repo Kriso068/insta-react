@@ -27,7 +27,7 @@ function App() {
         <Route path='/:username/followers' element={<FollowersPage />}/>
         <Route path='/:username/followings' element={<FollowingsPage />}/>
         <Route path='/:username/messages' element={<MyMessages />}/>
-        <Route path='/message/:username/:sender' element={<Chatbox />}/>
+        <Route path='/message/:username/:sender' element={<Chatbox/>}/>
       </Routes>
     </PageLayout>
   )

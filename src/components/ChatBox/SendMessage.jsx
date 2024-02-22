@@ -5,9 +5,11 @@ import { firestore } from "../../firebase/firebase";
 import './chatBox.css';
 
 
-const SendMessage = ({ scroll, authUser, userProfileUid }) => {
+const SendMessage = ({ scroll, authUser, senderUserProfile }) => {
 
   const [message, setMessage] = useState("");
+  const users = [authUser?.uid, senderUserProfile]; 
+
  
   const sendMessage = async (event) => {
     event.preventDefault();
@@ -16,7 +18,6 @@ const SendMessage = ({ scroll, authUser, userProfileUid }) => {
       return;
     }
 
-    const users = [authUser?.uid, userProfileUid]; 
 
   
     await addDoc(collection(firestore, "privateMessages"), {
@@ -31,6 +32,16 @@ const SendMessage = ({ scroll, authUser, userProfileUid }) => {
     setMessage("");
     scroll.current.scrollIntoView({ behavior: "smooth" });
   };
+
+//   console.log("authUser.uid:", authUser.uid);
+// console.log("users:", users);
+// console.log("Date.now():", Date.now());
+
+  // console.log("Message:", message);
+
+//   console.log("authUser:", authUser);
+// console.log("authUser.profilePicURL:", authUser.profilePicURL);
+// console.log("authUser.fullName:", authUser.fullName);
 
 
 

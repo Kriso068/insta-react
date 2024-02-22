@@ -27,7 +27,7 @@ const useGetUserProfileById = (userId) => {
 		getUserProfile();
 	}, [showToast, setUserProfile, userId]);
 
-	return { isLoading, userProfile };
+	return { isLoading, userProfile, setUserProfile };
 };
 
 export default useGetUserProfileById;
