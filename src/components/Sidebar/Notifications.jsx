@@ -137,6 +137,24 @@ const Notifications = () => {
    
 
 
+    // const fetchUnreadMessages = async () => {
+    //     try {
+    //         if (authUser && authUser.uid) {
+    //             // Query for unread messages (where 'unread' field is true)
+    //             const q = query(
+    //                 collection(firestore, "privateMessages"),
+    //                 where("users", "array-contains", authUser.uid),
+    //                 where("unread", "==", true),
+    //                 orderBy("createdAt", "desc")
+    //             );
+    //             const querySnapshot = await getDocs(q);
+    //             const unreadMessagesData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    //             setUnreadMessages(unreadMessagesData);
+    //         }
+    //     } catch (error) {
+    //         console.error("Error fetching unread messages:", error);
+    //     }
+    // };
     const fetchUnreadMessages = async () => {
         try {
             if (authUser && authUser.uid) {
@@ -149,12 +167,16 @@ const Notifications = () => {
                 );
                 const querySnapshot = await getDocs(q);
                 const unreadMessagesData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                setUnreadMessages(unreadMessagesData);
+                
+                // Filter out messages sent by the currently authenticated user
+                const filteredUnreadMessages = unreadMessagesData.filter(message => message.uid !== authUser.uid);
+                setUnreadMessages(filteredUnreadMessages);
             }
         } catch (error) {
             console.error("Error fetching unread messages:", error);
         }
     };
+    
 
     const handleNotificationClick = () => {
         setShowModal(true);

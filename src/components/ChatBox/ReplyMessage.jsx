@@ -7,7 +7,6 @@ import './chatBox.css';
 const ReplyMessage = ({ scroll, authUser, senderUid }) => {
 
   const [message, setMessage] = useState("");
- 
 
   const sendMessage = async (event) => {
     event.preventDefault();
