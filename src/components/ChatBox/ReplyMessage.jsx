@@ -4,7 +4,7 @@ import { firestore } from "../../firebase/firebase";
 import './chatBox.css';
 
 
-const ReplyMessage = ({ scroll, authUser, senderUid }) => {
+const ReplyMessage = ({ scroll, authUser, receiverUid }) => {
 
   const [message, setMessage] = useState("");
 
@@ -15,13 +15,14 @@ const ReplyMessage = ({ scroll, authUser, senderUid }) => {
       return;
     }
 
-    const users = [authUser?.uid, senderUid]; 
+    const users = [authUser?.uid, receiverUid]; 
 
     await addDoc(collection(firestore, "privateMessages"), {
       text: message,
       avatar: authUser.profilePicURL,
       name: authUser.fullName,
-      uid: authUser.uid,
+      senderUid: authUser.uid,
+      receiverUid: receiverUid,
       unread: true,
       users: users.sort(),
       createdAt: Date.now(),
@@ -46,7 +47,7 @@ const ReplyMessage = ({ scroll, authUser, senderUid }) => {
         value={message}
         onChange={(e) => setMessage(e.target.value)}
       />
-      <button type="submit">Reply</button>
+      <button type="submit">Send</button>
     </form>
   );
 };

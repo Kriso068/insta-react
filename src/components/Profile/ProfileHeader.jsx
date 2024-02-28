@@ -1,5 +1,5 @@
 import { Avatar, AvatarGroup, Button, Flex, Text, Link, VStack, useDisclosure } from "@chakra-ui/react";
-import { Link as RouterLink} from "react-router-dom";
+import { Link as RouterLink, useNavigate} from "react-router-dom";
 import useUserProfileStore from "../../store/userProfileStore";
 import useAuthStore from "../../store/authStore";
 import EditProfile from "./EditProfile";
@@ -20,6 +20,17 @@ const ProfileHeader = () => {
 	const blockedUsers = userProfile ? userProfile.blockedUsers : [];
 
     const banned = blockedUsers.includes(authUser.uid)
+
+
+	const navigate = useNavigate();
+
+    const handleSendMessage = (userProfile) => {
+
+        if (userProfile) {
+            navigate(`/message/${authUser?.username}/${userProfile.username}`);
+        }
+    }
+
 
 	return (
 		<Flex gap={{ base: 4, sm: 10 }} py={10} direction={{ base: "column", sm: "row" }}>
@@ -52,9 +63,9 @@ const ProfileHeader = () => {
 								Edit Profile
 							</Button>
 							<Link 
-							to={`/${authUser?.username}/messages`}
-							as={RouterLink}
-						>
+								to={`/${authUser?.username}/messages`}
+								as={RouterLink}
+							>
 							<BsFillSendFill  />
 						</Link>
 						</Flex>
@@ -172,12 +183,11 @@ const ProfileHeader = () => {
 						</Text>
 					</Flex>
 				<Text fontSize={"sm"}>{userProfile.bio}</Text>
-				{/* <Link 
-					to={`/message/${userProfile?.username}`}
-					as={RouterLink}
-				>
-					<BsFillSendFill  />
-				</Link> */}
+				
+				<BsFillSendFill  
+					onClick={() => handleSendMessage(userProfile)}
+				/>
+				
 			</VStack>
 			{isOpen && <EditProfile isOpen={isOpen} onClose={onClose} />}
 		</Flex>
