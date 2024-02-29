@@ -191,7 +191,7 @@ const MyMessages = () => {
                         >
                             <Flex alignItems="center" gap={3} >
                                 <AvatarGroup>
-                                    <Avatar src={userProfile.avatar} alt={'profile pic'} >
+                                    <Avatar src={userProfile.profilePicURL} alt={'profile pic'} >
                                         {messageCount > 0 &&  ( 
                                             <AvatarBadge boxSize="1.25em" bg="red.500" fontSize="0.75em" position="absolute" top="-2" right="-2">
                                                 {messageCount}

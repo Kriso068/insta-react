@@ -168,27 +168,29 @@ const ChatBox = () => {
         };
     }, [sender]);
 
-    console.log("Sender User Profile:", senderUserProfile);
-    console.log("Authenticated User:", authUser);
-
     useEffect(() => {
         if (!authUser || !senderUserProfile) return;
-
+    
         const q = query(
             collection(firestore, "privateMessages"),
-            where("users", "array-contains", [senderUserProfile.uid, authUser.uid]),
             orderBy("createdAt", "desc"),
             limit(50)
         );
-
+    
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             const fetchedMessages = [];
             querySnapshot.forEach((doc) => {
-                fetchedMessages.push({ ...doc.data(), id: doc.id });
+                const messageData = doc.data();
+                if (
+                    messageData.users.includes(authUser.uid) &&
+                    messageData.users.includes(senderUserProfile.uid)
+                ) {
+                    fetchedMessages.push({ ...messageData, id: doc.id });
+                }
             });
             const sortedMessages = fetchedMessages.sort((a, b) => a.createdAt - b.createdAt);
             setMessages(sortedMessages);
-            
+    
             fetchedMessages.forEach(async (message) => {
                 if (message.uid === senderUserProfile.uid && message.unread) {
                     const messageRef = doc(firestore, "privateMessages", message.id);
@@ -202,7 +204,7 @@ const ChatBox = () => {
                 }
             });
         });
-        
+    
         return () => unsubscribe();
     }, [authUser, senderUserProfile]);
     

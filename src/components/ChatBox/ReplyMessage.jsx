@@ -24,6 +24,7 @@ const ReplyMessage = ({ scroll, authUser, receiverUid }) => {
       senderUid: authUser.uid,
       receiverUid: receiverUid,
       unread: true,
+      uid: authUser.uid,
       users: users.sort(),
       createdAt: Date.now(),
     });

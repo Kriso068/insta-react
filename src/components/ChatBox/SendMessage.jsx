@@ -24,6 +24,7 @@ const SendMessage = ({ scroll, authUser, receiverUid }) => {
       name: authUser.fullName,
       senderUid: authUser.uid,
       receiverUid: receiverUid,
+      uid: authUser.uid,
       unread: true,
       users: users.sort(),
       createdAt: Date.now(),
