@@ -72,13 +72,15 @@ const VideoRecorder = ({onRecordingComplete}) => {
         mediaRecorder.current.stop();
         mediaRecorder.current.onstop = () => {
             const videoBlob = new Blob(videoChunks, { type: mimeType });
-            const videoUrl = URL.createObjectURL(videoBlob);
-            setRecordedVideo(videoUrl);
-            setVideoChunks([]);
-            onRecordingComplete(videoUrl);
+            const reader = new FileReader();
+            reader.readAsDataURL(videoBlob);
+            reader.onloadend = () => {
+                setRecordedVideo(reader.result);
+                setVideoChunks([]);
+                onRecordingComplete(reader.result);
+            };
         };
     };
-
     return (
         <div>
             <Flex>

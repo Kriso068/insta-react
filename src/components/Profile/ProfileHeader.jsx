@@ -11,15 +11,15 @@ const ProfileHeader = () => {
 	const { userProfile } = useUserProfileStore();
 	const authUser = useAuthStore((state) => state.user);
 	const { isOpen, onOpen, onClose } = useDisclosure();
-	const{ handleFollowUser, isFollowing, isUpdating } = useFollowUser(userProfile.uid);
-	const{ handleBlockUser, isBlocked, isUpdatingBlock } = useBlockAndUnblockUser(userProfile.uid);
+	const{ handleFollowUser, isFollowing, isUpdating } = useFollowUser(userProfile?.uid);
+	const{ handleBlockUser, isBlocked, isUpdatingBlock } = useBlockAndUnblockUser(userProfile?.uid);
 	const visitingOwnProfileAndAuth = authUser && authUser.username === userProfile.username;
 	const visitingAnotherProfileAndAuth = authUser && authUser.username !== userProfile.username;
 	
 
 	const blockedUsers = userProfile ? userProfile.blockedUsers : [];
 
-    const banned = blockedUsers.includes(authUser.uid)
+    const banned = blockedUsers.includes(authUser?.uid)
 
 
 	const navigate = useNavigate();
@@ -92,6 +92,9 @@ const ProfileHeader = () => {
 							>
 								{isBlocked ? "Unblock" : "Block"}
 							</Button>
+							<BsFillSendFill  
+								onClick={() => handleSendMessage(userProfile)}
+							/>
 						</Flex>
 					)}
 					{banned && (
@@ -126,7 +129,6 @@ const ProfileHeader = () => {
 						</Text>
 						<Text fontSize={{ base: "xs", md: "sm" }}>
 							<Text as='span' fontWeight={"bold"} mr={1}>
-								{/* {userProfile.followers.length} */}
 								{authUser.followers.length}
 								
 							</Text>
@@ -161,7 +163,6 @@ const ProfileHeader = () => {
 					</Text>
 					<Text fontSize={{ base: "xs", md: "sm" }}>
 						<Text as='span' fontWeight={"bold"} mr={1}>
-							{/* {userProfile.followers.length} */}
 							{userProfile.followers.length}
 							
 						</Text>
@@ -184,9 +185,7 @@ const ProfileHeader = () => {
 					</Flex>
 				<Text fontSize={"sm"}>{userProfile.bio}</Text>
 				
-				<BsFillSendFill  
-					onClick={() => handleSendMessage(userProfile)}
-				/>
+				
 				
 			</VStack>
 			{isOpen && <EditProfile isOpen={isOpen} onClose={onClose} />}

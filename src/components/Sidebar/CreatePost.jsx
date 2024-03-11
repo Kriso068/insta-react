@@ -129,7 +129,6 @@ const CreatePost = () => {
 								size={16}
 							/>
 
-							{/* {recordOption === "video" ? <VideoRecorder /> : <AudioRecorder />} */}
 							{recordOption === "video" && <VideoRecorder  onRecordingComplete={handleRecordingComplete} />}
 						</Flex>
 						{selectedFile && (
@@ -229,21 +228,22 @@ function useCreatePost() {
 			await updateDoc(userDocRef, { posts: arrayUnion(postDocRef.id) });
 	
 			if (selectedFile) {
-				const imageRef = ref(storage, `posts/${postDocRef.id}`);
+				const imageRef = ref(storage, `posts/${postDocRef.id}/image`);
 				await uploadString(imageRef, selectedFile, "data_url");
 				const imageURL = await getDownloadURL(imageRef);
 				await updateDoc(postDocRef, { imageURL: imageURL });
 			}
 	
 			if (selectedVideoFile) {
-				const videoRef = ref(storage, `posts/${postDocRef.id}`);
+				const videoRef = ref(storage, `posts/${postDocRef.id}/video`);
 				await uploadString(videoRef, selectedVideoFile, "data_url");
 				const videoURL = await getDownloadURL(videoRef);
 				await updateDoc(postDocRef, { videoURL: videoURL });
 			}
 			if (selectedVideoRecordedFile) {
-				const videoRecordedRef = ref(storage, `posts/${postDocRef.id}`);
-				await uploadBytes(videoRecordedRef, selectedVideoRecordedFile);
+				const videoRecordedRef = ref(storage, `posts/${postDocRef.id}/recordedVideo`);
+				// await uploadBytes(videoRecordedRef, selectedVideoRecordedFile);
+				await uploadString(videoRecordedRef, selectedVideoRecordedFile, "data_url");
 				const videoRecordedURL = await getDownloadURL(videoRecordedRef);
 				await updateDoc(postDocRef, { videoRecordedURL: videoRecordedURL });
 			}

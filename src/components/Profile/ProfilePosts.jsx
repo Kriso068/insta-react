@@ -12,7 +12,7 @@ const ProfilePosts = () => {
 
     const blockedUsers = userProfile ? userProfile.blockedUsers : [];
 
-    const banned = blockedUsers.includes(authUser.uid)
+    const banned = blockedUsers.includes(authUser?.uid)
 
     
     const noPostsFound = !isLoading && posts.length === 0;

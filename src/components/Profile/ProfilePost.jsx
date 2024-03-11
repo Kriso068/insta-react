@@ -9,7 +9,7 @@ import useUserProfileStore from "../../store/userProfileStore";
 import useAuthStore from "../../store/authStore";
 import useShowToast from "../../hooks/useShowToast";
 import { useState } from "react";
-import { deleteObject, ref } from "firebase/storage";
+import { deleteObject, getMetadata, ref } from "firebase/storage";
 import { firestore, storage } from "../../firebase/firebase";
 import { arrayRemove, deleteDoc, doc, updateDoc } from "firebase/firestore";
 import usePostStore from "../../store/postStore";
@@ -27,29 +27,66 @@ const ProfilePost = ({ post }) => {
 	const handleDeletePost = async () => {
 		if (!window.confirm("Are you sure you want to delete this post?")) return;
 		if (isDeleting) return;
-
+	
 		try {
-			const imageRef = ref(storage, `posts/${post.id}`);
-			await deleteObject(imageRef);
-			// const videoRef = ref(storage, `posts/${post.id}/video`);
-			// await deleteObject(videoRef);
+			// Delete image if it exists
+			const imageRef = ref(storage, `posts/${post.id}/image`);
+			const imageExists = await doesObjectExist(imageRef);
+			if (imageExists) {
+				await deleteObject(imageRef);
+			}
+
+			
+	
+			// Delete video if it exists
+			const videoRef = ref(storage, `posts/${post.id}/video`);
+			const videoExists = await doesObjectExist(videoRef);
+			if (videoExists) {
+				await deleteObject(videoRef);
+			}
+		
+	
+			// Delete recorded video if it exists
+			const recordedVideoRef = ref(storage, `posts/${post.id}/recordedVideo`);
+			const recordedVideoExists = await doesObjectExist(recordedVideoRef);
+			if (recordedVideoExists) {
+				await deleteObject(recordedVideoRef);
+			}
+			
+	
+			// Delete post document from Firestore
 			const userRef = doc(firestore, "users", authUser.uid);
 			await deleteDoc(doc(firestore, "posts", post.id));
-
 			await updateDoc(userRef, {
 				posts: arrayRemove(post.id),
 			});
-
+	
 			deletePost(post.id);
 			decrementPostsCount(post.id);
 			showToast("Success", "Post deleted successfully", "success");
 		} catch (error) {
+			console.error("Error deleting post:", error);
 			showToast("Error", error.message, "error");
 		} finally {
 			setIsDeleting(false);
 		}
 	};
-
+	
+	// Helper function to check if object exists
+	const doesObjectExist = async (ref) => {
+		try {
+			await getMetadata(ref);
+			return true;
+		} catch (error) {
+			if (error.code === 'storage/object-not-found') {
+				return false;
+			}
+			console.error('Error checking object existence:', error);
+			throw error;
+		}
+	};
+	
+	
 	return (
 		<>
 			<GridItem
@@ -91,16 +128,16 @@ const ProfilePost = ({ post }) => {
 						</Flex>
 					</Flex>
 				</Flex>
-
 				{post.imageURL && (
-					<Image src={post.imageURL} alt='profile post' w={"100%"} h={"100%"} objectFit={"cover"} />
+					<Image src={post.imageURL} alt='image' w={"100%"} h={"100%"} objectFit={"cover"} />
 				)}
 				{post.videoURL && (
-					<video autoPlay controls src={post.videoURL} alt='profile post' w={"100%"} h={"100%"} objectfit={"cover"}></video>
+					<video controls src={post.videoURL} alt='video' w={"100%"} h={"100%"} objectfit={"cover"}></video>
 				)}
 				{post.videoRecordedURL && (
-					<video autoPlay controls src={post.videoURL} alt='profile post' w={"100%"} h={"100%"} objectfit={"cover"}></video>
+					<video controls src={post.videoRecordedURL} alt='video' w={"100%"} h={"100%"} objectfit={"cover"}></video>
 				)}
+				
 			</GridItem>
 
 			<Modal isOpen={isOpen} onClose={onClose} isCentered={true} size={{ base: "3xl", md: "5xl" }}>
@@ -131,7 +168,7 @@ const ProfilePost = ({ post }) => {
 									<video controls src={post.videoURL} height={'100%'} width={'100%'}></video>
 								)}
 								{post.videoRecordedURL && (
-									<video autoPlay controls src={post.videoURL} alt='profile post' w={"100%"} h={"100%"} objectfit={"cover"}></video>
+									<video autoPlay controls src={post.videoRecordedURL} alt='profile post' w={"100%"} h={"100%"} objectfit={"cover"}></video>
 								)}
 							</Flex>
 							<Flex flex={1} flexDir={"column"} px={10} display={{ base: "none", md: "flex" }}>

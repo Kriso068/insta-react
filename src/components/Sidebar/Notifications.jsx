@@ -20,58 +20,6 @@ const Notifications = () => {
         }
     }, [authUser]);
 
-    // const fetchUnreadMessages = async () => {
-    //     try {
-    //         const unreadMessagesData = [];
-    //         const senderUids = new Set();
-
-    //         const q = query(
-    //             collection(firestore, "privateMessages"),
-    //             where("users", "array-contains", authUser.uid),
-    //             where("unread", "==", true),
-    //             orderBy("createdAt", "desc")
-    //         );
-
-    //         const querySnapshot = await getDocs(q);
-    //         querySnapshot.forEach((doc) => {
-    //             const message = { id: doc.id, ...doc.data() };
-    //             const senderUid = message.users.find(uid => uid !== authUser.uid);
-    //             if (!senderUids.has(senderUid)) {
-    //                 senderUids.add(senderUid);
-    //                 unreadMessagesData.push(message);
-    //             }
-    //         });
-
-    //         setUnreadMessages(unreadMessagesData);
-    //     } catch (error) {
-    //         console.error("Error fetching unread messages:", error);
-    //     }
-    // };
-    // const fetchUnreadMessages = async () => {
-    //     try {
-    //         const q = query(
-    //             collection(firestore, "privateMessages"),
-    //             where("users", "array-contains", authUser.uid),
-    //             where("unread", "==", true),
-    //             orderBy("createdAt", "desc")
-    //         );
-    
-    //         const querySnapshot = await getDocs(q);
-    //         const unreadMessagesData = {};
-    //         querySnapshot.forEach((doc) => {
-    //             const message = { id: doc.id, ...doc.data() };
-    //             const senderUid = message.senderUid;
-    //             if (!unreadMessagesData[senderUid]) {
-    //                 unreadMessagesData[senderUid] = message;
-    //             }
-    //         });
-    
-    //         setUnreadMessages(Object.values(unreadMessagesData));
-    //     } catch (error) {
-    //         console.error("Error fetching unread messages:", error);
-    //     }
-    // };
-
     const fetchUnreadMessages = async () => {
         try {
             const q = query(
@@ -112,6 +60,7 @@ const Notifications = () => {
             const userRef = await getDoc(doc(firestore, "users", senderUid));
             if (userRef.exists()) {
                 setSenderUserProfile(userRef.data());
+                setShowModal(false);
             }
         } catch (error) {
             console.error("Error", error.message);

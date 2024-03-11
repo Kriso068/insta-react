@@ -3,11 +3,14 @@ import { auth, firestore } from "../firebase/firebase";
 import { collection, doc, getDocs, query, setDoc, where } from "firebase/firestore";
 import useShowToast from "./useShowToast";
 import useAuthStore from "../store/authStore";
+import defaultProfilePicURL from '../assets/avatar-default.png';
+
 
 const useSignUpWithEmailAndPassword = () => {
 	const [createUserWithEmailAndPassword, , loading, error] = useCreateUserWithEmailAndPassword(auth);
 	const showToast = useShowToast();
 	const loginUser = useAuthStore((state) => state.login);
+	
 
 	const signup = async (inputs) => {
 		if (!inputs.email || !inputs.password || !inputs.username || !inputs.fullName) {
@@ -38,7 +41,7 @@ const useSignUpWithEmailAndPassword = () => {
 					username: inputs.username,
 					fullName: inputs.fullName,
 					bio: "",
-					profilePicURL: "",
+					profilePicURL: defaultProfilePicURL,
 					followers: [],
 					following: [],
 					messages: [],
