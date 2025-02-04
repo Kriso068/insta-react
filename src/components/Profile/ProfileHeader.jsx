@@ -19,6 +19,9 @@ const ProfileHeader = () => {
 
 	const blockedUsers = userProfile ? userProfile.blockedUsers : [];
 
+	console.log(blockedUsers);
+	
+
     const banned = blockedUsers.includes(authUser?.uid)
 
 

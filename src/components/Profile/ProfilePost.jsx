@@ -162,10 +162,10 @@ const ProfilePost = ({ post }) => {
 								alignItems={"center"}
 							>
 								{post.imageURL && (
-									<Image src={post.imageURL} alt='profile post' />
+									<Image src={post.imageURL} alt='profile post' w={"100%"} h={"100%"} objectfit={"cover"} />
 								)}
 								{post.videoURL && (
-									<video controls src={post.videoURL} height={'100%'} width={'100%'}></video>
+									<video controls src={post.videoURL} w={"100%"} h={"100%"} objectfit={"cover"}></video>
 								)}
 								{post.videoRecordedURL && (
 									<video autoPlay controls src={post.videoRecordedURL} alt='profile post' w={"100%"} h={"100%"} objectfit={"cover"}></video>

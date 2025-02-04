@@ -86,10 +86,10 @@ const ProfileSavedPost = ({ post }) => {
 				</Flex>
 
 				{post.imageURL && (
-					<Image src={post.imageURL} alt="FEED POST IMG" />
+					<Image src={post.imageURL} alt="FEED POST IMG" w={"100%"} h={"100%"} objectfit={"cover"}/>
 				)}
 				{post.videoURL && (
-					<video preload='true' controls src={post.videoURL} width={'100%'} height={'100%'}></video>
+					<video preload='true' controls src={post.videoURL} w={"100%"} h={"100%"} objectfit={"cover"}></video>
 				)}
 				{post.videoRecordedURL && (
 					<video autoPlay controls src={post.videoURL} alt='profile post' w={"100%"} h={"100%"} objectfit={"cover"}></video>

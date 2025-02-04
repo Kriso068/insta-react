@@ -77,7 +77,7 @@ const Search = () => {
 								</Button>
 							</Flex>
 						</form>
-						{users && users.map((user) => (
+						{Array.isArray(users) && users.map((user) => (
 							<SuggestedUser key={user.uid} user={user} setUser={setUsers} />
 						))}
 					</ModalBody>
