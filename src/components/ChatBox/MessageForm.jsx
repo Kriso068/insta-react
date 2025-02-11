@@ -125,7 +125,7 @@ const MessageForm = ({ scroll, authUser, receiverUid, buttonText = "Send" }) => 
           textColor="black"
         />
         {/* Styled Button */}
-        <Button type="submit" colorScheme="blue">
+        <Button type="submit" bgColor="#88dded">
           {buttonText}
         </Button>
       </Flex>
