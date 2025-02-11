@@ -16,14 +16,9 @@ const ProfileHeader = () => {
 	const visitingOwnProfileAndAuth = authUser && authUser.username === userProfile.username;
 	const visitingAnotherProfileAndAuth = authUser && authUser.username !== userProfile.username;
 	
-
 	const blockedUsers = userProfile ? userProfile.blockedUsers : [];
-
-	console.log(blockedUsers);
 	
-
     const banned = blockedUsers.includes(authUser?.uid)
-
 
 	const navigate = useNavigate();
 
@@ -33,7 +28,6 @@ const ProfileHeader = () => {
             navigate(`/message/${authUser?.username}/${userProfile.username}`);
         }
     }
-
 
 	return (
 		<Flex gap={{ base: 4, sm: 10 }} py={10} direction={{ base: "column", sm: "row" }}>
