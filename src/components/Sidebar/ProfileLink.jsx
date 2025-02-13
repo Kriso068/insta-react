@@ -12,6 +12,7 @@ const ProfileLink = () => {
 			placement='right'
 			ml={1}
 			openDelay={500}
+			isDisabled={true}
 			display={{ base: "block", md: "none" }}
 		>
 			<Link
@@ -26,7 +27,7 @@ const ProfileLink = () => {
 				w={{ base: 10, md: "full" }}
 				justifyContent={{ base: "center", md: "flex-start" }}
 			>
-				<Avatar size={"sm"} src={authUser?.profilePicURL || ""} />
+				<Avatar size={"sm"} src={authUser?.profilePicURL || ""} border="1px solid white"/>
 				<Box display={{ base: "none", md: "block" }}>Profile</Box>
 			</Link>
 		</Tooltip>

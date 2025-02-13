@@ -84,9 +84,10 @@ const MyMessages = () => {
                     fetchedUsers[otherUserUid] = {
                         userProfile: null,
                         messageCount: 0,
-                        latestMessage: message.text,
+                        
                     };
                 }
+
 
                 // Increment message count for unread messages where the current user is the receiver
                 if (message.unread && message.receiverUid === authUser.uid) {
@@ -141,9 +142,6 @@ const MyMessages = () => {
                                 </AvatarGroup>
                                 <Flex direction="column">
                                     <Text fontWeight="bold">{userProfile.username}</Text>
-                                    <Text fontSize="sm" color="gray.400">
-                                        {latestMessage}
-                                    </Text>
                                 </Flex>
                             </Flex>
                         </div>

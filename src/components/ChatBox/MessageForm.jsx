@@ -47,12 +47,13 @@ const MessageForm = ({ scroll, authUser, receiverUid, buttonText = "Send" }) => 
       <label htmlFor="messageInput" hidden>
         Enter Message
       </label>
-      <Flex align="center" gap={2}>
+      <Flex align="center" gap={2} px={5} position={"fixed"} bottom={82} w={"100%"}>
         {/* Styled Input */}
         <Input
           id="messageInput"
           name="messageInput"
           type="text"
+          textColor="black"
           placeholder="Type message..."
           value={message}
           onChange={(e) => setMessage(e.target.value)}
@@ -61,10 +62,13 @@ const MessageForm = ({ scroll, authUser, receiverUid, buttonText = "Send" }) => 
           borderRadius="md"
           bg="white"
           boxShadow="sm"
-          textColor="black"
+          
         />
         {/* Styled Button */}
-        <Button type="submit" bgColor="#88dded">
+        <Button type="submit" 
+          bg={"white"}
+					color={"black"}
+					_hover={{ bg: "whiteAlpha.800" }}>
           {buttonText}
         </Button>
       </Flex>

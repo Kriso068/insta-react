@@ -11,19 +11,19 @@ const FollowinPageProfile = (following) => {
   const{ handleBlockUser, isBlocked, isUpdatingBlock } = useBlockAndUnblockUser(following.following.uid);
 
   return (
-    <Flex gap={{ base: 4, sm: 10 }} py={10} direction={{ base: "column", sm: "row" }} alignItems={"center"}>
+    <Flex gap={{ base: 4, sm: 10 }} py={10} direction={{ base: "row", sm: "row" }} alignItems={"center"}>
       <Link 
         to={`/${following.following?.username}`}
         as={RouterLink}
       >
-        <AvatarGroup gap={{ base: 4, sm: 10 }} py={10} direction={{ base: "column", sm: "row" }}>
-          <Avatar src={following.following?.profilePicURL} alt={'profile pic'}/>
+        <AvatarGroup gap={{ base: 4, sm: 10 }} py={10} direction={{ base: "row", sm: "row" }}>
+          <Avatar src={following.following?.profilePicURL} alt={'profile pic'} border="1px solid white"/>
         </AvatarGroup>
       </Link>
       <VStack>
         <Flex
           gap={4}
-					direction={{ base: "column", sm: "row" }}
+					direction={{ base: "row", sm: "row" }}
 					justifyContent={{ base: "center", sm: "flex-start" }}
 					alignItems={"center"}
 					w={"full"}

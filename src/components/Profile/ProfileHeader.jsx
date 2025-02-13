@@ -1,194 +1,327 @@
-import { Avatar, AvatarGroup, Button, Flex, Text, Link, VStack, useDisclosure } from "@chakra-ui/react";
-import { Link as RouterLink, useNavigate} from "react-router-dom";
+// import { Avatar, Button, Flex, Text, Link, VStack, useDisclosure, Box } from "@chakra-ui/react";
+// import { Link as RouterLink, useNavigate } from "react-router-dom";
+// import useUserProfileStore from "../../store/userProfileStore";
+// import useAuthStore from "../../store/authStore";
+// import EditProfile from "./EditProfile";
+// import useFollowUser from "../../hooks/useFollowUser";
+// import useBlockAndUnblockUser from "../../hooks/useBlockAndUnblockUser";
+// import { BsFillSendFill } from "react-icons/bs";
+
+// const ProfileHeader = () => {
+// 	const { userProfile } = useUserProfileStore();
+// 	const authUser = useAuthStore((state) => state.user);
+// 	const { isOpen, onOpen, onClose } = useDisclosure();
+// 	const { handleFollowUser, isFollowing, isUpdating } = useFollowUser(userProfile?.uid);
+// 	const { handleBlockUser, isBlocked, isUpdatingBlock } = useBlockAndUnblockUser(userProfile?.uid);
+// 	const visitingOwnProfileAndAuth = authUser && authUser.username === userProfile.username;
+// 	const visitingAnotherProfileAndAuth = authUser && authUser.username !== userProfile.username;
+
+// 	const blockedUsers = userProfile ? userProfile.blockedUsers : [];
+// 	const banned = blockedUsers.includes(authUser?.uid);
+
+// 	const navigate = useNavigate();
+
+// 	const handleSendMessage = () => {
+// 		if (userProfile) {
+// 			navigate(`/${authUser?.username}/messages`);
+// 		}
+// 	};
+
+// 	return (
+// 		<VStack align="end" w="full">
+// 			{/* Username at the top */}
+// 			<Text fontSize={{ base: "lg", md: "xl" }} fontWeight="bold">
+// 				{userProfile.username}
+// 			</Text>
+
+// 			{/* Profile Pic + Stats in One Row */}
+// 			<Flex 
+// 				w="full" 
+// 				alignItems="center" 
+// 				justifyContent="space-between" 
+// 				direction="row"
+// 			>
+// 				{/* Profile Picture */}
+// 				<Link to={`/${userProfile?.username}`} as={RouterLink}>
+// 					<Avatar 
+// 						src={userProfile.profilePicURL} 
+// 						alt="Profile pic" 
+// 						size={{ base: "lg", md: "xl" }} 
+// 						border="1px solid white"
+// 					/>
+// 				</Link>
+
+// 				{/* Stats (Clickable Posts, Followers, Following) */}
+// 				<Flex flex={1} justify="end" gap="4" align="center" ml={{ base: 4, md: 10 }}>
+// 					<Link as={RouterLink} to={`/${userProfile?.username}`} _hover={{ textDecoration: "none" }}>
+// 						<Text fontSize={{ base: "sm", md: "md" }}>
+// 							<Text as="span" fontWeight="bold">{userProfile.posts.length}</Text> Posts
+// 						</Text>
+// 					</Link>
+// 					<Link as={RouterLink} to={`/${userProfile?.username}/followers`} _hover={{ textDecoration: "none" }}>
+// 						<Text fontSize={{ base: "sm", md: "md" }}>
+// 							<Text as="span" fontWeight="bold">{userProfile.followers.length}</Text> Followers
+// 						</Text>
+// 					</Link>
+// 					<Link as={RouterLink} to={`/${userProfile?.username}/followings`} _hover={{ textDecoration: "none" }}>
+// 						<Text fontSize={{ base: "sm", md: "md" }}>
+// 							<Text as="span" fontWeight="bold">{userProfile.following.length}</Text> Following
+// 						</Text>
+// 					</Link>
+// 				</Flex>
+// 			</Flex>
+
+// 			{/* Bio & Edit Profile in the Same Row */}
+// 			<Flex w="full" alignItems="center" justify="space-between" mt={2}>
+// 				{/* Bio Section */}
+// 				<Box ps={{base: 4}}>
+// 					<Text fontSize={{ base: "sm", md: "md" }} fontWeight="bold">{userProfile.fullName}</Text>
+// 					<Text fontSize={{ base: "sm", md: "md" }}>{userProfile.bio}</Text>
+// 				</Box>
+
+// 				{/* Edit Profile Button (Only for Own Profile) */}
+// 				{visitingOwnProfileAndAuth && (
+// 					<Box  display="flex" gap={{base: 5, md: 5}}>
+
+// 						<Button
+// 							bg={"white"}
+// 							color={"black"}
+// 							_hover={{ bg: "whiteAlpha.800" }}
+// 							size={{ base: "xs", md: "sm" }}
+// 							onClick={onOpen}
+// 						>
+// 							Edit Profile
+// 						</Button>
+// 						<Button
+// 							bg={"white"}
+// 							color={"black"}
+// 							_hover={{ bg: "whiteAlpha.800" }}
+// 							size={{ base: "xs", md: "sm" }}
+// 							onClick={handleSendMessage}
+// 							flex="1"
+// 						>
+// 							<BsFillSendFill />
+// 						</Button>
+// 					</Box>
+// 				)}
+// 			</Flex>
+
+// 			{/* Follow, Block, Message Buttons in One Row */}
+// 			{visitingAnotherProfileAndAuth && !banned && (
+// 				<Flex w="full" justify={{ base: "space-between", md: "flex-start" }} gap={4} mt={3}>
+// 					<Button
+// 						bg="blue.500"
+// 						color="white"
+// 						_hover={{ bg: "blue.600" }}
+// 						size={{ base: "xs", md: "sm" }}
+// 						onClick={handleFollowUser}
+// 						isLoading={isUpdating}
+// 						flex="1"
+// 					>
+// 						{isFollowing ? "Unfollow" : "Follow"}
+// 					</Button>
+// 					<Button
+// 						bg="red.500"
+// 						color="white"
+// 						_hover={{ bg: "red.600" }}
+// 						size={{ base: "xs", md: "sm" }}
+// 						onClick={handleBlockUser}
+// 						isLoading={isUpdatingBlock}
+// 						flex="1"
+// 					>
+// 						{isBlocked ? "Unblock" : "Block"}
+// 					</Button>
+// 					<Button
+// 						bg={"white"}
+// 						color={"black"}
+// 						_hover={{ bg: "whiteAlpha.800" }}
+// 						size={{ base: "xs", md: "sm" }}
+// 						onClick={handleSendMessage}
+// 						flex="1"
+// 					>
+// 						<BsFillSendFill />
+// 					</Button>
+// 				</Flex>
+// 			)}
+
+// 			{isOpen && <EditProfile isOpen={isOpen} onClose={onClose} />}
+// 		</VStack>
+// 	);
+// };
+
+// export default ProfileHeader;
+import { Avatar, Button, Flex, Text, Link, VStack, useDisclosure, Box, useBreakpointValue } from "@chakra-ui/react";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import useUserProfileStore from "../../store/userProfileStore";
 import useAuthStore from "../../store/authStore";
 import EditProfile from "./EditProfile";
 import useFollowUser from "../../hooks/useFollowUser";
 import useBlockAndUnblockUser from "../../hooks/useBlockAndUnblockUser";
 import { BsFillSendFill } from "react-icons/bs";
+import { BiLogOut } from "react-icons/bi"; 
+import useLogout from "../../hooks/useLogout";
+import { useState } from "react";
 
 const ProfileHeader = () => {
 	const { userProfile } = useUserProfileStore();
 	const authUser = useAuthStore((state) => state.user);
 	const { isOpen, onOpen, onClose } = useDisclosure();
-	const{ handleFollowUser, isFollowing, isUpdating } = useFollowUser(userProfile?.uid);
-	const{ handleBlockUser, isBlocked, isUpdatingBlock } = useBlockAndUnblockUser(userProfile?.uid);
+	const { handleFollowUser, isFollowing, isUpdating } = useFollowUser(userProfile?.uid);
+	const { handleBlockUser, isBlocked, isUpdatingBlock } = useBlockAndUnblockUser(userProfile?.uid);
 	const visitingOwnProfileAndAuth = authUser && authUser.username === userProfile.username;
 	const visitingAnotherProfileAndAuth = authUser && authUser.username !== userProfile.username;
-	
+
 	const blockedUsers = userProfile ? userProfile.blockedUsers : [];
-	
-    const banned = blockedUsers.includes(authUser?.uid)
-
+	const banned = blockedUsers.includes(authUser?.uid);
 	const navigate = useNavigate();
+	
+	const { handleLogout, isLoggingOut } = useLogout();
 
-    const handleSendMessage = (userProfile) => {
+	const isMobile = useBreakpointValue({ base: true, md: false }); // Detect if mobile
 
-		
-        if (userProfile) {
-            navigate(`/message/${authUser?.username}/${userProfile.username}`);
+	const handleSendMessage = () => {
+		if (userProfile) {
+			navigate(`/${authUser?.username}/messages`);
+		}
+	};
 
-        }
-    }
 
 	return (
-		<Flex gap={{ base: 4, sm: 10 }} py={10} direction={{ base: "column", sm: "row" }}>
-			<Link 
-				to={`/${userProfile?.username}`}
-				as={RouterLink}
-			>
-				<AvatarGroup gap={{ base: 4, sm: 10 }} py={10} direction={{ base: "column", sm: "row" }}>
-					<Avatar src={userProfile.profilePicURL} alt={'profile pic'} />
-				</AvatarGroup>
-			</Link>
-			<VStack alignItems={"start"} gap={2} mx={"auto"} flex={1}>
-				<Flex
-					gap={4}
-					direction={{ base: "column", sm: "row" }}
-					justifyContent={{ base: "center", sm: "flex-start" }}
-					alignItems={"center"}
-					w={"full"}
-				>
-					<Text fontSize={{ base: "sm", md: "lg" }}>{userProfile.username}</Text>
-					{visitingOwnProfileAndAuth && (
-						<Flex gap={4} alignItems={"center"} justifyContent={"center"}>
-							<Button
-								bg={"white"}
-								color={"black"}
-								_hover={{ bg: "whiteAlpha.800" }}
-								size={{ base: "xs", md: "sm" }}
-								onClick={onOpen}
-							>
-								Edit Profile
-							</Button>
-							<Link 
-								to={`/${authUser?.username}/messages`}
-								as={RouterLink}
-							>
-							<BsFillSendFill  />
-						</Link>
-						</Flex>
-					)}
-					{visitingAnotherProfileAndAuth && !banned &&(
-						<Flex gap={4} alignItems={"center"} justifyContent={"center"}>
-							<Button
-								bg={"blue.500"}
-								color={"white"}
-								_hover={{ bg: "blue.600" }}
-								size={{ base: "xs", md: "sm" }}
-								onClick={handleFollowUser}
-								isLoading={isUpdating}
-							>
-								{isFollowing ? "Unfollow" : "Follow"}
-							</Button>
-							<Button
-								bg={"red.500"}
-								color={"white"}
-								_hover={{ bg: "red.600" }}
-								size={{ base: "xs", md: "sm" }}
-								onClick={handleBlockUser}
-								isLoading={isUpdatingBlock}
-							>
-								{isBlocked ? "Unblock" : "Block"}
-							</Button>
-							<BsFillSendFill  
-								onClick={() => handleSendMessage(userProfile)}
-							/>
-						</Flex>
-					)}
-					{banned && (
-						<Flex>
-							<Button
-								bg={"red.500"}
-								color={"white"}
-								_hover={{ bg: "red.600" }}
-								size={{ base: "xs", md: "sm" }}
-								onClick={handleBlockUser}
-								isLoading={isUpdatingBlock}
-							>
-							{isBlocked ? "Unblock" : "Block"}
-						</Button>
-						</Flex>
+		<VStack align="end" w="full">
+			{/* Username & Logout Button in the Same Row on Mobile */}
+			<Flex w="full" alignItems="center" justify="end" gap="7">
+				<Text fontSize={{ base: "lg", md: "xl" }} fontWeight="bold">
+					{userProfile.username}
+				</Text>
 
-					)}
-				</Flex>
-
-				{visitingOwnProfileAndAuth && (
-					<Flex alignItems={"center"} gap={{ base: 2, sm: 4 }}>
-						<Text fontSize={{ base: "xs", md: "sm" }}>
-						<Link 
-							to={`/${userProfile?.username}`}
-							as={RouterLink}
+				{/* Logout Button (Only on Mobile, Only for Own Profile) */}
+				{isMobile && visitingOwnProfileAndAuth && (
+					<Flex cursor="pointer" onClick={handleLogout}>
+						<Button
+							variant={"ghost"}
+							_hover={{ bg: "transparent" }}
+							isLoading={isLoggingOut}
+							fontSize="sm"
+							p={0}
+							m={0}
 						>
-							<Text as='span' fontWeight={"bold"} mr={1}>
-								{userProfile.posts.length}
-							</Text>
-							Posts
-						</Link>
-						</Text>
-						<Text fontSize={{ base: "xs", md: "sm" }}>
-							<Text as='span' fontWeight={"bold"} mr={1}>
-								{authUser.followers.length}
-								
-							</Text>
-							<Link 
-								to={`/${authUser?.username}/followers`}
-								as={RouterLink}
-							>
-							Followers
-							</Link>
-						</Text>
-						<Text fontSize={{ base: "xs", md: "sm" }}>
-							<Text as='span' fontWeight={"bold"} mr={1}>
-								{authUser.following.length}
-								
-							</Text>
-							<Link 
-								to={`/${authUser?.username}/followings`}
-								as={RouterLink}
-							>
-							Following
-							</Link>
-						</Text>
+							<BiLogOut size={25}/>
+						</Button>
 					</Flex>
 				)}
-				{visitingAnotherProfileAndAuth && (
-					<Flex alignItems={"center"} gap={{ base: 2, sm: 4 }}>
-					<Text fontSize={{ base: "xs", md: "sm" }}>
-						<Text as='span' fontWeight={"bold"} mr={1}>
-							{userProfile.posts.length}
-						</Text>
-						Posts
-					</Text>
-					<Text fontSize={{ base: "xs", md: "sm" }}>
-						<Text as='span' fontWeight={"bold"} mr={1}>
-							{userProfile.followers.length}
-							
-						</Text>
-						Followers
-					</Text>
-					<Text fontSize={{ base: "xs", md: "sm" }}>
-						<Text as='span' fontWeight={"bold"} mr={1}>
-							{userProfile.following.length}
-							
-						</Text>
-						Following
-					</Text>
-				</Flex>
+			</Flex>
 
-				)}
-					<Flex alignItems={"center"} gap={4}>
-						<Text fontSize={"sm"} fontWeight={"bold"}>
-							{userProfile.fullName}
+			{/* Profile Pic + Stats in One Row */}
+			<Flex 
+				w="full" 
+				alignItems="center" 
+				justifyContent="space-between" 
+				direction="row"
+			>
+				{/* Profile Picture */}
+				<Link to={`/${userProfile?.username}`} as={RouterLink}>
+					<Avatar 
+						src={userProfile.profilePicURL} 
+						alt="Profile pic" 
+						size={{ base: "lg", md: "xl" }} 
+						border="1px solid white"
+					/>
+				</Link>
+
+				{/* Stats (Clickable Posts, Followers, Following) */}
+				<Flex flex={1} justify="end" gap="4" align="center" ml={{ base: 4, md: 10 }}>
+					<Link as={RouterLink} to={`/${userProfile?.username}`} _hover={{ textDecoration: "none" }}>
+						<Text fontSize={{ base: "sm", md: "md" }}>
+							<Text as="span" fontWeight="bold">{userProfile.posts.length}</Text> Posts
 						</Text>
-					</Flex>
-				<Text fontSize={"sm"}>{userProfile.bio}</Text>
-				
-				
-				
-			</VStack>
+					</Link>
+					<Link as={RouterLink} to={`/${userProfile?.username}/followers`} _hover={{ textDecoration: "none" }}>
+						<Text fontSize={{ base: "sm", md: "md" }}>
+							<Text as="span" fontWeight="bold">{userProfile.followers.length}</Text> Followers
+						</Text>
+					</Link>
+					<Link as={RouterLink} to={`/${userProfile?.username}/followings`} _hover={{ textDecoration: "none" }}>
+						<Text fontSize={{ base: "sm", md: "md" }}>
+							<Text as="span" fontWeight="bold">{userProfile.following.length}</Text> Following
+						</Text>
+					</Link>
+				</Flex>
+			</Flex>
+
+			{/* Bio & Edit Profile in the Same Row */}
+			<Flex w="full" alignItems="center" justify="space-between" mt={2}>
+				{/* Bio Section */}
+				<Box ps={{ base: 4 }}>
+					<Text fontSize={{ base: "sm", md: "md" }} fontWeight="bold">{userProfile.fullName}</Text>
+					<Text fontSize={{ base: "sm", md: "md" }}>{userProfile.bio}</Text>
+				</Box>
+
+				{/* Edit Profile Button (Only for Own Profile) */}
+				{visitingOwnProfileAndAuth && (
+					<Box display="flex" gap={{ base: 5, md: 5 }}>
+						<Button
+							bg={"white"}
+							color={"black"}
+							_hover={{ bg: "whiteAlpha.800" }}
+							size={{ base: "xs", md: "sm" }}
+							onClick={onOpen}
+						>
+							Edit Profile
+						</Button>
+						<Button
+							bg={"white"}
+							color={"black"}
+							_hover={{ bg: "whiteAlpha.800" }}
+							size={{ base: "xs", md: "sm" }}
+							onClick={handleSendMessage}
+							flex="1"
+						>
+							<BsFillSendFill />
+						</Button>
+					</Box>
+				)}
+			</Flex>
+
+			{/* Follow, Block, Message Buttons in One Row */}
+			{visitingAnotherProfileAndAuth && !banned && (
+				<Flex w="full" justify={{ base: "space-between", md: "flex-start" }} gap={4} mt={3}>
+					<Button
+						bg="blue.500"
+						color="white"
+						_hover={{ bg: "blue.600" }}
+						size={{ base: "xs", md: "sm" }}
+						onClick={handleFollowUser}
+						isLoading={isUpdating}
+						flex="1"
+					>
+						{isFollowing ? "Unfollow" : "Follow"}
+					</Button>
+					<Button
+						bg="red.500"
+						color="white"
+						_hover={{ bg: "red.600" }}
+						size={{ base: "xs", md: "sm" }}
+						onClick={handleBlockUser}
+						isLoading={isUpdatingBlock}
+						flex="1"
+					>
+						{isBlocked ? "Unblock" : "Block"}
+					</Button>
+					<Button
+						bg={"white"}
+						color={"black"}
+						_hover={{ bg: "whiteAlpha.800" }}
+						size={{ base: "xs", md: "sm" }}
+						onClick={handleSendMessage}
+						flex="1"
+					>
+						<BsFillSendFill />
+					</Button>
+				</Flex>
+			)}
+
 			{isOpen && <EditProfile isOpen={isOpen} onClose={onClose} />}
-		</Flex>
+		</VStack>
 	);
 };
 

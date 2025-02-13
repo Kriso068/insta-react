@@ -10,6 +10,7 @@ const Home = () => {
 			placement='right'
 			ml={1}
 			openDelay={500}
+			isDisabled={true}
 			display={{ base: "block", md: "none" }}
 		>
 			<Link
