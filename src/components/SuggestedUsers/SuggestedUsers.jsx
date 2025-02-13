@@ -45,8 +45,8 @@ const SuggestedUsers = () => {
 
             <Box fontSize={12} color={"gray.500"} mt={5} alignSelf={"start"}>
                 Built by{" "}
-                <Link href="#" target="_blank" color={"blue.500"} fontSize={14}>
-                    Kriso-068
+                <Link href="https://nicolas-gutknecht-web-developpeur.com/" target="_blank" color={"blue.500"} fontSize={14}>
+                    Nicolas-Gutknecht
                 </Link>
             </Box>
         </VStack>

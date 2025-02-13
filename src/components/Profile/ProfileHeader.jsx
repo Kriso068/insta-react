@@ -24,8 +24,10 @@ const ProfileHeader = () => {
 
     const handleSendMessage = (userProfile) => {
 
+		
         if (userProfile) {
             navigate(`/message/${authUser?.username}/${userProfile.username}`);
+
         }
     }
 

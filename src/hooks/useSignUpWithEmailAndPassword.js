@@ -3,7 +3,7 @@ import { auth, firestore } from "../firebase/firebase";
 import { collection, doc, getDocs, query, setDoc, where } from "firebase/firestore";
 import useShowToast from "./useShowToast";
 import useAuthStore from "../store/authStore";
-import defaultProfilePicURL from '../assets/avatar-default.png';
+import defaultProfilePicURL from '../../public/avatar-default.png'
 
 
 const useSignUpWithEmailAndPassword = () => {
