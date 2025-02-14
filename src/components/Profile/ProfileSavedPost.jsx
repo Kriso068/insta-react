@@ -1,5 +1,6 @@
 import {
 	Avatar, 
+	Box, 
 	Divider, 
 	Flex, 
 	GridItem, 
@@ -23,13 +24,23 @@ import Caption from "../Comment/Caption";
 import { useEffect, useState} from "react";
 import useGetUserProfileById from "../../hooks/useGetUserProfileById";
 import { Link } from "react-router-dom";
+import useAuthStore from "../../store/authStore";
 
 
 const ProfileSavedPost = ({ post }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const { isLoading, userProfile: createdByUser, setUserProfile } = useGetUserProfileById(post.createdBy);
 	const [isSavedPage, setIsSavedPage] = useState(true);
+	const authUser = useAuthStore((state) => state.user);
 
+
+	const handleUpdatePost = async (comment) => {
+		if (authUser && authUser.uid === comment.createdBy){
+			console.log(comment);
+
+		}
+
+	}
 	
 	useEffect(() => {
 	  	setUserProfile(post.createdBy);	
@@ -92,13 +103,18 @@ const ProfileSavedPost = ({ post }) => {
 					<video preload='true' controls src={post.videoURL} w={"100%"} h={"100%"} objectfit={"cover"}></video>
 				)}
 				{post.videoRecordedURL && (
-					<video autoPlay controls src={post.videoURL} alt='profile post' w={"100%"} h={"100%"} objectfit={"cover"}></video>
+					<video preload='true' controls src={post.videoURL} alt='profile post' w={"100%"} h={"100%"} objectfit={"cover"}></video>
 				)}
 			</GridItem>
 
 			<Modal isOpen={isOpen} onClose={() => { onClose(); handleRefresh(); }} isCentered={true} size={{ base: "3xl", md: "5xl" }}>
 				<ModalOverlay />
-				<ModalContent>
+				<ModalContent
+					bg="black" 
+					pb={5} 
+					maxH="100vh"
+					overflowY="auto" 
+				>
 					<ModalCloseButton />
 					<ModalBody bg={"black"} pb={5}>
 						<Flex
@@ -107,27 +123,34 @@ const ProfileSavedPost = ({ post }) => {
 							mx={"auto"}
 							maxH={"90vh"}
 							minH={"50vh"}
+							flexDir={{ base: "column", md: "row" }}
 						>
 							<Flex
 								borderRadius={4}
 								overflow={"hidden"}
 								border={"1px solid"}
 								borderColor={"whiteAlpha.300"}
-								flex={1.5}
+								flex={{ base: "none", md: 1.5 }}
 								justifyContent={"center"}
 								alignItems={"center"}
 							>
 								{post.imageURL && (
-									<Image src={post.imageURL} alt="FEED POST IMG" />
+									<Image src={post.imageURL} alt="FEED POST IMG" w={"100%"} h={"100%"} objectfit={"cover"}/>
 								)}
 								{post.videoURL && (
-									<video preload='true' controls src={post.videoURL} width={'100%'} height={'100%'}></video>
+									<video preload='true' controls src={post.videoURL} width={'100%'} height={'100%'} objectfit={"cover"}></video>
 								)}
 								{post.videoRecordedURL && (
-									<video autoPlay controls src={post.videoURL} alt='profile post' w={"100%"} h={"100%"} objectfit={"cover"}></video>
+									<video preload="true" controls src={post.videoURL} alt='profile post' w={"100%"} h={"100%"} objectfit={"cover"}></video>
 								)}
 							</Flex>
-							<Flex flex={1} flexDir={"column"} px={10} display={{ base: "none", md: "flex" }}>
+							<Flex 
+								flex={1} 
+								flexDir={"column"} 
+								px={10} 
+								display="flex" 
+								mt={{ base: 4, md: 0 }} 
+							>
 								<Flex alignItems={"center"} justifyContent={"space-between"}>
 									<Flex alignItems={"center"} gap={4}>
 										{createdByUser ? (
@@ -149,10 +172,24 @@ const ProfileSavedPost = ({ post }) => {
 								<Divider my={4} bg={"gray.500"} />
 								<VStack w='full' alignItems={"start"} maxH={"350px"} overflowY={"auto"}>
 									{/* CAPTION */}
-									{post.caption && <Caption post={post} />}
-									{/* COMMENTS */}
 									{post.comments.map((comment, id) => (
-										<Comment key={id} comment={comment} />
+										authUser && authUser.uid === comment.createdBy ? (
+											<Box
+												key={id}
+												cursor={"pointer"}
+												_hover={{ bg: "whiteAlpha.300", color: "white" }}
+											>
+												<Comment comment={comment} onClick={() => handleUpdatePost(comment)} />
+											</Box>
+										) : (
+											<Box
+												key={id}
+												cursor={"pointer"}
+												_hover={{ bg: "whiteAlpha.300", color: "red" }}
+											>
+												<Comment comment={comment} onClick={() => handleUpdatePost(comment)} />
+											</Box>
+										)
 									))}
 								</VStack>
 								<Divider my={4} bg={"gray.8000"} />

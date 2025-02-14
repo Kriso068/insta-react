@@ -275,3 +275,25 @@ export const BookmarkLogoFull = () => (
 	><g transform="scale(5.12,5.12)"><path d="M37,48c-0.17578,0 -0.34766,-0.04687 -0.50391,-0.13672l-11.49609,-6.70703l-11.49609,6.70703c-0.30859,0.17969 -0.69141,0.18359 -1,0.00391c-0.3125,-0.17969 -0.50391,-0.50781 -0.50391,-0.86719v-44c0,-0.55078 0.44922,-1 1,-1h24c0.55469,0 1,0.44922 1,1v44c0,0.35938 -0.19141,0.6875 -0.50391,0.86719c-0.15234,0.08984 -0.32422,0.13281 -0.49609,0.13281z"></path></g></g>
 </svg>
 );
+
+export const NotificationBelt = () => (
+	<svg
+	  aria-label="Notification"
+	  color="rgb(245, 245, 245)"
+	  fill="rgb(245, 245, 245)"
+	  height="24"
+	  role="img"
+	  viewBox="0 0 24 24"
+	  width="24"
+	>
+	  <title>Notification</title>
+	  <path
+		d="M12 22c1.104 0 2-.896 2-2h-4c0 1.104.896 2 2 2zm6-6V10c0-3.314-2.686-6-6-6S6 6.686 6 10v6l-2 2v1h16v-1l-2-2z"
+		fill="none"
+		stroke="currentColor"
+		strokeLinejoin="round"
+		strokeWidth="2"
+	  ></path>
+	</svg>
+  );
+  

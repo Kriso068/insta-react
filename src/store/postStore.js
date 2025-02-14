@@ -19,6 +19,19 @@ const usePostStore = create((set) => ({
 				return post;
 			}),
 		})),
+	updateComment: (postId, commentId, newText) =>
+		set((state) => ({
+			posts: state.posts.map((post) =>
+				post.id === postId
+					? {
+							...post,
+							comments: post.comments.map((comment) =>
+								comment.id === commentId ? { ...comment, text: newText } : comment
+							),
+						}
+					: post
+			),
+		})),
 
 }));
 
