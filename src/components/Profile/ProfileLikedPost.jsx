@@ -108,7 +108,7 @@ const ProfileLikedPost = ({ post }) => {
 						<video preload="true" controls src={post.videoURL} w={"100%"} h={"100%"} objectfit={"cover"}></video>
 					)}
 					{post.videoRecordedURL && (
-						<video preload="true" controls src={post.videoURL} alt="profile post" w={"100%"} h={"100%"} objectfit={"cover"}></video>
+						<video preload="true" controls src={post.videoRecordedURL} alt="profile post" w={"100%"} h={"100%"} objectfit={"cover"}></video>
 					)}
 				</Flex>
 
@@ -151,7 +151,7 @@ const ProfileLikedPost = ({ post }) => {
 									<video preload="true" controls src={post.videoURL} width={"100%"} height={"100%"} objectfit={"cover"}></video>
 								)}
 								{post.videoRecordedURL && (
-									<video preload="true" controls src={post.videoURL} alt="profile post" w={"100%"} h={"100%"} objectfit={"cover"}></video>
+									<video preload="true" controls src={post.videoRecordedURL} alt="profile post" w={"100%"} h={"100%"} objectfit={"cover"}></video>
 								)}
 							</Flex>
 

@@ -65,29 +65,9 @@ const CreatePost = () => {
 	};
 
 
-
-	// const handleRecordingComplete = (videoUrl) => {
-	// 	setSelectedVideoRecordedFile(videoUrl);
-	//   };
-
-	const handleRecordingComplete = async (videoBlob) => {
-		try {
-			const videoRecordedRef = ref(storage, `posts/${authUser.uid}/recordedVideo-${Date.now()}.webm`);
-			
-			// ✅ Upload Blob correctly using uploadBytes
-			await uploadBytes(videoRecordedRef, videoBlob);
-			
-			// ✅ Get the download URL
-			const videoRecordedURL = await getDownloadURL(videoRecordedRef);
-			
-			// ✅ Save the video URL to the state for post creation
-			setSelectedVideoRecordedFile(videoRecordedURL);
-		} catch (error) {
-			console.error("Error uploading recorded video:", error);
-			showToast("Error", "Failed to upload recorded video", "error");
-		}
-	};
-	
+	const handleRecordingComplete = (videoUrl) => {
+		setSelectedVideoRecordedFile(videoUrl);
+	  };
 
 	return (
 		<>
@@ -261,7 +241,7 @@ function useCreatePost() {
 			}
 			if (selectedVideoRecordedFile) {
 				const videoRecordedRef = ref(storage, `posts/${postDocRef.id}/recordedVideo`);
-				// await uploadBytes(videoRecordedRef, selectedVideoRecordedFile);
+				await uploadBytes(videoRecordedRef, selectedVideoRecordedFile);
 				await uploadString(videoRecordedRef, selectedVideoRecordedFile, "data_url");
 				const videoRecordedURL = await getDownloadURL(videoRecordedRef);
 				await updateDoc(postDocRef, { videoRecordedURL: videoRecordedURL });
@@ -281,3 +261,5 @@ function useCreatePost() {
 
 	return { isLoading, handleCreatePost };
 }
+
+
