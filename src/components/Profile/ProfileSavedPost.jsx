@@ -96,15 +96,28 @@ const ProfileSavedPost = ({ post }) => {
 					</Flex>
 				</Flex>
 
-				{post.imageURL && (
-					<Image src={post.imageURL} alt="FEED POST IMG" w={"100%"} h={"100%"} objectfit={"cover"}/>
-				)}
-				{post.videoURL && (
-					<video preload='true' controls src={post.videoURL} w={"100%"} h={"100%"} objectfit={"cover"}></video>
-				)}
-				{post.videoRecordedURL && (
-					<video preload='true' controls src={post.videoURL} alt='profile post' w={"100%"} h={"100%"} objectfit={"cover"}></video>
-				)}
+				<Flex
+					borderRadius={4}
+					overflow={"hidden"}
+					border={"1px solid"}
+					borderColor={"whiteAlpha.300"}
+					flex={{ base: "none", md: 1.5 }}
+					justifyContent={"center"}
+					alignItems={"center"}
+					w={"100%"}
+					h={"100%"}
+				>
+
+					{post.imageURL && (
+						<Image src={post.imageURL} alt="FEED POST IMG" w={"100%"} h={"100%"} objectfit={"cover"} />
+					)}
+					{post.videoURL && (
+						<video preload="true" controls src={post.videoURL} w={"100%"} h={"100%"} objectfit={"cover"}></video>
+					)}
+					{post.videoRecordedURL && (
+						<video preload="true" controls src={post.videoURL} alt="profile post" w={"100%"} h={"100%"} objectfit={"cover"}></video>
+					)}
+				</Flex>
 			</GridItem>
 
 			<Modal isOpen={isOpen} onClose={() => { onClose(); handleRefresh(); }} isCentered={true} size={{ base: "3xl", md: "5xl" }}>

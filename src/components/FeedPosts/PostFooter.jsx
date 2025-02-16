@@ -1,3 +1,4 @@
+
 import { Box, Button, Flex, Input, InputGroup, InputRightElement, Text, useDisclosure } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import { BookmarkLogo, BookmarkLogoFull, CommentLogo, NotificationsLogo, UnlikeLogo } from "../../assets/constants";
@@ -15,16 +16,12 @@ const PostFooter = ({ post, isProfilePage, creatorProfile }) => {
 	const commentRef = useRef(null);
 	const { handleLikePost, isLiked, likes } = useLikePost(post);
 	const { isOpen, onOpen, onClose } = useDisclosure();
-	const{ handleSavedPost, isSaved, isUpdating } = useSavedPost(post);
-
-
+	const { handleSavedPost, isSaved } = useSavedPost(post);
 
 	const handleSubmitComment = async () => {
 		await handlePostComment(post.id, comment);
 		setComment("");
 	};
-
-
 
 	return (
 		<Box mb={10} marginTop={"auto"}>
@@ -63,7 +60,6 @@ const PostFooter = ({ post, isProfilePage, creatorProfile }) => {
 							View all {post.comments.length} comments
 						</Text>
 					)}
-					{/* COMMENTS MODAL ONLY IN THE HOME PAGE */}
 					{isOpen ? <CommentsModal isOpen={isOpen} onClose={onClose} post={post} /> : null}
 				</>
 			)}
@@ -101,4 +97,3 @@ const PostFooter = ({ post, isProfilePage, creatorProfile }) => {
 };
 
 export default PostFooter;
-

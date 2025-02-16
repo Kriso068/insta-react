@@ -2,23 +2,29 @@ import { create } from "zustand";
 
 const usePostStore = create((set) => ({
 	posts: [],
+
 	createPost: (post) => set((state) => ({ posts: [post, ...state.posts] })),
-	deletePost: (id) => set((state) => ({ posts: state.posts.filter((post) => post.id !== id) })),
+
+	deletePost: (id) =>
+		set((state) => ({ posts: state.posts.filter((post) => post.id !== id) })),
+
 	setPosts: (posts) => set({ posts }),
+
 	setSavedPosts: (posts) => set({ posts }),
+
 	setLikedPosts: (posts) => set({ posts }),
+
+	// Add a new comment
 	addComment: (postId, comment) =>
 		set((state) => ({
-			posts: state.posts.map((post) => {
-				if (post.id === postId) {
-					return {
-						...post,
-						comments: [...post.comments, comment],
-					};
-				}
-				return post;
-			}),
+			posts: state.posts.map((post) =>
+				post.id === postId
+					? { ...post, comments: [...post.comments, comment] }
+					: post
+			),
 		})),
+
+	// Update the existing comment
 	updateComment: (postId, commentId, newText) =>
 		set((state) => ({
 			posts: state.posts.map((post) =>
@@ -26,13 +32,127 @@ const usePostStore = create((set) => ({
 					? {
 							...post,
 							comments: post.comments.map((comment) =>
-								comment.id === commentId ? { ...comment, text: newText } : comment
+								comment.id === commentId ? { ...comment, comment: newText } : comment
 							),
 						}
 					: post
 			),
 		})),
 
+	// Remove a comment
+	removeComment: (postId, commentId) =>
+		set((state) => ({
+			posts: state.posts.map((post) =>
+				post.id === postId
+					? { ...post, comments: post.comments.filter((comment) => comment.id !== commentId) }
+					: post
+			),
+		})),
 }));
 
 export default usePostStore;
+
+
+// import { Box, Button, Flex, Input, InputGroup, InputRightElement, Text, useDisclosure } from "@chakra-ui/react";
+// import { useRef, useState } from "react";
+// import { BookmarkLogo, BookmarkLogoFull, CommentLogo, NotificationsLogo, UnlikeLogo } from "../../assets/constants";
+// import usePostComment from "../../hooks/usePostComment";
+// import useAuthStore from "../../store/authStore";
+// import useLikePost from "../../hooks/useLikePost";
+// import { timeAgo } from "../../utils/timeAgo";
+// import CommentsModal from "../Modals/CommentsModal";
+// import useSavedPost from "../../hooks/useSavedPost";
+
+// const PostFooter = ({ post, isProfilePage, creatorProfile }) => {
+// 	const { isCommenting, handlePostComment } = usePostComment();
+// 	const [comment, setComment] = useState("");
+// 	const authUser = useAuthStore((state) => state.user);
+// 	const commentRef = useRef(null);
+// 	const { handleLikePost, isLiked, likes } = useLikePost(post);
+// 	const { isOpen, onOpen, onClose } = useDisclosure();
+// 	const{ handleSavedPost, isSaved, isUpdating } = useSavedPost(post);
+
+
+
+// 	const handleSubmitComment = async () => {
+// 		await handlePostComment(post.id, comment);
+// 		setComment("");
+// 	};
+
+
+
+// 	return (
+// 		<Box mb={10} marginTop={"auto"}>
+// 			<Flex alignItems={"center"} gap={6} w={"full"} pt={0} mb={2} mt={4}>
+// 				<Box onClick={handleLikePost} cursor={"pointer"} fontSize={18}>
+// 					{!isLiked ? <NotificationsLogo /> : <UnlikeLogo />}
+// 				</Box>
+
+// 				<Box cursor={"pointer"} fontSize={18} onClick={() => commentRef.current.focus()}>
+// 					<CommentLogo />
+// 				</Box>
+// 				<Box cursor={"pointer"} fontSize={18} onClick={handleSavedPost}>
+// 					{!isSaved ? <BookmarkLogo /> : <BookmarkLogoFull />}  
+//                 </Box>
+// 			</Flex>
+// 			<Text fontWeight={600} fontSize={"sm"}>
+// 				{likes} likes
+// 			</Text>
+
+// 			{isProfilePage && (
+// 				<Text fontSize='12' color={"gray"}>
+// 					Posted {timeAgo(post.createdAt)}
+// 				</Text>
+// 			)}
+
+// 			{!isProfilePage && (
+// 				<>
+// 					<Text fontSize='sm' fontWeight={700}>
+// 						{creatorProfile?.username}{" "}
+// 						<Text as='span' fontWeight={400}>
+// 							{post.caption}
+// 						</Text>
+// 					</Text>
+// 					{post.comments.length > 0 && (
+// 						<Text fontSize='sm' color={"gray"} cursor={"pointer"} onClick={onOpen}>
+// 							View all {post.comments.length} comments
+// 						</Text>
+// 					)}
+// 					{/* COMMENTS MODAL ONLY IN THE HOME PAGE */}
+// 					{isOpen ? <CommentsModal isOpen={isOpen} onClose={onClose} post={post} /> : null}
+// 				</>
+// 			)}
+
+// 			{authUser && (
+// 				<Flex alignItems={"center"} gap={2} justifyContent={"space-between"} w={"full"}>
+// 					<InputGroup>
+// 						<Input
+// 							variant={"flushed"}
+// 							placeholder={"Add a comment..."}
+// 							fontSize={14}
+// 							onChange={(e) => setComment(e.target.value)}
+// 							value={comment}
+// 							ref={commentRef}
+// 						/>
+// 						<InputRightElement>
+// 							<Button
+// 								fontSize={14}
+// 								color={"blue.500"}
+// 								fontWeight={600}
+// 								cursor={"pointer"}
+// 								_hover={{ color: "white" }}
+// 								bg={"transparent"}
+// 								onClick={handleSubmitComment}
+// 								isLoading={isCommenting}
+// 							>
+// 								Post
+// 							</Button>
+// 						</InputRightElement>
+// 					</InputGroup>
+// 				</Flex>
+// 			)}
+// 		</Box>
+// 	);
+// };
+
+// export default PostFooter;
