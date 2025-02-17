@@ -29,8 +29,11 @@ const ProfileHeader = () => {
 	const isMobile = useBreakpointValue({ base: true, md: false }); // Detect if mobile
 
 	const handleSendMessage = () => {
-		if (userProfile) {
+		if (userProfile && visitingOwnProfileAndAuth) {
 			navigate(`/${authUser?.username}/messages`);
+		}
+		if(visitingAnotherProfileAndAuth){
+			navigate(`/message/${authUser?.username}/${userProfile.username}`);
 		}
 	};
 

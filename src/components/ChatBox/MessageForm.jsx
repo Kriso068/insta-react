@@ -47,8 +47,7 @@ const MessageForm = ({ scroll, authUser, receiverUid, buttonText = "Send" }) => 
       <label htmlFor="messageInput" hidden>
         Enter Message
       </label>
-      <Flex align="center" gap={2} px={5} position={"fixed"} bottom={82} w={"100%"}>
-        {/* Styled Input */}
+      <Flex align="center" gap={2} justifyContent={"space-between"} px={2} position={"fixed"} bottom={82} w={"100%"}>
         <Input
           id="messageInput"
           name="messageInput"
@@ -62,13 +61,18 @@ const MessageForm = ({ scroll, authUser, receiverUid, buttonText = "Send" }) => 
           borderRadius="md"
           bg="white"
           boxShadow="sm"
+          width={"75%"}
           
         />
-        {/* Styled Button */}
         <Button type="submit" 
           bg={"white"}
 					color={"black"}
-					_hover={{ bg: "whiteAlpha.800" }}>
+					_hover={{ bg: "whiteAlpha.800" }}
+          width={"24%"}
+          p={0}
+          position={"end"}
+        >
+          
           {buttonText}
         </Button>
       </Flex>

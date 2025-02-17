@@ -1,8 +1,7 @@
-import { useState, useRef } from "react";
-const AudioRecorder = () => {
-    // const [permission, setPermission] = useState(false);
-    // const [stream, setStream] = useState(null);
 
+import { useState, useRef } from "react";
+
+const AudioRecorder = () => {
     const mimeType = "audio/webm";
     const [permission, setPermission] = useState(false);
     const mediaRecorder = useRef(null);
@@ -12,86 +11,59 @@ const AudioRecorder = () => {
     const [audio, setAudio] = useState(null);
 
     const getMicrophonePermission = async () => {
-        if ("MediaRecorder" in window) {
-            try {
-                const streamData = await navigator.mediaDevices.getUserMedia({
-                    audio: true,
-                    video: false,
-                });
-                setPermission(true);
-                setStream(streamData);
-            } catch (err) {
-                alert(err.message);
-            }
-        } else {
-            alert("The MediaRecorder API is not supported in your browser.");
+        if (!navigator.mediaDevices || !window.MediaRecorder) {
+            alert("Your browser does not support audio recording.");
+            return;
+        }
+
+        try {
+            const streamData = await navigator.mediaDevices.getUserMedia({ audio: true });
+            setPermission(true);
+            setStream(streamData);
+        } catch (err) {
+            alert("Microphone permission denied.");
         }
     };
 
-
-    const startRecording = async () => {
+    const startRecording = () => {
         setRecordingStatus("recording");
-        //create new Media recorder instance using the stream
-        const media = new MediaRecorder(stream, { type: mimeType });
-        //set the MediaRecorder instance to the mediaRecorder ref
+        const media = new MediaRecorder(stream, { mimeType });
         mediaRecorder.current = media;
-        //invokes the start method to start the recording process
         mediaRecorder.current.start();
         let localAudioChunks = [];
-        mediaRecorder.current.ondataavailable = (event) => {
-           if (typeof event.data === "undefined") return;
-           if (event.data.size === 0) return;
-           localAudioChunks.push(event.data);
-        };
-        setAudioChunks(localAudioChunks);
-    };
 
+        mediaRecorder.current.ondataavailable = (event) => {
+            if (event.data.size > 0) {
+                localAudioChunks.push(event.data);
+            }
+        };
+
+        mediaRecorder.current.onstop = () => {
+            const audioBlob = new Blob(localAudioChunks, { type: mimeType });
+            const audioUrl = URL.createObjectURL(audioBlob);
+            setAudio(audioUrl);
+        };
+    };
 
     const stopRecording = () => {
         setRecordingStatus("inactive");
-        //stops the recording instance
         mediaRecorder.current.stop();
-        mediaRecorder.current.onstop = () => {
-          //creates a blob file from the audiochunks data
-           const audioBlob = new Blob(audioChunks, { type: mimeType });
-          //creates a playable URL from the blob file.
-           const audioUrl = URL.createObjectURL(audioBlob);
-           setAudio(audioUrl);
-           setAudioChunks([]);
-        };
     };
 
     return (
         <div>
-            <h2>Audio Recorder</h2>
-            <main>
-                <div className="audio-controls">
-                    {!permission ? (
-                    <button onClick={getMicrophonePermission} type="button">
-                        Get Microphone
-                    </button>
-                    ) : null}
-                    {permission && recordingStatus === "inactive" ? (
-                    <button onClick={startRecording} type="button">
-                        Start Recording
-                    </button>
-                    ) : null}
-                    {recordingStatus === "recording" ? (
-                    <button onClick={stopRecording} type="button">
-                        Stop Recording
-                    </button>
-                    ) : null}
+            {!permission && <button onClick={getMicrophonePermission}>Enable Microphone</button>}
+            {permission && recordingStatus === "inactive" && <button onClick={startRecording}>Start Recording</button>}
+            {recordingStatus === "recording" && <button onClick={stopRecording}>Stop Recording</button>}
+
+            {audio && (
+                <div>
+                    <audio src={audio} controls />
+                    <a href={audio} download="recorded-audio.webm">Download</a>
                 </div>
-                {audio ? (
-                    <div className="audio-container">
-                        <audio src={audio} controls></audio>
-                        <a download href={audio}>
-                            Download Recording
-                        </a>
-                    </div>
-                    ) : null}
-            </main>
+            )}
         </div>
     );
 };
+
 export default AudioRecorder;

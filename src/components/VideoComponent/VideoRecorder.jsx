@@ -1,8 +1,9 @@
+
 import { Box, Button, Flex } from "@chakra-ui/react";
 import { useState, useRef, useEffect } from "react";
-const VideoRecorder = ({onRecordingComplete}) => {
 
-    const mimeType = "video/webm";
+const VideoRecorder = ({ onRecordingComplete }) => {
+    const mimeType = "video/webm"; // Change to "video/mp4" for iOS Safari
     const [permission, setPermission] = useState(false);
     const mediaRecorder = useRef(null);
     const liveVideoFeed = useRef(null);
@@ -21,106 +22,68 @@ const VideoRecorder = ({onRecordingComplete}) => {
 
     const getCameraPermission = async () => {
         setRecordedVideo(null);
-        if ("MediaRecorder" in window) {
-            try {
-                const videoConstraints = {
-                    audio: false,
-                    video: true,
-                };
-                const audioConstraints = { audio: true };
-                // create audio and video streams separately
-                const audioStream = await navigator.mediaDevices.getUserMedia(
-                    audioConstraints
-                );
-                const videoStream = await navigator.mediaDevices.getUserMedia(
-                    videoConstraints
-                );
-                setPermission(true);
-                //combine both audio and video streams
-                const combinedStream = new MediaStream([
-                    ...videoStream.getVideoTracks(),
-                    ...audioStream.getAudioTracks(),
-                ]);
-                setStream(combinedStream);
-                //set videostream to live feed player
+        if (!navigator.mediaDevices || !window.MediaRecorder) {
+            alert("Your browser does not support video recording.");
+            return;
+        }
 
-                if (liveVideoFeed.current) {
-                    liveVideoFeed.current.srcObject = videoStream;
-                } else {
-                    console.warn("Live video feed is not available yet.");
-                }
-            } catch (err) {
-                alert(err.message);
+        try {
+            const videoStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+            setPermission(true);
+            setStream(videoStream);
+            if (liveVideoFeed.current) {
+                liveVideoFeed.current.srcObject = videoStream;
             }
-        } else {
-            alert("The MediaRecorder API is not supported in your browser.");
+        } catch (err) {
+            alert("Camera permission denied. Please enable it in settings.");
         }
     };
 
-    const startRecording = async () => {
+    const startRecording = () => {
         setRecordingStatus("recording");
         const media = new MediaRecorder(stream, { mimeType });
         mediaRecorder.current = media;
         mediaRecorder.current.start();
         let localVideoChunks = [];
+
         mediaRecorder.current.ondataavailable = (event) => {
-            if (typeof event.data === "undefined") return;
-            if (event.data.size === 0) return;
-            localVideoChunks.push(event.data);
+            if (event.data.size > 0) {
+                localVideoChunks.push(event.data);
+            }
         };
-        setVideoChunks(localVideoChunks);
+
+        mediaRecorder.current.onstop = async () => {
+            const videoBlob = new Blob(localVideoChunks, { type: mimeType });
+            const videoUrl = URL.createObjectURL(videoBlob);
+            setRecordedVideo(videoUrl);
+            setVideoChunks([]);
+            onRecordingComplete(videoUrl);
+        };
     };
 
     const stopRecording = () => {
-        setPermission(false);
         setRecordingStatus("inactive");
         mediaRecorder.current.stop();
-        mediaRecorder.current.onstop = () => {
-            const videoBlob = new Blob(videoChunks, { type: mimeType });
-            const reader = new FileReader();
-            reader.readAsDataURL(videoBlob);
-            reader.onloadend = () => {
-                setRecordedVideo(reader.result);
-                setVideoChunks([]);
-                onRecordingComplete(reader.result);
-            };
-        };
     };
+
     return (
-        <div>
+        <Box>
             <Flex>
-                {!permission ? (
-                    <Button onClick={getCameraPermission}>
-                        Get camera
-                    </Button>
-                ) : null}
-                 {permission && recordingStatus === "inactive" ? (
-                    <Button onClick={startRecording} >
-                        Start Recording
-                    </Button>
-                ) : null}
-                {recordingStatus === "recording" ? (
-                    <Button onClick={stopRecording}>
-                        Stop Recording
-                    </Button>
-                ) : null}
-            </Flex>
-            <Flex>
-                {/* {recordedVideo ? (
-                    <Box>
-                        <video src={recordedVideo} controls></video>
-                        <Button>
-                            <a download href={recordedVideo}>
-                                Download Recording
-                            </a>
-                        </Button>
-                    </Box>
-                ) : null} */}
+                {!permission && <Button onClick={getCameraPermission}>Enable Camera</Button>}
+                {permission && recordingStatus === "inactive" && <Button onClick={startRecording}>Start Recording</Button>}
+                {recordingStatus === "recording" && <Button onClick={stopRecording}>Stop Recording</Button>}
             </Flex>
 
-        </div>
+            <video ref={liveVideoFeed} autoPlay playsInline muted style={{ width: "100%", marginTop: "10px" }} />
+
+            {recordedVideo && (
+                <Box>
+                    <video src={recordedVideo} controls style={{ width: "100%", marginTop: "10px" }} />
+                    <Button as="a" href={recordedVideo} download="recorded-video.webm">Download</Button>
+                </Box>
+            )}
+        </Box>
     );
 };
+
 export default VideoRecorder;
-
-

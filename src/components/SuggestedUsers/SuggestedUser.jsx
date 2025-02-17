@@ -32,7 +32,7 @@ const SuggestedUser = ({ user, setUser }) => {
 				<VStack spacing={2} alignItems={"flex-start"}>
 					<Link to={`/${user.username}`}>
 						<Box fontSize={12} fontWeight={"bold"}>
-							{user.fullName}
+							{user.username}
 						</Box>
 					</Link>
 					<Box fontSize={11} color={"gray.500"}>

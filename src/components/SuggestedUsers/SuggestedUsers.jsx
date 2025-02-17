@@ -12,7 +12,11 @@ const SuggestedUsers = () => {
     // Set initial users when data is loaded
     useEffect(() => {
         if (!isLoading) {
-            setSuggestedUsers(initialSuggestedUsers);
+            setSuggestedUsers(
+                initialSuggestedUsers.filter(
+                    (user) => !user.deleted && user.username.toLowerCase() !== "deleted user"
+                )
+            );
         }
     }, [isLoading, initialSuggestedUsers]);
 

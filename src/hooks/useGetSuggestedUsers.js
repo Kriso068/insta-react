@@ -18,6 +18,7 @@ const useGetSuggestedUsers = () => {
                 const usersRef = collection(firestore, 'users');
                 const q = query(
                     usersRef,
+                    where("deleted", "==", false),
                     where("uid", "not-in", [authUser.uid, ...authUser.following]),
                     orderBy("uid"),
                     limit(3)

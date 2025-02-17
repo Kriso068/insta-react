@@ -32,6 +32,7 @@ const GoogleAuth = ({ prefix }) => {
 					email: newUser.user.email,
 					username: newUser.user.email.split("@")[0],
 					fullName: newUser.user.displayName,
+					usernameLower: newUser.user.email.split("@")[0].toLowerCase(),
 					bio: "",
 					profilePicURL: newUser.user.photoURL,
 					followers: [],
@@ -41,6 +42,7 @@ const GoogleAuth = ({ prefix }) => {
 					posts: [],
 					saved: [],
 					createdAt: Date.now(),
+					deleted: false,
 				};
 				await setDoc(doc(firestore, "users", newUser.user.uid), userDoc);
 				localStorage.setItem("user-info", JSON.stringify(userDoc));

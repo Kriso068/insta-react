@@ -33,6 +33,7 @@ const useEditProfile = () => {
 				...authUser,
 				fullName: inputs.fullName || authUser.fullName,
 				username: inputs.username || authUser.username,
+				usernameLower: (inputs.username || authUser.username).toLowerCase(),
 				bio: inputs.bio || authUser.bio,
 				profilePicURL: URL || authUser.profilePicURL,
 			};

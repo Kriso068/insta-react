@@ -20,6 +20,7 @@ import useAuthStore from "../../store/authStore";
 import usePreviewImg from "../../hooks/usePreviewImg";
 import useEditProfile from "../../hooks/useEditProfile";
 import useShowToast from "../../hooks/useShowToast";
+import DeleteProfile from "./DeleteProfile";
 
 const EditProfile = ({ isOpen, onClose }) => {
 	const [inputs, setInputs] = useState({
@@ -133,6 +134,11 @@ const EditProfile = ({ isOpen, onClose }) => {
 									</Button>
 								</Stack>
 							</Stack>
+							
+							
+
+							{/* Add Delete Profile Button */}
+							<DeleteProfile />
 						</Flex>
 					</ModalBody>
 				</ModalContent>

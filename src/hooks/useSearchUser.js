@@ -1,6 +1,6 @@
 import { useState } from "react";
 import useShowToast from "./useShowToast";
-import { collection, getDocs, query, where, orderBy, startAt, endAt } from "firebase/firestore";
+import { collection, getDocs, query, orderBy, startAt, endAt, where } from "firebase/firestore";
 import { firestore } from "../firebase/firebase";
 
 const useSearchUser = () => {
@@ -11,25 +11,32 @@ const useSearchUser = () => {
   const getUserProfile = async (username) => {
     setIsLoading(true);
     setUsers([]);
-    try {
-      // Convert the search query to lowercase and uppercase for case-insensitive search
-      const lowercaseUsername = username.toLowerCase();
-      const uppercaseUsername = username.toUpperCase();
 
-      // Use orderBy and startAt/endAt for case-insensitive search
+    try {
+      if (!username.trim()) return;
+
+      const searchQuery = username.trim().toLowerCase(); // Convert search input to lowercase
+
       const q = query(
         collection(firestore, "users"),
-        orderBy("username"),
-        startAt(lowercaseUsername),
-        endAt(lowercaseUsername + "\uf8ff")
+        orderBy("usernameLower"), // Order by lowercase username
+        startAt(searchQuery),
+        endAt(searchQuery + "\uf8ff")
       );
 
       const querySnapshot = await getDocs(q);
-      if (querySnapshot.empty) return showToast("Error", "User not found", "error");
 
-      querySnapshot.forEach((doc) => {
-        setUsers(prevUsers => [...prevUsers, doc.data()]);
-      });
+      if (querySnapshot.empty) {
+        showToast("Error", "No users found", "error");
+        return;
+      }
+
+      const filteredUsers = querySnapshot.docs
+        .map(doc => ({ uid: doc.id, ...doc.data() }))
+        .slice(0, 10); // Limit to 10 results
+
+      setUsers(filteredUsers);
+      
     } catch (error) {
       showToast("Error", error.message, "error");
       setUsers([]);
