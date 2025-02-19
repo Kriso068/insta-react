@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { addDoc, collection } from "firebase/firestore";
 import { firestore } from "../../firebase/firebase";
-import { Input, Button, Flex } from "@chakra-ui/react";  // Import Chakra components
+import { Input, Button, Flex } from "@chakra-ui/react";
 import './chatBox.css';
 
 const MessageForm = ({ scroll, authUser, receiverUid, buttonText = "Send" }) => {
@@ -25,7 +25,7 @@ const MessageForm = ({ scroll, authUser, receiverUid, buttonText = "Send" }) => 
       await addDoc(collection(firestore, "privateMessages"), {
         text: message,
         avatar: authUser.profilePicURL,
-        name: authUser.fullName,
+        name: authUser.username,
         senderUid: authUser.uid,
         receiverUid,
         uid: authUser.uid,

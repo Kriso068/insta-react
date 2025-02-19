@@ -2,7 +2,6 @@
 import React from "react";
 import { IconButton, Flex, Input } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon, CheckIcon, CloseIcon } from "@chakra-ui/icons";
-import useAuthStore from "../../store/authStore";
 import './chatBox.css';
 
 const Message = ({
@@ -16,13 +15,15 @@ const Message = ({
     editMessage,
     cancelEditing
 }) => {
+    
     const isUserMessage = message.senderUid === authUser?.uid;
-
+   
     return (
         <div className={`chat-bubble ${isUserMessage ? "right" : ""}`}>
             <img className="chat-bubble__left" src={message.avatar} alt="user avatar" />
             <div className="chat-bubble__right">
                 <p className="user-name">{message.name}</p>
+
 
                 {/* Inline edit input */}
                 {isEditing ? (

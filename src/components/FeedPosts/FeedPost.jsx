@@ -20,13 +20,13 @@ const FeedPost = ({ post }) => {
 			<PostHeader post={post} creatorProfile={userProfile} />
 			<Box my={2} borderRadius={4} overflow={"hidden"}>
 				{post.imageURL && (
-					<Image src={post.imageURL} alt="FEED POST IMG" w={"100%"} h={"100%"} objectfit={"cover"} />
+					<Image src={post.imageURL} alt="FEED POST IMG" w={"100%"} h={"auto"} objectfit={"cover"} />
 				)}
 				{post.videoURL && (
-					<video preload='true' controls src={post.videoURL} width={'100%'} height={'100%'} objectfit={"cover"}></video>
+					<video preload='true' controls src={post.videoURL} width={'100%'} height={'auto'} style={{ objectFit: "cover" }}></video>
 				)}
 				{post.videoRecordedURL && (
-					<video preload='true' controls src={post.videoRecordedURL} alt='profile post' w={"100%"} h={"100%"} objectfit={"cover"}></video>
+					<video preload='true' controls src={post.videoRecordedURL} alt='profile post' w={"100%"} h={"auto"} style={{ objectFit: "cover" }}></video>
 				)}
 			</Box>
 			<PostFooter post={post} creatorProfile={userProfile} />

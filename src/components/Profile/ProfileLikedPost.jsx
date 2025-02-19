@@ -57,7 +57,9 @@ const ProfileLikedPost = ({ post }) => {
 				border={"1px solid"}
 				borderColor={"whiteAlpha.300"}
 				position={"relative"}
-				aspectRatio={1 / 1}
+				w={"100%"}
+				h={"auto"}
+				aspectRatio={1}
 				onClick={onOpen}
 			>
 				<Flex
@@ -102,13 +104,13 @@ const ProfileLikedPost = ({ post }) => {
 				>
 
 					{post.imageURL && (
-						<Image src={post.imageURL} alt="FEED POST IMG" w={"100%"} h={"100%"} objectfit={"cover"} />
+						<Image src={post.imageURL} alt="FEED POST IMG" w={"100%"} h={"auto"} objectfit={"cover"} />
 					)}
 					{post.videoURL && (
-						<video preload="true" controls src={post.videoURL} w={"100%"} h={"100%"} objectfit={"cover"}></video>
+						<video preload="true" controls src={post.videoURL} w={"100%"} h={"auto"} style={{ objectFit: "cover" }}></video>
 					)}
 					{post.videoRecordedURL && (
-						<video preload="true" controls src={post.videoRecordedURL} alt="profile post" w={"100%"} h={"100%"} objectfit={"cover"}></video>
+						<video preload="true" controls src={post.videoRecordedURL} alt="profile post" w={"100%"} h={"auto"} style={{ objectFit: "cover" }}></video>
 					)}
 				</Flex>
 
@@ -148,10 +150,10 @@ const ProfileLikedPost = ({ post }) => {
 									<Image src={post.imageURL} alt="FEED POST IMG" w={"100%"} h={"100%"} objectfit={"cover"}/>
 								)}
 								{post.videoURL && (
-									<video preload="true" controls src={post.videoURL} width={"100%"} height={"100%"} objectfit={"cover"}></video>
+									<video preload="true" controls src={post.videoURL} width={"100%"} height={"100%"} style={{ objectFit: "cover" }}></video>
 								)}
 								{post.videoRecordedURL && (
-									<video preload="true" controls src={post.videoRecordedURL} alt="profile post" w={"100%"} h={"100%"} objectfit={"cover"}></video>
+									<video preload="true" controls src={post.videoRecordedURL} alt="profile post" w={"100%"} h={"100%"} style={{ objectFit: "cover" }}></video>
 								)}
 							</Flex>
 

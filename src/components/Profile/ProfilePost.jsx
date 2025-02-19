@@ -98,7 +98,9 @@ const ProfilePost = ({ post }) => {
 				border={"1px solid"}
 				borderColor={"whiteAlpha.300"}
 				position={"relative"}
-				aspectRatio={1 / 1}
+				w={"100%"}
+				h={"auto"}
+				aspectRatio={1}
 				onClick={onOpen}
 			>
 				<Flex
@@ -143,13 +145,13 @@ const ProfilePost = ({ post }) => {
 				>
 
 					{post.imageURL && (
-						<Image src={post.imageURL} alt="FEED POST IMG" w={"100%"} h={"100%"} objectfit={"cover"} />
+						<Image src={post.imageURL} alt="FEED POST IMG" w={"100%"} h={"auto"} objectfit={"cover"} />
 					)}
 					{post.videoURL && (
-						<video preload="true" controls src={post.videoURL} w={"100%"} h={"100%"} objectfit={"cover"}></video>
+						<video preload="true" controls src={post.videoURL} w={"100%"} h={"auto"} style={{ objectFit: "cover" }}></video>
 					)}
 					{post.videoRecordedURL && (
-						<video preload="true" controls src={post.videoRecordedURL} alt="profile post" w={"100%"} h={"100%"} objectfit={"cover"}></video>
+						<video preload="true" controls src={post.videoRecordedURL} alt="profile post" w={"100%"} h={"auto"} style={{ objectFit: "cover" }}></video>
 					)}
 				</Flex>
 				
@@ -160,7 +162,8 @@ const ProfilePost = ({ post }) => {
 				<ModalContent
 					bg="black" 
 					pb={5} 
-					maxH="100vh"
+					maxH={"90vh"}
+					maxW={"80vw"}
 					overflowY="auto" 
 				>
 					<ModalCloseButton />
@@ -186,10 +189,10 @@ const ProfilePost = ({ post }) => {
 									<Image src={post.imageURL} alt='profile post' w={"100%"} h={"100%"} objectfit={"cover"} />
 								)}
 								{post.videoURL && (
-									<video preload="true" controls src={post.videoURL} w={"100%"} h={"100%"} objectfit={"cover"}></video>
+									<video preload="true" controls src={post.videoURL} w={"100%"} h={"100%"} style={{ objectFit: "cover" }}></video>
 								)}
 								{post.videoRecordedURL && (
-									<video preload="true" controls src={post.videoRecordedURL} alt='profile post' w={"100%"} h={"100%"} objectfit={"cover"}></video>
+									<video preload="true" controls src={post.videoRecordedURL} alt='profile post' w={"100%"} h={"100%"} style={{ objectFit: "cover" }}></video>
 								)}
 							</Flex>
 							<Flex 
