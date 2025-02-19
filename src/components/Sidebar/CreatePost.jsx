@@ -29,7 +29,6 @@ import { useLocation } from "react-router-dom";
 import { addDoc, arrayUnion, collection, doc, updateDoc } from "firebase/firestore";
 import { firestore, storage } from "../../firebase/firebase";
 import { getDownloadURL, ref, uploadBytes, uploadString } from "firebase/storage";
-
 import VideoRecorder from "../VideoComponent/VideoRecorder";
 
 const CreatePost = () => {

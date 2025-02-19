@@ -3,8 +3,9 @@ import useShowToast from "./useShowToast";
 
 const usePreviewRecord = () => {
     const showToast = useShowToast();
-
     const mimeType = "video/webm";
+    const maxFileSizeInBytes = 50 * 1024 * 1024; // 50MB
+
     const [permission, setPermission] = useState(false);
     const mediaRecorder = useRef(null);
     const liveVideoFeed = useRef(null);
@@ -54,6 +55,7 @@ const usePreviewRecord = () => {
             const media = new MediaRecorder(stream, { mimeType });
             mediaRecorder.current = media;
             mediaRecorder.current.start();
+
             let localVideoChunks = [];
             mediaRecorder.current.ondataavailable = (event) => {
                 if (typeof event.data === "undefined") return;
@@ -66,39 +68,23 @@ const usePreviewRecord = () => {
         }
     };
     
-
-    // const startRecording = () => {
-    //     setRecordingStatus("recording");
-    //     const media = new MediaRecorder(stream, { mimeType });
-    //     mediaRecorder.current = media;
-    //     mediaRecorder.current.start();
-    //     let localVideoChunks = [];
-    //     mediaRecorder.current.ondataavailable = (event) => {
-    //         if (typeof event.data === "undefined") return;
-    //         if (event.data.size === 0) return;
-    //         localVideoChunks.push(event.data);
-    //     };
-    //     setVideoChunks(localVideoChunks);
-    // };
-
-    // const stopRecording = () => {
-    //     setPermission(false);
-    //     setRecordingStatus("inactive");
-    //     mediaRecorder.current.stop();
-    //     mediaRecorder.current.onstop = () => {
-    //         const videoBlob = new Blob(videoChunks, { type: mimeType });
-    //         const videoUrl = URL.createObjectURL(videoBlob);
-    //         setRecordedVideo(videoUrl);
-    //         setVideoChunks([]);
-    //     };
-    // };
-
     const stopRecording = () => {
         setPermission(false);
         setRecordingStatus("inactive");
+
         mediaRecorder.current.stop();
         mediaRecorder.current.onstop = () => {
+
             const videoBlob = new Blob(videoChunks, { type: mimeType });
+
+            // Check if the recorded video exceeds max size**
+            if (videoBlob.size > maxFileSizeInBytes) {
+                showToast("Error", "Recorded video exceeds 50MB limit", "error");
+                setVideoChunks([]);
+                return;
+            }
+
+            // Convert video to Data URL
             const reader = new FileReader();
             reader.readAsDataURL(videoBlob);
             reader.onloadend = () => {
@@ -119,8 +105,6 @@ const usePreviewRecord = () => {
 
     return { getCameraPermission, startRecording, stopRecording, recordedVideo };
 };
-
-
 
 
 export default usePreviewRecord;
