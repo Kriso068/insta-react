@@ -232,19 +232,11 @@ const ProfilePost = ({ post }) => {
 									{/* COMMENTS */}
 									{post.comments.map((comment, id) => (
 										authUser && authUser.uid === comment.createdBy ? (
-											<Box
-												key={id}
-												cursor={"pointer"}
-												_hover={{ bg: "whiteAlpha.300", color: "white" }}
-											>
+											<Box>
 												<Comment comment={comment} onClick={() => handleUpdatePost(comment)} />
 											</Box>
 										) : (
-											<Box
-												key={id}
-												cursor={"pointer"}
-												_hover={{ bg: "whiteAlpha.300", color: "red" }}
-											>
+											<Box>
 												<Comment comment={comment} onClick={() => handleUpdatePost(comment)} />
 											</Box>
 										)

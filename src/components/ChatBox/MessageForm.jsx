@@ -47,7 +47,7 @@ const MessageForm = ({ scroll, authUser, receiverUid, buttonText = "Send" }) => 
       <label htmlFor="messageInput" hidden>
         Enter Message
       </label>
-      <Flex align="center" gap={2} justifyContent={"space-between"} px={2} position={"fixed"} bottom={82} w={"100%"}>
+      <Flex align="center" gap={2} justifyContent={"space-between"} px={2} position={"fixed"} bottom={82} w={"80%"}>
         <Input
           id="messageInput"
           name="messageInput"

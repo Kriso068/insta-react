@@ -9,6 +9,7 @@ import { mode } from '@chakra-ui/theme-tools';
 import { BrowserRouter } from 'react-router-dom';
 
 
+
 const styles = {
   global: (props) => ({
     body:{

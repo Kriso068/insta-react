@@ -63,6 +63,7 @@ const MyMessages = () => {
         const q = query(
             collection(firestore, "privateMessages"),
             where("users", "array-contains", authUser.uid),
+            where("receiverUid", "==", authUser.uid), 
             orderBy("createdAt", "desc"),
             limit(50)
         );
