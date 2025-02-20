@@ -34,10 +34,16 @@
     color: #1c2c4c;
   }
   .user-message {
-    word-break: break-all;
+    font-size: 25px;
   }
   .message-time {
     display: block;
     text-align: right;
+    font-size: 12px;
   }
  
+@media screen and (max-width: 768px) {
+  .user-message {
+    font-size: 15px;
+  }
+}

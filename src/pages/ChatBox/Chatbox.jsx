@@ -255,22 +255,27 @@ const ChatBox = () => {
             console.error("Error editing message:", error);
         }
     };
+    const userLastMessage = messages
+        .filter((msg) => msg.senderUid === authUser.uid)
+        .reduce((latest, msg) => (!latest || msg.createdAt > latest.createdAt ? msg : latest), null);
 
     return (
         <main className="chat-box">
             <div className="messages-wrapper">
-                {messages.map((message) => (
+                {messages.map((message, index) => (
                     <Message
-                    key={message.id}
-                    message={message}
-                    authUser={authUser}
-                    onEdit={startEditing}
-                    onDelete={deleteMessage}
-                    isEditing={editingMessage === message.id}
-                    editText={editText}
-                    setEditText={setEditText}
-                    editMessage={editMessage}
-                    cancelEditing={cancelEditing} />
+                        key={message.id}
+                        message={message}
+                        authUser={authUser}
+                        onEdit={startEditing}
+                        onDelete={deleteMessage}
+                        isEditing={editingMessage === message.id}
+                        editText={editText}
+                        setEditText={setEditText}
+                        editMessage={editMessage}
+                        cancelEditing={cancelEditing} 
+                        isLastMessage={userLastMessage?.id === message.id}
+                    />
                 ))}
             </div>
             <span ref={scroll}></span>
