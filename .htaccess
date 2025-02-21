@@ -1,3 +1,18 @@
+<!-- # Enable Rewrite Engine
+RewriteEngine On
+
+# Force HTTPS (Fixed)
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Force No WWW
+RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+# Ensure JavaScript and Module Files Load Correctly
+AddType application/javascript .js
+AddType text/javascript .mjs -->
+
 # Enable Rewrite Engine
 RewriteEngine On
 
@@ -12,3 +27,8 @@ RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
 # Ensure JavaScript and Module Files Load Correctly
 AddType application/javascript .js
 AddType text/javascript .mjs
+
+# Redirect all routes to index.html (SPA fallback for React Router)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /index.html [L,QSA]

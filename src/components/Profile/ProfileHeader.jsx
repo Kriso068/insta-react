@@ -134,7 +134,6 @@ const ProfileHeader = () => {
 				)}
 			</Flex>
 
-			{/* Follow, Block, Message Buttons in One Row */}
 			{visitingAnotherProfileAndAuth && !banned && (
 				<Flex w="full" justify={{ base: "space-between", md: "flex-start" }} gap={4} mt={3}>
 					<Button

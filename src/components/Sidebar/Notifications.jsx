@@ -185,6 +185,7 @@
 // export default MyMessages;
 
 
+
 import { useEffect, useState } from "react";
 import {
     query,
@@ -193,7 +194,9 @@ import {
     onSnapshot,
     where,
     getDoc,
-    doc
+    doc,
+    updateDoc,
+    getDocs
 } from "firebase/firestore";
 import { Avatar, AvatarBadge, AvatarGroup, Box, Flex, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Text, Tooltip } from "@chakra-ui/react";
 import { firestore } from "../../firebase/firebase";
@@ -203,30 +206,51 @@ import { useNavigate } from "react-router-dom";
 const MyMessages = () => {
     const authUser = useAuthStore((state) => state.user);
     const [users, setUsers] = useState([]);
-    const [readMessages, setReadMessages] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
 
     const handleChatboxClick = async (userProfile) => {
         if (userProfile) {
-            navigate(`/message/${authUser?.username}/${userProfile.username}`);
+            try {
+                // Query unread messages for the selected user
+                const q = query(
+                    collection(firestore, "privateMessages"),
+                    where("users", "array-contains", authUser.uid),
+                    where("senderUid", "==", userProfile.uid),
+                    where("unread", "==", true)
+                );
 
-            // Mark messages as read locally
-            setReadMessages((prev) => [...prev, userProfile.uid]);
+                const querySnapshot = await getDocs(q);
+                const updatePromises = querySnapshot.docs.map((messageDoc) => {
+                    return updateDoc(messageDoc.ref, { unread: false });
+                });
+
+                await Promise.all(updatePromises);
+
+                // **Trigger re-fetch to update notifications after marking as read**
+                fetchUnreadMessages();
+
+                // Navigate to chat
+                navigate(`/message/${authUser?.username}/${userProfile.username}`);
+                closeModal();
+            } catch (error) {
+                console.error("Error marking messages as read:", error);
+            }
         }
     };
 
     const openModal = () => setShowModal(true);
     const closeModal = () => setShowModal(false);
 
-    useEffect(() => {
+    // **Fetch Unread Messages** (Runs on Load and after marking as read)
+    const fetchUnreadMessages = () => {
         if (!authUser) return;
 
-        // 🔹 Firestore query to listen for new messages in real-time
         const q = query(
             collection(firestore, "privateMessages"),
             where("users", "array-contains", authUser.uid),
             where("receiverUid", "==", authUser.uid), 
+            where("unread", "==", true),
             orderBy("createdAt", "desc")
         );
 
@@ -245,38 +269,40 @@ const MyMessages = () => {
                     };
                 }
 
-                if (message.unread && message.receiverUid === authUser.uid) {
-                    fetchedUsers[otherUserUid].messageCount++;
-                }
+                fetchedUsers[otherUserUid].messageCount++;
             });
 
-            // 🔹 Fetch user profile data in parallel for better performance
-            const userProfiles = await Promise.all(
-                Object.keys(fetchedUsers).map(async (userUid) => {
-                    try {
-                        const userRef = await getDoc(doc(firestore, "users", userUid));
-                        if (userRef.exists()) {
-                            fetchedUsers[userUid].userProfile = userRef.data();
-                        }
-                    } catch (error) {
-                        console.error("Error fetching user profile:", error.message);
+            // Fetch user profiles
+            for (const userUid of Object.keys(fetchedUsers)) {
+                try {
+                    const userRef = await getDoc(doc(firestore, "users", userUid));
+                    if (userRef.exists()) {
+                        fetchedUsers[userUid].userProfile = userRef.data();
                     }
-                })
-            );
+                } catch (error) {
+                    console.error("Error fetching user profile:", error.message);
+                }
+            }
 
-            // 🔹 Ensure new updates trigger re-renders
-            setUsers(() => Object.values(fetchedUsers));
+            setUsers(Object.values(fetchedUsers));
         });
 
-        return () => unsubscribe();
-    }, [authUser]); // ✅ Ensures updates when `authUser` changes
+        return unsubscribe;
+    };
 
-    // 🔹 Filter users based on messages marked as read
-    const filteredUsers = users.filter(user => !readMessages.includes(user.userProfile?.uid));
+    useEffect(() => {
+        const unsubscribe = fetchUnreadMessages();
+        return () => unsubscribe && unsubscribe();
+    }, [authUser]);
 
     return (
         <>
-            <Tooltip hasArrow label="Unread Messages" placement="right" openDelay={500}>
+            <Tooltip
+                hasArrow
+                label="Unread Messages"
+                placement="right"
+                openDelay={500}
+            >
                 <Flex
                     alignItems="center"
                     cursor="pointer"
@@ -291,7 +317,7 @@ const MyMessages = () => {
                             height="24"
                             width="24"
                             viewBox="0 0 24 24"
-                            fill={filteredUsers.some(user => user.messageCount > 0) ? "red" : "rgb(245, 245, 245)"}
+                            fill={users.length > 0 ? "red" : "rgb(245, 245, 245)"}
                         >
                             <path d="M12 22c1.104 0 2-.896 2-2h-4c0 1.104.896 2 2 2zm6-6V10c0-3.314-2.686-6-6-6S6 6.686 6 10v6l-2 2v1h16v-1l-2-2z"/>
                         </svg>
@@ -306,10 +332,10 @@ const MyMessages = () => {
                     <ModalHeader>Unread Messages</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        {filteredUsers.length > 0 ? (
-                            filteredUsers.map(({ userProfile, messageCount, latestMessage }) => (
+                        {users.length > 0 ? (
+                            users.map(({ userProfile, messageCount, latestMessage }) => (
                                 <Flex
-                                    key={userProfile?.uid}
+                                    key={userProfile.uid}
                                     alignItems="center"
                                     gap={3}
                                     p={2}
@@ -319,7 +345,7 @@ const MyMessages = () => {
                                     onClick={() => handleChatboxClick(userProfile)}
                                 >
                                     <AvatarGroup>
-                                        <Avatar src={userProfile?.profilePicURL} alt="profile pic">
+                                        <Avatar src={userProfile.profilePicURL} alt="profile pic">
                                             {messageCount > 0 && (
                                                 <AvatarBadge boxSize="1.25em" bg="red.500" fontSize="0.75em">
                                                     {messageCount}
@@ -328,7 +354,7 @@ const MyMessages = () => {
                                         </Avatar>
                                     </AvatarGroup>
                                     <Flex direction="column">
-                                        <Text fontWeight="bold">{userProfile?.username}</Text>
+                                        <Text fontWeight="bold">{userProfile.username}</Text>
                                         <Text fontSize="sm" color="gray.400">{latestMessage}</Text>
                                     </Flex>
                                 </Flex>
@@ -344,3 +370,4 @@ const MyMessages = () => {
 };
 
 export default MyMessages;
+

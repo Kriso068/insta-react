@@ -30,7 +30,7 @@
   .user-name {
     font-weight: bold;
     margin-bottom: 5px;
-    font-size: 0.9rem;
+    font-size: 1.5rem;
     color: #1c2c4c;
   }
   .user-message {
@@ -41,8 +41,29 @@
     text-align: right;
     font-size: 12px;
   }
+
+ /* Hide MessageForm when scrolling up */
+.hidden {
+  opacity: 0;
+  transform: translateY(100%);
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  pointer-events: none;
+}
+
+/* Show MessageForm when at the bottom */
+.visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+  
+
  
 @media screen and (max-width: 768px) {
+
+  .user-name {
+    font-size: 0.9rem;
+  }
   .user-message {
     font-size: 15px;
   }

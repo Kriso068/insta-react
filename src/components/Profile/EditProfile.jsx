@@ -207,7 +207,7 @@ const EditProfile = ({ isOpen, onClose }) => {
 			<Modal isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
 				<ModalContent bg={"black"} boxShadow={"xl"} border={"1px solid gray"} mx={3}>
-					<ModalHeader display="flex" justifyContent="space-between" alignItems="center" mt={9} px={3}>
+					<ModalHeader display="flex" justifyContent="space-between" alignItems="center" mt={9}  ps={12} pe={3}>
 						Edit Profile
 						<Menu >
 							<MenuButton as={IconButton} icon={<BsThreeDotsVertical />} size="sm" variant="ghost"  />

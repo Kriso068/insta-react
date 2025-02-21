@@ -1,11 +1,13 @@
 import { Box, Flex, Grid, Skeleton, Text, VStack } from "@chakra-ui/react";
 import useGetFollwersByUserId from "../../hooks/useGetFollwersByUserId";
 import FollowerPageProfile from "./FollowerPageProfile";
+import useAuthStore from "../../store/authStore";
 
 
 const FolowersPageProfile = () => {
 
   const { isLoading, followers } = useGetFollwersByUserId();
+  const authUser = useAuthStore((state) => state.user);
   const noFollowersFound = !isLoading && followers.length === 0;
   if (noFollowersFound) return <NoFollowersFound />; 
 

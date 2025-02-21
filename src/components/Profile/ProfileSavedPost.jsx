@@ -187,24 +187,10 @@ const ProfileSavedPost = ({ post }) => {
 								<Divider my={4} bg={"gray.500"} />
 								<VStack w='full' alignItems={"start"} maxH={"350px"} overflowY={"auto"}>
 									{/* CAPTION */}
-									{post.comments.map((comment, id) => (
-										authUser && authUser.uid === comment.createdBy ? (
-											<Box
-												key={id}
-												cursor={"pointer"}
-												_hover={{ bg: "whiteAlpha.300", color: "white" }}
-											>
-												<Comment comment={comment} onClick={() => handleUpdatePost(comment)} />
-											</Box>
-										) : (
-											<Box
-												key={id}
-												cursor={"pointer"}
-												_hover={{ bg: "whiteAlpha.300", color: "red" }}
-											>
-												<Comment comment={comment} onClick={() => handleUpdatePost(comment)} />
-											</Box>
-										)
+									{post.comments.map((comment, index) => (
+										<Box key={comment.id || index}>
+											<Comment comment={comment} onClick={() => handleUpdatePost(comment)} />
+										</Box>
 									))}
 								</VStack>
 								<Divider my={4} bg={"gray.8000"} />

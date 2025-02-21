@@ -230,16 +230,10 @@ const ProfilePost = ({ post }) => {
 									{/* CAPTION */}
 									{post.caption && <Caption post={post} />}
 									{/* COMMENTS */}
-									{post.comments.map((comment, id) => (
-										authUser && authUser.uid === comment.createdBy ? (
-											<Box>
-												<Comment comment={comment} onClick={() => handleUpdatePost(comment)} />
-											</Box>
-										) : (
-											<Box>
-												<Comment comment={comment} onClick={() => handleUpdatePost(comment)} />
-											</Box>
-										)
+									{post.comments.map((comment, index) => (
+										<Box key={comment.id || index}>
+											<Comment comment={comment} onClick={() => handleUpdatePost(comment)} />
+										</Box>
 									))}
 
 								</VStack>
