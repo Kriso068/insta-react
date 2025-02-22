@@ -1,5 +1,5 @@
 
-import { Box, Button, Flex, Input, InputGroup, InputRightElement, Text, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, Flex, Input, InputGroup, InputRightElement, Text, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, Avatar } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import { BookmarkLogo, BookmarkLogoFull, CommentLogo, NotificationsLogo, UnlikeLogo } from "../../assets/constants";
 import usePostComment from "../../hooks/usePostComment";
@@ -14,9 +14,10 @@ const PostFooter = ({ post, isProfilePage, creatorProfile }) => {
 	const [comment, setComment] = useState("");
 	const authUser = useAuthStore((state) => state.user);
 	const commentRef = useRef(null);
-	const { handleLikePost, isLiked, likes } = useLikePost(post);
+	const { handleLikePost, isLiked, likes, likedUsers } = useLikePost(post);
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const { handleSavedPost, isSaved } = useSavedPost(post);
+	const { isOpen: isLikesOpen, onOpen: openLikes, onClose: closeLikes } = useDisclosure();
 
 	const handleSubmitComment = async () => {
 		await handlePostComment(post.id, comment);
@@ -37,9 +38,36 @@ const PostFooter = ({ post, isProfilePage, creatorProfile }) => {
 					{!isSaved ? <BookmarkLogo /> : <BookmarkLogoFull />}  
                 </Box>
 			</Flex>
-			<Text fontWeight={600} fontSize={"sm"}>
+
+			{/* Clickable Likes Count */}
+			<Text fontWeight={600} fontSize={"sm"} cursor="pointer" onClick={openLikes}>
 				{likes} likes
 			</Text>
+
+			{/* Likes Modal */}
+			<Modal isOpen={isLikesOpen} onClose={closeLikes}>
+				<ModalOverlay />
+				<ModalContent>
+					<ModalHeader>People who liked this post</ModalHeader>
+					<ModalCloseButton />
+					<ModalBody>
+						{likedUsers.length === 0 ? (
+							<Text>No likes yet.</Text>
+						) : (
+							likedUsers.map((user) => (
+								<Flex key={user.uid} align="center" gap={2} mb={2}>
+									<Avatar 
+										src={user.profilePicURL} 
+										alt={user.username}
+									 	width={30} 
+										height={30} />
+									<Text>{user.username}</Text>
+								</Flex>
+							))
+						)}
+					</ModalBody>
+				</ModalContent>
+			</Modal>
 
 			{isProfilePage && (
 				<Text fontSize='12' color={"gray"}>
@@ -76,16 +104,7 @@ const PostFooter = ({ post, isProfilePage, creatorProfile }) => {
 							ref={commentRef}
 						/>
 						<InputRightElement>
-							<Button
-								fontSize={14}
-								color={"blue.500"}
-								fontWeight={600}
-								cursor={"pointer"}
-								_hover={{ color: "white" }}
-								bg={"transparent"}
-								onClick={handleSubmitComment}
-								isLoading={isCommenting}
-							>
+							<Button fontSize={14} color={"blue.500"} fontWeight={600} cursor={"pointer"} _hover={{ color: "white" }} bg={"transparent"} onClick={handleSubmitComment} isLoading={isCommenting}>
 								Post
 							</Button>
 						</InputRightElement>
