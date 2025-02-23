@@ -185,8 +185,7 @@ function useCreatePost() {
 		}
 
 		setIsLoading(true);
-		console.log("Auth User:", authUser); // Debugging output
-
+	
 		try {
 			// Create a new Firestore document for the post
 			const newPost = {
