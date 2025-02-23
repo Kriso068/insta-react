@@ -41,13 +41,13 @@ const CreatePost = () => {
 	const showToast = useShowToast();
 	const { isLoading, handleCreatePost } = useCreatePost();
 	const [recordOption, setRecordOption] = useState(null);
-	const [selectedVideoRecordedFile, setSelectedVideoRecordedFile] = useState(null);
+	// const [selectedVideoRecordedFile, setSelectedVideoRecordedFile] = useState(null);
 
 	// Handle Image Selection (Clear other selections)
 	const handleImageSelect = (event) => {
 		handleImageChange(event);
 		setSelectedVideoFile(null);
-		setSelectedVideoRecordedFile(null);
+		// setSelectedVideoRecordedFile(null);
 		setRecordOption(null);
 	};
 
@@ -55,13 +55,13 @@ const CreatePost = () => {
 	const handleVideoSelect = (event) => {
 		handleVideoChange(event);
 		setSelectedFile(null);
-		setSelectedVideoRecordedFile(null);
+		// setSelectedVideoRecordedFile(null);
 		setRecordOption(null);
 	};
 
 	// Handle Recorded Video Selection (Clear other selections)
 	const handleRecordingComplete = (videoUrl) => {
-		setSelectedVideoRecordedFile(videoUrl);
+		// setSelectedVideoRecordedFile(videoUrl);
 		setSelectedFile(null);
 		setSelectedVideoFile(null);
 		setRecordOption("video");
@@ -69,12 +69,13 @@ const CreatePost = () => {
 
 	const handlePostCreation = async () => {
 		try {
-			await handleCreatePost(selectedFile, selectedVideoFile, selectedVideoRecordedFile, caption);
+			// await handleCreatePost(selectedFile, selectedVideoFile, selectedVideoRecordedFile, caption);
+			await handleCreatePost(selectedFile, selectedVideoFile, caption);
 			onClose();
 			setCaption("");
 			setSelectedFile(null);
 			setSelectedVideoFile(null);
-			setSelectedVideoRecordedFile(null);
+			// setSelectedVideoRecordedFile(null);
 			setRecordOption(null);
 		} catch (error) {
 			showToast("Error", error.message, "error");
@@ -114,11 +115,11 @@ const CreatePost = () => {
 								style={{ marginTop: "15px", marginLeft: "5px", cursor: "pointer", opacity: selectedVideoFile ? 1 : 0.5 }}
 								size={16}
 							/>
-							<BsFillCameraFill
+							{/*<BsFillCameraFill
 								onClick={() => setRecordOption("video")}
 								style={{ marginTop: "15px", marginLeft: "5px", cursor: "pointer", opacity: selectedVideoRecordedFile ? 1 : 0.5 }}
 								size={16}
-							/>
+							/>*/}
 
 							{recordOption === "video" && <VideoRecorder onRecordingComplete={handleRecordingComplete} />}
 						</Flex>
@@ -138,12 +139,12 @@ const CreatePost = () => {
 							</Flex>
 						)}
 
-						{selectedVideoRecordedFile && (
+						{/* {selectedVideoRecordedFile && (
 							<Flex mt={5} w={"full"} position={"relative"} justifyContent={"center"}>
 								<video mt={45} controls src={selectedVideoRecordedFile}></video>
 								<CloseButton fontSize={"lg"} _hover={{ color: "black", bg: "red" }} position={"absolute"} color={"red"} top={2} right={2} onClick={() => setSelectedVideoRecordedFile(null)} />
 							</Flex>
-						)}
+						)} */}
 					</ModalBody>
 
 					<ModalFooter>
@@ -169,7 +170,8 @@ function useCreatePost() {
 	const userProfile = useUserProfileStore((state) => state.userProfile);
 	const { pathname } = useLocation();
 
-	const handleCreatePost = async (selectedFile, selectedVideoFile, selectedVideoRecordedFile, caption) => {
+	// const handleCreatePost = async (selectedFile, selectedVideoFile, selectedVideoRecordedFile, caption) => {
+	const handleCreatePost = async (selectedFile, selectedVideoFile, caption) => {
 		if (isLoading) return;
 
 		// Ensure the user is authenticated before proceeding
@@ -179,7 +181,8 @@ function useCreatePost() {
 		}
 
 		// Ensure at least one file is provided
-		if (!selectedFile && !selectedVideoFile && !selectedVideoRecordedFile) {
+		// if (!selectedFile && !selectedVideoFile && !selectedVideoRecordedFile) {
+		if (!selectedFile && !selectedVideoFile) {
 			showToast("Error", "Please select an image or a video.", "error");
 			return;
 		}
@@ -218,24 +221,24 @@ function useCreatePost() {
 			}
 
 			// Upload Recorded Video (Fixes Invalid Format Issue)
-			if (selectedVideoRecordedFile) {
-				try {
-					// Fetch the Blob from the Blob URL
-					const response = await fetch(selectedVideoRecordedFile);
-					const blob = await response.blob();
+			// if (selectedVideoRecordedFile) {
+			// 	try {
+			// 		// Fetch the Blob from the Blob URL
+			// 		const response = await fetch(selectedVideoRecordedFile);
+			// 		const blob = await response.blob();
 
-					// Upload Blob to Firebase Storage
-					const videoRef = ref(storage, `posts/${postDocRef.id}/recordedVideo.webm`);
-					await uploadBytes(videoRef, blob);
-					const videoRecordedURL = await getDownloadURL(videoRef);
+			// 		// Upload Blob to Firebase Storage
+			// 		const videoRef = ref(storage, `posts/${postDocRef.id}/recordedVideo.webm`);
+			// 		await uploadBytes(videoRef, blob);
+			// 		const videoRecordedURL = await getDownloadURL(videoRef);
 
-					// Update Firestore with the video URL
-					await updateDoc(postDocRef, { videoRecordedURL });
-				} catch (error) {
-					console.error("Error uploading recorded video:", error);
-					showToast("Error", "Failed to upload recorded video.", "error");
-				}
-			}
+			// 		// Update Firestore with the video URL
+			// 		await updateDoc(postDocRef, { videoRecordedURL });
+			// 	} catch (error) {
+			// 		console.error("Error uploading recorded video:", error);
+			// 		showToast("Error", "Failed to upload recorded video.", "error");
+			// 	}
+			// }
 
 			// Update Local State
 			if (userProfile?.uid === authUser.uid) createPost({ ...newPost, id: postDocRef.id });
