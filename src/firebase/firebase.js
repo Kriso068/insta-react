@@ -37,7 +37,6 @@ const firestore = getFirestore(app);
 const storage = getStorage(app);
 const analytics = getAnalytics(app);
 
-console.log("Firebase Config:", import.meta.env.VITE_FIREBASE_STORAGE_BUCKET);
 
 
 export {app, auth, firestore, analytics, storage};
