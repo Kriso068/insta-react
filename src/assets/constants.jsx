@@ -17,6 +17,22 @@ export const InstagramLogo = () => (
 		></path>
 	</svg>
 );
+export const PixflowLogo = () => (
+	<svg
+		aria-label="PixFLow"
+		color="rgb(245, 245, 245)"
+		fill="rgb(245, 245, 245)"
+		height="29"
+		role="img"
+		viewBox="0 0 200 50"
+		width="150"
+		xmlns="http://www.w3.org/2000/svg"
+	>
+		<text x="10" y="35" fontFamily="Billabong, cursive" fontSize="40" fill="currentColor">PixFLow</text>
+	</svg>
+);
+
+
 
 export const InstagramMobileLogo = () => (
 	<svg
