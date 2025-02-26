@@ -4,13 +4,13 @@ import useShowToast from "./useShowToast";
 const usePreviewVideo = () => {
 	const [selectedVideoFile, setSelectedVideoFile] = useState(null);
 	const showToast = useShowToast();
-	const maxFileSizeInBytes = 40 * 1024 * 1024; // 40MB
+	const maxFileSizeInBytes = 50 * 1024 * 1024; // 50MB
 
 	const handleVideoChange = (e) => {
 		const file = e.target.files[0];
 		if (file && file.type.startsWith("video/")) {
 			if (file.size > maxFileSizeInBytes) {
-				showToast("Error", "File size must be less than 40MB", "error");
+				showToast("Error", "File size must be less than 50MB", "error");
 				setSelectedVideoFile(null);
 				return;
 			}
