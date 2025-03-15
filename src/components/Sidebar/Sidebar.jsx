@@ -1,6 +1,6 @@
 import { Box, Button, Flex, Link, Tooltip } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
-import { PixflowLogo } from "../../assets/constants";
+import { PixSphereLogo } from "../../assets/constants";
 import { BiLogOut } from "react-icons/bi";
 import SidebarItems from "./sidebarItems";
 import useLogout from "../../hooks/useLogout";
@@ -25,7 +25,7 @@ const Sidebar = () => {
 		>
 			<Flex direction={"column"} gap={10} w='full' height={"full"}>
 				<Link to={"/"} as={RouterLink} pl={2} display={{ base: "none", md: "block" }} cursor='pointer'>
-					<PixflowLogo />
+					<PixSphereLogo />
 				</Link>
 				<Link
 					to={"/"}
@@ -39,7 +39,7 @@ const Sidebar = () => {
 					w={10}
 					cursor='pointer'
 				>
-					<PixflowLogo />
+					<PixSphereLogo />
 				</Link>
 				<Flex direction={"column"} gap={5} cursor={"pointer"}>
 					<SidebarItems />

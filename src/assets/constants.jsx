@@ -1,6 +1,6 @@
-export const PixflowLogo = () => (
+export const PixSphereLogo = () => (
 	<svg
-		aria-label="PixFLow"
+		aria-label="PixSphere"
 		color="rgb(245, 245, 245)"
 		fill="rgb(245, 245, 245)"
 		height="29"
@@ -9,7 +9,7 @@ export const PixflowLogo = () => (
 		width="150"
 		xmlns="http://www.w3.org/2000/svg"
 	>
-		<text x="10" y="35" fontFamily="Billabong, cursive" fontSize="40" fill="currentColor">PixFLow</text>
+		<text x="10" y="35" fontFamily="Billabong, cursive" fontSize="40" fill="currentColor">PixSphere</text>
 	</svg>
 );
 

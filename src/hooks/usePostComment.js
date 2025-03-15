@@ -21,7 +21,7 @@ const usePostComment = () => {
 
 		setIsCommenting(true);
 		const newComment = {
-			id: Date.now().toString(), // Assigning a unique ID
+			id: Date.now().toString(), 
 			comment: commentText,
 			createdAt: Date.now(),
 			createdBy: authUser.uid,
@@ -71,26 +71,6 @@ const usePostComment = () => {
 			showToast("Error", error.message, "error");
 		}
 	};
-	// const handleEditComment = async (postId, commentId, newText) => {
-	// 	if (!authUser) return;
-
-	// 	try {
-	// 		const postRef = doc(firestore, "posts", postId);
-	// 		const postSnap = await getDoc(postRef);
-
-	// 		if (postSnap.exists()) {
-	// 			const post = postSnap.data();
-	// 			const updatedComments = post.comments.map((comment) =>
-	// 				comment.id === commentId ? { ...comment, comment: newText } : comment
-	// 			);
-
-	// 			await updateDoc(postRef, { comments: updatedComments });
-	// 			updateComment(postId, commentId, newText);
-	// 		}
-	// 	} catch (error) {
-	// 		showToast("Error", error.message, "error");
-	// 	}
-	// };
 
 	//Handle deleting a comment
 	const handleDeleteComment = async (postId, commentId) => {

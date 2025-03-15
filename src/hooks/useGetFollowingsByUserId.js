@@ -1,65 +1,12 @@
-// import { useEffect, useState } from "react"
-// import useShowToast from "./useShowToast";
-// import useUserProfileStore from "../store/userProfileStore";
-// import { firestore } from "../firebase/firebase";
-// import { collection, getDocs, query, where } from "firebase/firestore";
-// import useAuthStore from "../store/authStore";
-
-
-// const useGetFollwingsByUserId = () => {
-
-//     const [isLoading, setIsLoading] = useState(true);
-//     const {followings , setFollowings} = useUserProfileStore();
-//     const showToast = useShowToast();
-//     const userProfile = useUserProfileStore((state) => state.userProfile);
-//     const authUser = useAuthStore(state => state.user);
-
-
-
-//     useEffect(() => {
-//         const getFollowings = async () =>{
-//             if(!userProfile) return;
-//             setIsLoading(true);
-//             setFollowings([]);
-
-//             try {
-//                 const q = query(collection(firestore, "users"), where("followers", "array-contains", authUser.uid));
-// 				const querySnapshot = await getDocs(q);
-
-// 				const followings = [];
-// 				querySnapshot.forEach((doc) => {
-//                     followings.push({ ...doc.data(), id: doc.id });
-// 				});
-
-// 				followings.sort((a, b) => b.createdAt - a.createdAt);
-// 				setFollowings(followings);
-                
-//             } catch (error) {
-// 				showToast("Error", error.message, "error");
-// 				setFollowings([]);
-// 			} finally {
-//                 setIsLoading(false);
-// 			}
-//         };
-
-//         getFollowings();
-        
-//     },[setFollowings, userProfile, showToast])
-    
-//     return { isLoading, followings}
-// }
-
-// export default useGetFollwingsByUserId;
-
 
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"; // Get username from URL
+import { useParams } from "react-router-dom"; 
 import useShowToast from "./useShowToast";
 import { firestore } from "../firebase/firebase";
 import { collection, getDocs, query, where, doc, getDoc } from "firebase/firestore";
 
 const useGetFollowingsByUserId = () => {
-    const { username } = useParams(); // Get username of the profile being viewed
+    const { username } = useParams();
     const [isLoading, setIsLoading] = useState(true);
     const [followings, setFollowings] = useState([]);
     const showToast = useShowToast();
@@ -84,7 +31,7 @@ const useGetFollowingsByUserId = () => {
                 }
 
                 const userProfile = userSnapshot.docs[0].data();
-                const userId = userProfile.uid; //  Get userId from found user
+                const userId = userProfile.uid; 
 
                 if (!userProfile.following || userProfile.following.length === 0) {
                     setFollowings([]);
@@ -117,7 +64,7 @@ const useGetFollowingsByUserId = () => {
         };
 
         getFollowings();
-    }, [username, showToast]); // Refetch when username changes
+    }, [username, showToast]);
 
     return { isLoading, followings };
 };

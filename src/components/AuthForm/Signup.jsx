@@ -157,7 +157,7 @@ const Signup = ({ canFillForm }) => {
         value={inputs.email}
         size={"sm"}
         onChange={(e) => setInputs({ ...inputs, email: e.target.value })}
-        isDisabled={!canFillForm}
+        isDisabled={true}
       />
       <Input
         placeholder="Username"
@@ -166,7 +166,7 @@ const Signup = ({ canFillForm }) => {
         value={inputs.username}
         size={"sm"}
         onChange={(e) => setInputs({ ...inputs, username: e.target.value })}
-        isDisabled={!canFillForm}
+        isDisabled={true}
       />
       <Input
         placeholder="Full Name"
@@ -175,7 +175,7 @@ const Signup = ({ canFillForm }) => {
         value={inputs.fullName}
         size={"sm"}
         onChange={(e) => setInputs({ ...inputs, fullName: e.target.value })}
-        isDisabled={!canFillForm}
+        isDisabled={true}
       />
       <InputGroup>
         <Input
@@ -185,7 +185,7 @@ const Signup = ({ canFillForm }) => {
           value={inputs.password}
           size={"sm"}
           onChange={handlePasswordChange}
-          isDisabled={!canFillForm}
+          isDisabled={true}
         />
         <InputRightElement h={"full"}>
           <Button variant={"ghost"} size={"sm"} onClick={() => setShowPassword(!showPassword)} isDisabled={!canFillForm}>
@@ -215,7 +215,7 @@ const Signup = ({ canFillForm }) => {
         fontSize={14}
         isLoading={loading}
         onClick={handleSignup}
-        isDisabled={!canFillForm} 
+        isDisabled={true} 
       >
         Sign Up
       </Button>

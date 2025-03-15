@@ -15,11 +15,11 @@ const useSearchUser = () => {
     try {
       if (!username.trim()) return;
 
-      const searchQuery = username.trim().toLowerCase(); // Convert search input to lowercase
+      const searchQuery = username.trim().toLowerCase(); 
 
       const q = query(
         collection(firestore, "users"),
-        orderBy("usernameLower"), // Order by lowercase username
+        orderBy("usernameLower"), 
         startAt(searchQuery),
         endAt(searchQuery + "\uf8ff")
       );
@@ -33,7 +33,7 @@ const useSearchUser = () => {
 
       const filteredUsers = querySnapshot.docs
         .map(doc => ({ uid: doc.id, ...doc.data() }))
-        .slice(0, 10); // Limit to 10 results
+        .slice(0, 10);
 
       setUsers(filteredUsers);
       

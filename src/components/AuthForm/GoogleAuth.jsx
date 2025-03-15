@@ -11,52 +11,53 @@ const GoogleAuth = ({ prefix }) => {
 	const loginUser = useAuthStore((state) => state.login);
 
 	const handleGoogleAuth = async () => {
-		try {
-			const newUser = await signInWithGoogle();
-			if (!newUser && error) {
-				showToast("Error", error.message, "error");
-				return;
-			}
-			const userRef = doc(firestore, "users", newUser.user.uid);
-			const userSnap = await getDoc(userRef);
+		showToast("Warning", "Google Sign-In is disabled", "warning");
+		// try {
+		// 	const newUser = await signInWithGoogle();
+		// 	if (!newUser && error) {
+		// 		showToast("Error", error.message, "error");
+		// 		return;
+		// 	}
+		// 	const userRef = doc(firestore, "users", newUser.user.uid);
+		// 	const userSnap = await getDoc(userRef);
 
-			if (userSnap.exists()) {
-				// login
-				const userDoc = userSnap.data();
-				localStorage.setItem("user-info", JSON.stringify(userDoc));
-				loginUser(userDoc);
-			} else {
-				// signup
-				const userDoc = {
-					uid: newUser.user.uid,
-					email: newUser.user.email,
-					username: newUser.user.email.split("@")[0],
-					fullName: newUser.user.displayName,
-					usernameLower: newUser.user.email.split("@")[0].toLowerCase(),
-					bio: "",
-					profilePicURL: newUser.user.photoURL,
-					followers: [],
-					following: [],
-					blockedUsers:[],
-					messages: [],
-					posts: [],
-					saved: [],
-					createdAt: Date.now(),
-					deleted: false,
-				};
-				await setDoc(doc(firestore, "users", newUser.user.uid), userDoc);
-				localStorage.setItem("user-info", JSON.stringify(userDoc));
-				loginUser(userDoc);
-			}
-		} catch (error) {
-			showToast("Error", error.message, "error");
-		}
+		// 	if (userSnap.exists()) {
+		// 		// login
+		// 		const userDoc = userSnap.data();
+		// 		localStorage.setItem("user-info", JSON.stringify(userDoc));
+		// 		loginUser(userDoc);
+		// 	} else {
+		// 		// signup
+		// 		const userDoc = {
+		// 			uid: newUser.user.uid,
+		// 			email: newUser.user.email,
+		// 			username: newUser.user.email.split("@")[0],
+		// 			fullName: newUser.user.displayName,
+		// 			usernameLower: newUser.user.email.split("@")[0].toLowerCase(),
+		// 			bio: "",
+		// 			profilePicURL: newUser.user.photoURL,
+		// 			followers: [],
+		// 			following: [],
+		// 			blockedUsers:[],
+		// 			messages: [],
+		// 			posts: [],
+		// 			saved: [],
+		// 			createdAt: Date.now(),
+		// 			deleted: false,
+		// 		};
+		// 		await setDoc(doc(firestore, "users", newUser.user.uid), userDoc);
+		// 		localStorage.setItem("user-info", JSON.stringify(userDoc));
+		// 		loginUser(userDoc);
+		// 	}
+		// } catch (error) {
+		// 	showToast("Error", error.message, "error");
+		// }
 	};
 
 	return (
 		<Flex alignItems={"center"} justifyContent={"center"} cursor={"pointer"} onClick={handleGoogleAuth}>
 			<Image src='/google.png' w={5} alt='Google logo' />
-			<Text mx='2' color={"blue.500"}>
+			<Text mx='2' color={"blue.500"} >
 				{prefix} with Google
 			</Text>
 		</Flex>

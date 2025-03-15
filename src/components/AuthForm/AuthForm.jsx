@@ -88,7 +88,7 @@ const AuthForm = () => {
                             You can use as email :
                         </Box>
                         <Box color={"grey"}>
-                            &nbsp;test1@test.test to test4@test.test
+                            &nbsp;test2@test.test to test5@test.test
                         </Box>
                     </Flex>
                     <Flex direction={"row"}>
